@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minicurso: Manejo Agroecológico de Pragas</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Chosen Palette: Calm Earth Tones (Base: bg-gray-50, Header: bg-emerald-700, Accents: border-emerald-500, border-blue-500, border-amber-500, border-red-500) - Consistency with prior minicourses. -->
+    <!-- Application Structure Plan: A single-page application (SPA) using a sticky top navigation bar with links for 'Início' and 'M1' through 'M8'. JavaScript is used to show/hide the corresponding content <section> for each module, simulating a multi-page experience without page reloads. This structure is ideal for educational content (a minicourse) as it allows users to easily navigate between distinct modules (chapters) in any order they choose, promoting self-paced learning. -->
+    <!-- Visualization & Content Choices: The source material is entirely textual and conceptual. Goal: Inform/Educate. Method: All content (objectives, lists, explanations, examples) is presented using structured, styled HTML (Tailwind cards with colored borders) to enhance readability and organize information. No quantitative data was present, so no charts (Chart.js/Plotly) were implemented. Interaction: The primary interaction is the JavaScript-powered main navigation between modules. Library: Vanilla JavaScript for DOM manipulation (show/hide pages, active link state). -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        html {
+            scroll-behavior: smooth;
+        }
+        .nav-link.active-link {
+            font-weight: 600;
+            background-color: #065f46; 
+            border-bottom: 4px solid #ffffff;
+        }
+        .content-page {
+            animation: fadeIn 0.4s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        /* Estilo de realce agradável (fundo suave) */
+        .highlight {
+            background-color: #fcefd4; /* Cor suave de realce - Amarelo/âmbar claro */
+            color: #78350f; /* Texto marrom escuro */
+            padding: 2px 5px;
+            border-radius: 4px;
+            font-weight: 500;
+        }
+        /* Estilo de negrito simples, sem fundo */
+        .bold-text {
+            font-weight: 700;
+            color: #1f2937; /* Cinza escuro para contraste */
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800 font-sans">
+
+    <header class="bg-emerald-700 text-white p-4 shadow-lg sticky top-0 z-50">
+        <div class="container mx-auto flex flex-col md:flex-row justify-between items-center max-w-7xl">
+            <h1 class="text-2xl font-bold text-center md:text-left">
+                🐛 Manejo Agroecológico de Pragas
+            </h1>
+            <nav class="mt-4 md:mt-0 w-full md:w-auto">
+                <div class="flex flex-wrap justify-center gap-2">
+                    <button class="nav-link p-2 px-3 rounded-lg hover:bg-emerald-600 transition-colors" data-target="page-inicio">Início</button>
+                    <button class="nav-link p-2 px-3 rounded-lg hover:bg-emerald-600 transition-colors" data-target="M1">M1</button>
+                    <button class="nav-link p-2 px-3 rounded-lg hover:bg-emerald-600 transition-colors" data-target="M2">M2</button>
+                    <button class="nav-link p-2 px-3 rounded-lg hover:bg-emerald-600 transition-colors" data-target="M3">M3</button>
+                    <button class="nav-link p-2 px-3 rounded-lg hover:bg-emerald-600 transition-colors" data-target="M4">M4</button>
+                    <button class="nav-link p-2 px-3 rounded-lg hover:bg-emerald-600 transition-colors" data-target="M5">M5</button>
+                    <button class="nav-link p-2 px-3 rounded-lg hover:bg-emerald-600 transition-colors" data-target="M6">M6</button>
+                    <button class="nav-link p-2 px-3 rounded-lg hover:bg-emerald-600 transition-colors" data-target="M7">M7</button>
+                    <button class="nav-link p-2 px-3 rounded-lg hover:bg-emerald-600 transition-colors" data-target="M8">M8</button>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container mx-auto p-4 md:p-8 max-w-5xl">
+
+        <!-- ===== PÁGINA INICIAL ===== -->
+        <section id="page-inicio" class="content-page">
+            <div class="bg-white shadow-xl rounded-lg p-6 md:p-8 border-b-4 border-emerald-500">
+                <h2 class="text-3xl font-bold text-emerald-800 mb-4">🎯 Introdução ao Minicurso Técnico</h2>
+                <p class="text-lg text-gray-700 mb-6">
+                    Este guia interativo foca no <span class="highlight">Manejo Agroecológico de Pragas (MAP)</span>, visando <span class="highlight">restaurar o equilíbrio natural</span> dos agroecossistemas e mitigar a dependência de <span class="highlight">agroquímicos sintéticos</span>.
+                </p>
+                <p class="text-lg text-gray-700">
+                    Nossa abordagem promove sistemas produtivos <span class="highlight">sustentáveis e resilientes</span>, baseados na compreensão aprofundada das <span class="bold-text">interações ecológicas</span>. O objetivo central é <span class="highlight">reduzir o dano econômico</span> sem comprometer a <span class="bold-text">biodiversidade</span> e a saúde do solo.
+                </p>
+            </div>
+
+            <h3 class="text-2xl font-bold text-gray-800 mt-10 mb-6">Estrutura e Foco Técnico do Curso 🗺️</h3>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                
+                <div class="bg-white shadow-lg rounded-lg p-6 border-l-4 border-blue-500">
+                    <h4 class="text-xl font-semibold text-blue-800 mb-2">Conceitos e Princípios 🧠</h4>
+                    <p class="text-gray-700">Análise da <span class="bold-text">etiologia da praga</span> (desequilíbrio) e fundamentos da <span class="bold-text">diversificação ecológica</span>. (M1, M2, M3)</p>
+                </div>
+
+                <div class="bg-white shadow-lg rounded-lg p-6 border-l-4 border-amber-500">
+                    <h4 class="text-xl font-semibold text-amber-800 mb-2">Estratégias de Campo 🛡️</h4>
+                    <p class="text-gray-700">Uso de <span class="bold-text">rotação</span>, <span class="bold-text">consorciação</span> e manejo de paisagem para <span class="bold-text">supressão cultural</span>. (M4)</p>
+                </div>
+
+                <div class="bg-white shadow-lg rounded-lg p-6 border-l-4 border-green-500">
+                    <h4 class="text-xl font-semibold text-green-800 mb-2">Controle Biológico e Gestão ✅</h4>
+                    <p class="text-gray-700">Aplicação de <span class="bold-text">bioinsumos</span>, <span class="bold-text">extratos vegetais</span> e <span class="bold-text">monitoramento contínuo</span> para intervenção precisa. (M5, M6, M7, M8)</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== MÓDULO 1: Introdução ===== -->
+        <section id="page-m2" class="content-page hidden">
+            <h2 class="text-3xl font-bold text-emerald-800 mb-6">🎯 MÓDULO 1 – INTRODUÇÃO E OBJETIVOS</h2>
+            <p class="text-lg text-gray-700 mb-8 bg-white p-6 rounded-lg shadow-sm border-l-4 border-gray-300">
+                A implementação do MAP visa primordialmente o <span class="highlight">restabelecimento da homeostase</span> nos <span class="bold-text">agroecossistemas</span>. Busca-se a <span class="highlight">mitigação da pressão de pragas</span>, reduzindo o risco de surtos epidêmicos, através de um olhar sistêmico e <span class="bold-text">holístico</span>.
+            </p>
+
+            <div class="bg-white shadow-lg rounded-lg border-l-4 border-green-500 p-6 mb-6">
+                <h3 class="text-xl font-semibold text-green-800 mb-3">Convivência Inteligente e Base do Manejo 🌿</h3>
+                <p class="mb-4">O MAP fundamenta-se na <span class="highlight">compreensão das cadeias tróficas</span> e das <span class="bold-text">relações ecológicas complexas</span>. A estratégia é modular essas interações a nosso favor.</p>
+                
+                <div class="p-4 bg-green-50 rounded-lg text-center font-mono text-lg border-2 border-green-300 flex flex-wrap justify-center items-center gap-3 md:gap-6">
+                    <span class="bold-text">🌱 Plantas</span> <span class="text-xl text-green-700">↔</span>
+                    <span class="bold-text">🐛 Pragas</span> <span class="text-xl text-green-700">↔</span>
+                    <span class="bold-text">🐞 Inimigos Naturais</span> <span class="text-xl text-green-700">↔</span>
+                    <span class="bold-text">💧 Solo & Ambiente</span>
+                </div>
+                <p class="mt-4 text-sm text-gray-600">Este fluxo define o <span class="bold-text">sistema de produção</span>. A alteração de um componente impacta todos os demais, justificando a <span class="highlight">abordagem ecológica integrada</span>.</p>
+            </div>
+        </section>
+
+        <!-- ===== MÓDULO 2: Conceito de Pragas e Desequilíbrio Ecológico ===== -->
+        <section id="page-m3" class="content-page hidden">
+            <h2 class="text-3xl font-bold text-emerald-800 mb-6">🐛 MÓDULO 2 – CONCEITO DE PRAGAS E DESEQUILÍBRIO</h2>
+            <p class="text-lg text-gray-700 mb-8 bg-white p-6 rounded-lg shadow-sm border-l-4 border-gray-300">
+                Pragas agrícolas são organismos que, em condições ambientais específicas, alcançam o <span class="highlight">Nível de Dano Econômico (NDE)</span>, gerando <span class="bold-text">perdas quantificáveis</span> na produção.
+            </p>
+
+            <div class="bg-white shadow-lg rounded-lg border-l-4 border-blue-500 p-6 mb-6">
+                <h3 class="text-xl font-semibold text-blue-800 mb-3">Surgimento: A Etiologia do Desequilíbrio 🚨</h3>
+                <p class="mb-4">O incremento populacional de pragas é um sintoma direto de <span class="highlight">rupturas ecológicas</span> e simplificação ambiental.</p>
+                <p class="font-semibold text-blue-800"><span class="bold-text">Causas Antropogênicas Primárias<span class="bold-text">:</span></span></p>
+                <ul class="list-inside list-disc space-y-2 mt-2">
+                    <li>🚫 <span class="bold-text">Monocultivos extensivos<span class="bold-text">:</span></span> Oferecem uma fonte alimentar <span class="highlight">homogênea e ilimitada</span>.</li>
+                    <li>💥 <span class="bold-text">Supressão de Inimigos Naturais<span class="bold-text">:</span></span> Resultante da aplicação inespecífica de <span class="bold-text">pesticidas de amplo espectro</span>.</li>
+                    <li>📉 <span class="bold-text">Simplificação da Paisagem<span class="bold-text">:</span></span> Redução de <span class="highlight">hábitats de refúgio</span> e de biodiversidade funcional.</li>
+                </ul>
+            </div>
+
+            <div class="bg-white shadow-lg rounded-lg border-l-4 border-green-500 p-6 mb-6">
+                <h3 class="text-xl font-semibold text-green-800 mb-3">Controle Biológico Inerente 🌱</h3>
+                <p>Em sistemas <span class="bold-text">diversificados e complexos</span>, as populações de artrópodes são <span class="highlight">autorreguladas</span>. O controle é mediado por uma rede estável de <span class="bold-text">agentes biológicos</span> (predadores, parasitoides, entomopatógenos), garantindo a <span class="highlight">estabilidade fitossanitária</span> do sistema.</p>
+            </div>
+        </section>
+
+        <!-- ===== MÓDULO 3: Princípios do Manejo Agroecológico de Pragas ===== -->
+        <section id="page-m4" class="content-page hidden">
+            <h2 class="text-3xl font-bold text-emerald-800 mb-6">🛡️ MÓDULO 3 – PRINCÍPIOS ECOLÓGICOS DO MAP</h2>
+            <p class="text-lg text-gray-700 mb-8 bg-white p-6 rounded-lg shadow-sm border-l-4 border-gray-300">
+                O MAP adota uma <span class="highlight">visão sistêmica</span>, integrando prevenção e <span class="bold-text">mecanismos de equilíbrio biológico</span>. A prioridade é a saúde e a capacidade de <span class="highlight">autodefesa da planta</span>.
+            </p>
+
+            <div class="bg-white shadow-lg rounded-lg border-l-4 border-green-500 p-6 mb-6">
+                <h3 class="text-xl font-semibold text-green-800 mb-3">5️⃣ Estratégias Fundamentais de Resiliência</h3>
+                <ol class="list-inside list-decimal space-y-3 mt-4">
+                    <li><span class="bold-text">Diversificação de Cultivos e Paisagens<span class="bold-text">:</span></span> Aumentar a complexidade espacial e temporal para <span class="highlight">confundir pragas</span> e oferecer refúgio a inimigos naturais.</li>
+                    <li><span class="bold-text">Aumento da Biodiversidade Funcional<span class="bold-text">:</span></span> Uso estratégico de plantas para <span class="highlight">atração e manutenção</span> da fauna auxiliar.</li>
+                    <li><span class="bold-text">Manejo Edáfico Ecológico<span class="bold-text">:</span></span> Foco na fertilidade biológica do solo para promover o <span class="highlight">vigor vegetal</span> e a síntese de compostos de defesa.</li>
+                    <li><span class="bold-text">Redução da Dependência de Insumos Externos<span class="bold-text">:</span></span> Fomento da <span class="bold-text">autonomia produtiva</span> e da utilização de recursos da propriedade.</li>
+                    <li><span class="bold-text">Decisão Baseada em Monitoramento<span class="bold-text">:</span></span> Intervenção <span class="highlight">precisa e minimamente invasiva</span>, determinada pela dinâmica populacional (M7).</li>
+                </ol>
+            </div>
+        </section>
+
+        <!-- ===== MÓDULO 4: Controle Preventivo e Cultural ===== -->
+        <section id="page-m5" class="content-page hidden">
+            <h2 class="text-3xl font-bold text-emerald-800 mb-6">🚜 MÓDULO 4 – PRÁTICAS CULTURAIS E SUPRESSÃO</h2>
+            <p class="text-lg text-gray-700 mb-8 bg-white p-6 rounded-lg shadow-sm border-l-4 border-gray-300">
+                As <span class="highlight">práticas agronômicas preventivas</span> são a fundação do MAP, atuando na <span class="bold-text">modificação do ambiente</span> para reduzir o risco e a incidência de infestações severas.
+            </p>
+
+            <div class="bg-white shadow-lg rounded-lg border-l-4 border-amber-500 p-6 mb-6">
+                <h3 class="text-xl font-semibold text-amber-800 mb-3">🔄 Manejo Temporal e Espacial 🧭</h3>
+                <ul class="list-inside list-disc space-y-2 mt-3">
+                    <li><span class="bold-text">Rotação e Consorciação<span class="bold-text">:</span></span> Estratégias fitotécnicas para <span class="highlight">quebrar a continuidade do ciclo biológico</span> das pragas específicas.</li>
+                    <li><span class="bold-text">Saneamento de Campo<span class="bold-text">:</span></span> <span class="bold-text">Eliminação de restos culturais</span> e de plantas daninhas que funcionam como <span class="bold-text">reservatórios de inóculo</span>.</li>
+                    <li><span class="bold-text">Manejo Hídrico e Nutricional<span class="bold-text">:</span></span> <span class="highlight">Controle rigoroso da irrigação e da adubação</span>, evitando o <span class="bold-text">estresse hídrico</span> ou o excesso de nitrogênio, que atrai pragas sugadoras.</li>
+                </ul>
+            </div>
+
+            <div class="bg-white shadow-lg rounded-lg border-l-4 border-green-500 p-6 mb-6">
+                <h3 class="text-xl font-semibold text-green-800 mb-3">🌬️ Barreira Física e Atratividade Ecológica 🌳</h3>
+                <ul class="list-inside list-disc space-y-2 mt-3">
+                    <li><span class="bold-text">Quebra-Ventos e Cercas Vivas<span class="bold-text">:</span></span> Funcionam como <span class="highlight">barreiras físicas e biológicas</span>, mitigando o deslocamento de insetos vetores de vírus.</li>
+                    <li><span class="bold-text">Culturas de Isca e Repelência<span class="bold-text">:</span></span> Introdução de espécies com <span class="highlight">propriedades atrativas ou repelentes</span> para desorientar e dispersar as pragas (ex: o uso de bordaduras).</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- ===== MÓDULO 5: Controle Biológico Natural e Aplicado ===== -->
+        <section id="page-m6" class="content-page hidden">
+            <h2 class="text-3xl font-bold text-emerald-800 mb-6">🔬 MÓDULO 5 – CONTROLE BIOLÓGICO: CONSERVAÇÃO E APLICAÇÃO</h2>
+            <p class="text-lg text-gray-700 mb-8 bg-white p-6 rounded-lg shadow-sm border-l-4 border-gray-300">
+                O controle biológico é o motor da <span class="highlight">sustentabilidade fitossanitária</span>, utilizando organismos vivos para a <span class="bold-text">regulação populacional</span> das pragas de forma seletiva e ecologicamente segura.
+            </p>
+
+            <div class="bg-white shadow-lg rounded-lg border-l-4 border-green-500 p-6 mb-6">
+                <h3 class="text-xl font-semibold text-green-800 mb-3">🐞 Controle Conservacionista (Endêmico)</h3>
+                <p>Mecanismo espontâneo que deve ser <span class="highlight">protegido e estimulado</span>. Ocorre pela ação de <span class="bold-text">inimigos naturais nativos</span>.</p>
+                <ul class="list-inside list-disc space-y-2 mt-3">
+                    <li><span class="bold-text">Predadores<span class="bold-text">:</span></span> Joaninhas, aranhas e crisopídeos (que realizam o <span class="highlight">consumo direto</span> da praga).</li>
+                    <li><span class="bold-text">Parasitoides<span class="bold-text">:</span></span> Vespas do gênero <i>Trichogramma</i> (que utilizam a praga como hospedeiro para sua prole).</li>
+                    <li><span class="bold-text">Entomopatógenos<span class="bold-text">:</span></span> Microrganismos (fungos, bactérias) que causam <span class="bold-text">epizootias</span> nas populações de pragas.</li>
+                </ul>
+            </div>
+
+            <div class="bg-white shadow-lg rounded-lg border-l-4 border-red-500 p-6 mb-6">
+                <h3 class="text-xl font-semibold text-red-800 mb-3">🦠 Controle Aumentativo (Inoculação)</h3>
+                <p>Consiste na <span class="highlight">liberação massal e planejada</span> de agentes biológicos produzidos em biofábricas, em momentos estratégicos do ciclo da cultura.</p>
+                <ul class="list-inside list-disc space-y-2 mt-3">
+                    <li><span class="bold-text">Fungos Entomopatogênicos<span class="bold-text">:</span></span> <i>Beauveria bassiana</i> e <i>Metarhizium anisopliae</i> (atuam sobre coleópteros e percevejos).</li>
+                    <li><span class="bold-text">Bioinseticidas Bacterianos<span class="bold-text">:</span></span> <i>Bacillus thuringiensis</i> (Bt) para o controle <span class="highlight">seletivo</span> de larvas e lagartas.</li>
+                    <li><span class="bold-text">Parasitoides de Ovos<span class="bold-text">:</span></span> Liberação de <i>Trichogramma pretiosum</i> para controle eficaz na <span class="bold-text">fase inicial</span> do ciclo da praga.</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- ===== MÓDULO 6: Defensivos Naturais e Extratos Vegetais ===== -->
+        <section id="page-m7" class="content-page hidden">
+            <h2 class="text-3xl font-bold text-emerald-800 mb-6">🧪 MÓDULO 6 – BIOINSUMOS E COMPOSTOS NATURAIS</h2>
+            <p class="text-lg text-gray-700 mb-8 bg-white p-6 rounded-lg shadow-sm border-l-4 border-gray-300">
+                O uso de <span class="highlight">defensivos de origem natural</span> oferece alternativas de <span class="bold-text">baixa toxicidade</span> e alta <span class="bold-text">seletividade</span>, sendo compatíveis com os princípios da agricultura orgânica.
+            </p>
+
+            <div class="bg-white shadow-lg rounded-lg border-l-4 border-amber-500 p-6 mb-6">
+                <h3 class="text-xl font-semibold text-amber-800 mb-3">🌿 Ação Repelente e Antialimentar 🌶️</h3>
+                <p>Ação desses extratos é baseada em <span class="highlight">metabólitos secundários</span> que interferem no comportamento e fisiologia das pragas.</p>
+                <ul class="list-inside list-disc space-y-2 mt-3">
+                    <li><span class="bold-text">Extrato de alho<span class="bold-text">:</span></span> Possui <span class="bold-text">propriedades sulfurosas</span> que conferem efeito <span class="highlight">repelente e inseticida</span> (<i>Allium sativum</i>).</li>
+                    <li><span class="bold-text">Extrato de nim<span class="bold-text">:</span></span> Rico em azadiractina, um composto que inibe a <span class="highlight">alimentação, metamorfose e reprodução</span> de insetos (<i>Azadirachta indica</i>).</li>
+                    <li><span class="bold-text">Calda de pimenta-do-reino e sabão<span class="bold-text">:</span></span> O sabão atua como <span class="bold-text">surfactante</span>, rompendo a cutícula de pulgões e cochonilhas; a pimenta funciona como repelente.</li>
+                </ul>
+            </div>
+
+            <div class="bg-white shadow-lg rounded-lg border-l-4 border-green-500 p-6 mb-6">
+                <h3 class="text-xl font-semibold text-green-800 mb-3">💧 Insumos Complementares e Fitoprotetores 🥛</h3>
+                <ul class="list-inside list-disc space-y-2 mt-3">
+                    <li><span class="bold-text">Calda de arruda e cinzas<span class="bold-text">:</span></span> Utilizada no controle de formigas cortadeiras e lagartas.</li>
+                    <li><span class="bold-text">Leite cru diluído (10%)<span class="bold-text">:</span></span> Promove o <span class="highlight">reforço da resistência foliar</span> e tem ação coadjuvante sobre fungos e ácaros.</li>
+                    <li><span class="bold-text">Preparo na Propriedade<span class="bold-text">:</span></span> Muitos desses bioinsumos podem ser <span class="highlight">preparados pelo próprio produtor</span>, fortalecendo a autonomia técnica e reduzindo custos.</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- ===== MÓDULO 7: Monitoramento e Tomada de Decisão ===== -->
+        <section id="page-m8" class="content-page hidden">
+            <h2 class="text-3xl font-bold text-emerald-800 mb-6">📊 MÓDULO 7 – MONITORAMENTO E NÍVEL DE AÇÃO</h2>
+            <p class="text-lg text-gray-700 mb-8 bg-white p-6 rounded-lg shadow-sm border-l-4 border-gray-300">
+                O monitoramento é o <span class="highlight">pilar da gestão estratégica</span>. Sem ele, o manejo não é <span class="bold-text">ecológico</span>, mas sim <span class="bold-text">reativo</span>. Exige observação sistemática e registro de dados.
+            </p>
+
+            <div class="bg-white shadow-lg rounded-lg border-l-4 border-blue-500 p-6 mb-6">
+                <h3 class="text-xl font-semibold text-blue-800 mb-3">🔍 Ferramentas de Prospecção</h3>
+                <ul class="list-inside list-disc space-y-2 mt-3">
+                    <li><span class="bold-text">Inspeção periódica<span class="bold-text">:</span></span> Avaliação semanal das estruturas vegetais (folhas, caules) e <span class="highlight">condições microambientais</span>.</li>
+                    <li><span class="bold-text">Armadilhas de captura<span class="bold-text">:</span></span> Uso de armadilhas luminosas, adesivas ou com <span class="bold-text">feromônios</span> para inferir a <span class="highlight">dinâmica populacional</span> e o início da infestação.</li>
+                    <li><span class="bold-text">Registro sistemático<span class="bold-text">:</span></span> Documentação dos dados para análise de <span class="bold-text">tendências e riscos</span>.</li>
+                </ul>
+            </div>
+
+            <div class="bg-white shadow-lg rounded-lg border-l-4 border-red-500 p-6 mb-6">
+                <h3 class="text-xl font-semibold text-red-800 mb-3">📉 Nível de Dano Econômico (NDE)</h3>
+                <p>O <span class="highlight">NDE</span> é o limiar populacional da praga que justifica a intervenção, pois o custo do dano excederia o <span class="bold-text">custo do controle</span>.</p>
+                <p class="mt-2">A decisão deve sempre priorizar a <span class="highlight">ação minimamente invasiva</span> e ser <span class="bold-text">localizada</span>, mantendo a <span class="bold-text">rede trófica</span> do sistema intacta.</p>
+            </div>
+        </section>
+
+        <!-- ===== MÓDULO 8: Sustentabilidade e Benefícios do Manejo Agroecológico ===== -->
+        <section id="page-m9" class="content-page hidden">
+            <h2 class="text-3xl font-bold text-emerald-800 mb-6">🌟 MÓDULO 8 – SUSTENTABILIDADE E BENEFÍCIOS ECOLÓGICOS</h2>
+            <p class="text-lg text-gray-700 mb-8 bg-white p-6 rounded-lg shadow-sm border-l-4 border-gray-300">
+                A adoção do MAP gera um ciclo virtuoso de <span class="highlight">benefícios plurais</span>, que englobam a ecologia, a economia e o bem-estar social do produtor e do consumidor.
+            </p>
+
+            <div class="bg-white shadow-lg rounded-lg border-l-4 border-green-500 p-6 mb-6">
+                <h3 class="text-xl font-semibold text-green-800 mb-3">📈 Resiliência Produtiva e Conservação Ambiental 🌍</h3>
+                <ul class="list-inside list-disc space-y-2 mt-3">
+                    <li>✅ <span class="bold-text">Mitigação de Riscos<span class="bold-text">:</span></span> <span class="highlight">Redução da dependência química</span>, diminuindo custos e exposição a volatilidade de mercado.</li>
+                    <li>✅ <span class="bold-text">Conservação Biológica<span class="bold-text">:</span></span> <span class="highlight">Preservação de polinizadores</span> e inimigos naturais (fauna auxiliar).</li>
+                    <li>✅ <span class="bold-text">Estabilidade Ecológica<span class="bold-text">:</span></span> Maior <span class="bold-text">resiliência dos sistemas</span> frente a mudanças climáticas e surgimento de novas pragas.</li>
+                </ul>
+            </div>
+
+            <div class="bg-white shadow-lg rounded-lg border-l-4 border-blue-500 p-6 mb-6">
+                <h3 class="text-xl font-semibold text-blue-800 mb-3">👨‍👩‍👧‍👦 Valorização Social e Autonomia Técnica</h3>
+                <ul class="list-inside list-disc">
+                    <li>✅ <span class="bold-text">Saúde Pública<span class="bold-text">:</span></span> Melhoria da <span class="highlight">qualidade dos alimentos</span> e redução da exposição ocupacional do agricultor.</li>
+                    <li>✅ <span class="bold-text">Autonomia<span class="bold-text">:</span></span> Fortalecimento da <span class="highlight">capacidade técnica do produtor</span> para gerar soluções no local, aumentando a soberania alimentar.</li>
+                </ul>
+            </div>
+
+            <div class="bg-emerald-800 text-white rounded-lg p-8 mt-10 text-center shadow-xl">
+                <h3 class="text-2xl font-bold mb-4">ENCERRAMENTO</h3>
+                <p class="text-xl font-light">“O manejo agroecológico das pragas é o resultado da convivência inteligente com a natureza.</p>
+                <p class="text-xl font-semibold">Onde há diversidade, há equilíbrio — e onde há equilíbrio, há produção saudável e duradoura.” 🌱</p>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="text-center p-6 mt-12 text-gray-500 text-sm">
+        Minicurso Interativo de Manejo Agroecológico de Pragas | 2025
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const navLinks = document.querySelectorAll('.nav-link');
+            const contentPages = document.querySelectorAll('.content-page');
+
+            // Mapeamento dos botões M1 a M8 para as IDs de seção (page-m2 a page-m9)
+            const moduleMap = {
+                'M1': 'page-m2', 'M2': 'page-m3', 'M3': 'page-m4', 'M4': 'page-m5', 
+                'M5': 'page-m6', 'M6': 'page-m7', 'M7': 'page-m8', 'M8': 'page-m9'
+            };
+
+            function showPage(targetId) {
+                // 1. Esconder todas as páginas de conteúdo
+                contentPages.forEach(page => {
+                    page.classList.add('hidden');
+                });
+
+                // 2. Determinar a ID da página a ser mostrada (tratando 'M1' a 'M8')
+                let pageIdToShow = targetId;
+                if (moduleMap[targetId]) {
+                    pageIdToShow = moduleMap[targetId];
+                }
+
+                const targetPage = document.getElementById(pageIdToShow);
+                if (targetPage) {
+                    targetPage.classList.remove('hidden');
+                }
+
+                // 3. Gerenciar o estado 'active-link'
+                navLinks.forEach(link => {
+                    link.classList.remove('active-link');
+                    // Verifica se o link corresponde ao target original ou à ID da página
+                    if (link.dataset.target === targetId || link.dataset.target === pageIdToShow) {
+                        link.classList.add('active-link');
+                    } else if (moduleMap[link.dataset.target] === pageIdToShow) {
+                        // Trata o caso dos botões M1-M8
+                        link.classList.add('active-link');
+                    }
+                });
+                
+                window.scrollTo(0, 0);
+            }
+
+            navLinks.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    const targetId = e.currentTarget.dataset.target;
+                    showPage(targetId);
+                });
+            });
+
+            // Configuração inicial para mostrar a página de Início como ativa
+            showPage('page-inicio');
+        });
+    </script>
+
+</body>
+</html>

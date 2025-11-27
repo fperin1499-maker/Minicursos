@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minicurso: Manejo Agroecológico de Doenças</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Chosen Palette: Calm Earth Tones (Base: bg-gray-50, Header: bg-emerald-700, Accents: border-emerald-500, border-blue-500, border-amber-500, border-red-500) - Consistency with prior minicourses. -->
+    <!-- Application Structure Plan: A single-page application (SPA) using a sticky top navigation bar with links for 'Início' and 'M1' through 'M8'. JavaScript is used to show/hide the corresponding content <section> for each module, simulating a multi-page experience without page reloads. This structure is ideal for educational content (a minicourse) as it allows users to easily navigate between distinct modules (chapters) in any order they choose, promoting self-paced learning. -->
+    <!-- Visualization & Content Choices: The source material is entirely textual and conceptual. Goal: Inform/Educate. Method: All content (objectives, lists, explanations, examples) is presented using structured, styled HTML (Tailwind cards with colored borders) to enhance readability and organize information. No quantitative data was present, so no charts (Chart.js/Plotly) were implemented. Interaction: The primary interaction is the JavaScript-powered main navigation between modules. Library: Vanilla JavaScript for DOM manipulation (show/hide pages, active link state). -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        html {
+            scroll-behavior: smooth;
+        }
+        .nav-link.active-link {
+            font-weight: 600;
+            background-color: #065f46; 
+            border-bottom: 4px solid #ffffff;
+        }
+        .content-page {
+            animation: fadeIn 0.4s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        /* Estilo de realce agradável (fundo suave) */
+        .highlight {
+            background-color: #fcefd4; /* Cor suave de realce - Amarelo/âmbar claro */
+            color: #78350f; /* Texto marrom escuro */
+            padding: 2px 5px;
+            border-radius: 4px;
+            font-weight: 500;
+        }
+        /* Estilo de negrito simples, sem fundo */
+        .bold-text {
+            font-weight: 700;
+            color: #1f2937; /* Cinza escuro para contraste */
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800 font-sans">
+
+    <header class="bg-emerald-700 text-white p-4 shadow-lg sticky top-0 z-50">
+        <div class="container mx-auto flex flex-col md:flex-row justify-between items-center max-w-7xl">
+            <!-- TÍTULO COM FONTE REDUZIDA (text-xl) -->
+            <h1 class="text-xl font-bold text-center md:text-left">
+                🌾 Manejo Agroecológico de Doenças
+            </h1>
+            <nav class="mt-4 md:mt-0 w-full md:w-auto">
+                <div class="flex flex-wrap justify-center gap-2">
+                    <button class="nav-link p-2 px-3 rounded-lg hover:bg-emerald-600 transition-colors" data-target="page-inicio">Início</button>
+                    <button class="nav-link p-2 px-3 rounded-lg hover:bg-emerald-600 transition-colors" data-target="page-m1">M1</button>
+                    <button class="nav-link p-2 px-3 rounded-lg hover:bg-emerald-600 transition-colors" data-target="page-m2">M2</button>
+                    <button class="nav-link p-2 px-3 rounded-lg hover:bg-emerald-600 transition-colors" data-target="page-m3">M3</button>
+                    <button class="nav-link p-2 px-3 rounded-lg hover:bg-emerald-600 transition-colors" data-target="page-m4">M4</button>
+                    <button class="nav-link p-2 px-3 rounded-lg hover:bg-emerald-600 transition-colors" data-target="page-m5">M5</button>
+                    <button class="nav-link p-2 px-3 rounded-lg hover:bg-emerald-600 transition-colors" data-target="page-m6">M6</button>
+                    <button class="nav-link p-2 px-3 rounded-lg hover:bg-emerald-600 transition-colors" data-target="page-m7">M7</button>
+                    <button class="nav-link p-2 px-3 rounded-lg hover:bg-emerald-600 transition-colors" data-target="page-m8">M8</button>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container mx-auto p-4 md:p-8 max-w-5xl">
+
+        <!-- ===== PÁGINA INICIAL ===== -->
+        <section id="page-inicio" class="content-page">
+            <div class="bg-white shadow-xl rounded-lg p-6 md:p-8 border-b-4 border-emerald-500">
+                <h2 class="text-3xl font-bold text-emerald-800 mb-4">🎯 Introdução ao Minicurso Técnico</h2>
+                <p class="text-lg text-gray-700 mb-6">
+                    Este guia interativo foca no <span class="highlight">Manejo Agroecológico de Doenças (MAD)</span>, com o objetivo de reduzir a <span class="highlight">incidência e severidade de patógenos</span> através de estratégias integradas e sustentáveis.
+                </p>
+                <p class="text-lg text-gray-700">
+                    O <span class="highlight">Objetivo Geral</span> é capacitar o participante a compreender os mecanismos epidemiológicos e a aplicar táticas que favoreçam o <span class="highlight">vigor fisiológico da planta</span> em detrimento do agente causal.
+                </p>
+            </div>
+
+            <h3 class="text-2xl font-bold text-gray-800 mt-10 mb-6">Estrutura e Foco Técnico do Curso 🗺️</h3>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                
+                <div class="bg-white shadow-lg rounded-lg p-6 border-l-4 border-blue-500">
+                    <h4 class="text-xl font-semibold text-blue-800 mb-2">Fundamentos e Pilares 🧠</h4>
+                    <p class="text-gray-700">Conceitos de Fitopatologia e os 4 pilares do manejo agroecológico. (M1, M2)</p>
+                </div>
+
+                <div class="bg-white shadow-lg rounded-lg p-6 border-l-4 border-amber-500">
+                    <h4 class="text-xl font-semibold text-amber-800 mb-2">Estratégias de Campo 🛡️</h4>
+                    <p class="text-gray-700">Seleção de sementes, práticas culturais, qualidade do solo e adubação para resistência. (M3, M4, M5)</p>
+                </div>
+
+                <div class="bg-white shadow-lg rounded-lg p-6 border-l-4 border-green-500">
+                    <h4 class="text-xl font-semibold text-green-800 mb-2">Controle e Gestão ✅</h4>
+                    <p class="text-gray-700">Uso de biocontrole, produtos naturais, métodos físicos e monitoramento contínuo. (M6, M7, M8)</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== MÓDULO 1: Conceitos Fundamentais de Fitopatologia ===== -->
+        <section id="page-m1" class="content-page hidden">
+            <h2 class="text-3xl font-bold text-emerald-800 mb-6">🦠 MÓDULO 1 – CONCEITOS FUNDAMENTAIS DE FITOPATOLOGIA</h2>
+            <p class="text-lg text-gray-700 mb-8 bg-white p-6 rounded-lg shadow-sm border-l-4 border-gray-300">
+                A doença de planta é um <span class="highlight">desequilíbrio fisiológico</span>. Compreender o agente causal e as condições ambientais é o primeiro passo para a prevenção eficaz.
+            </p>
+
+            <div class="bg-white shadow-lg rounded-lg border-l-4 border-red-500 p-6 mb-6">
+                <h3 class="text-xl font-semibold text-red-800 mb-3">🔬 Agentes Etiológicos (Causas)</h3>
+                <ul class="list-inside list-disc space-y-2 mt-3">
+                    <li><span class="bold-text">Agentes Bióticos<span class="bold-text">:</span></span> Fungos, bactérias, vírus e nematoides.</li>
+                    <li><span class="bold-text">Agentes Abióticos<span class="bold-text">:</span></span> Déficit hídrico, deficiência nutricional ou estresse térmico.</li>
+                </ul>
+            </div>
+
+            <div class="bg-white shadow-lg rounded-lg border-l-4 border-blue-500 p-6 mb-6">
+                <h3 class="text-xl font-semibold text-blue-800 mb-3">📐 O Triângulo da Doença</h3>
+                <p>A patogênese se manifesta pela interação simultânea de três fatores essenciais<span class="bold-text">:</span></p>
+                <ul class="list-inside list-disc space-y-2 mt-3">
+                    <li>1. <span class="highlight">Patógeno</span> (Agente Causal).</li>
+                    <li>2. <span class="highlight">Hospedeiro Suscetível</span> (Planta).</li>
+                    <li>3. <span class="highlight">Ambiente Favorável</span> (Clima e Condições).</li>
+                </ul>
+                <p class="mt-4 text-gray-700">A <span class="bold-text">prevenção</span> atua na manipulação destes fatores para <span class="highlight">desfavorecer o patógeno</span> e <span class="highlight">favorecer o vigor</span> da planta.</p>
+            </div>
+
+            <div class="bg-white shadow-lg rounded-lg border-l-4 border-amber-500 p-6 mb-6">
+                <h3 class="text-xl font-semibold text-amber-800 mb-3">🌡️ Severidade e Disseminação</h3>
+                <p>A severidade depende de variáveis como <span class="highlight">umidade relativa</span>, <span class="highlight">temperatura</span>, <span class="highlight">densidade populacional</span> e <span class="highlight">sanidade do material</span> propagativo.</p>
+                <p>As doenças podem ser <span class="bold-text">endêmicas</span>, <span class="bold-text">epidêmicas</span> ou <span class="bold-text">pandêmicas</span>, conforme sua abrangência espacial e temporal.</p>
+            </div>
+        </section>
+
+        <!-- ===== MÓDULO 2: Princípios do Manejo Agroecológico de Doenças ===== -->
+        <section id="page-m2" class="content-page hidden">
+            <h2 class="text-3xl font-bold text-emerald-800 mb-6">🛡️ MÓDULO 2 – PRINCÍPIOS DO MANEJO AGROECOLÓGICO</h2>
+            <p class="text-lg text-gray-700 mb-8 bg-white p-6 rounded-lg shadow-sm border-l-4 border-gray-300">
+                O Manejo Agroecológico (MAD) visa primariamente <span class="highlight">minimizar a pressão de inóculo</span> e aumentar a <span class="highlight">resiliência fitossanitária</span> do agroecossistema.
+            </p>
+
+            <div class="bg-white shadow-lg rounded-lg border-l-4 border-green-500 p-6 mb-6">
+                <h3 class="text-xl font-semibold text-green-800 mb-3">4️⃣ Pilares Estratégicos</h3>
+                <p>O MAD funda-se na integração de quatro pilares preventivos<span class="bold-text">:</span></p>
+                <ol class="list-inside list-decimal space-y-3 mt-4">
+                    <li><span class="highlight">Prevenção Epidemiológica<span class="bold-text">:</span></span> Impedir o estabelecimento inicial do patógeno.</li>
+                    <li><span class="highlight">Exclusão<span class="bold-text">:</span></span> Eliminação de fontes de inóculo (sementes infectadas, restos culturais).</li>
+                    <li><span class="highlight">Evasão<span class="bold-text">:</span></span> Uso de épocas e locais menos favoráveis ao desenvolvimento do patógeno.</li>
+                    <li><span class="highlight">Resistência<span class="bold-text">:</span></span> Uso de variedades adaptadas e estímulo à defesa fisiológica da planta.</li>
+                </ol>
+            </div>
+
+            <div class="bg-white shadow-lg rounded-lg border-l-4 border-blue-500 p-6 mb-6">
+                <h3 class="text-xl font-semibold text-blue-800 mb-3">🌿 Foco no Equilíbrio</h3>
+                <p>O objetivo do MAD é o <span class="highlight">equilíbrio ecológico</span> e a redução de danos, e não a erradicação completa do agente causal, o que é frequentemente inviável e desnecessário.</p>
+                <p class="mt-3">O sucesso depende da <span class="bold-text">integração</span> de práticas culturais, biológicas e físicas de forma contínua.</p>
+            </div>
+        </section>
+
+        <!-- ===== MÓDULO 3: Uso de Material Propagativo e Sementes Sadias ===== -->
+        <section id="page-m3" class="content-page hidden">
+            <h2 class="text-3xl font-bold text-emerald-800 mb-6">🌱 MÓDULO 3 – MATERIAL PROPAGATIVO E SEMENTES SADIAS</h2>
+            <p class="text-lg text-gray-700 mb-8 bg-white p-6 rounded-lg shadow-sm border-l-4 border-gray-300">
+                A introdução de patógenos na área de cultivo via material de plantio é uma das principais rotas de infecção inicial. Este módulo foca na <span class="highlight">profilaxia primária</span>.
+            </p>
+
+            <div class="bg-white shadow-lg rounded-lg border-l-4 border-amber-500 p-6 mb-6">
+                <h3 class="text-xl font-semibold text-amber-800 mb-3">🔍 Critérios de Sanidade e Rastreabilidade</h3>
+                <ul class="list-inside list-disc space-y-2 mt-3">
+                    <li><span class="bold-text">Certificação<span class="bold-text">:</span></span> O material deve ser <span class="highlight">certificado e isento de patógenos</span>, além de ser adaptado às condições edafoclimáticas locais.</li>
+                    <li><span class="bold-text">Seleção de Matrizes<span class="bold-text">:</span></span> A propagação própria deve partir <span class="highlight">exclusivamente de plantas matrizes</span> que demonstrem vigor e sanidade.</li>
+                    <li><span class="bold-text">Exemplo de Risco<span class="bold-text">:</span></span> Sementes contaminadas podem veicular fungos como <i>Colletotrichum gloeosporioides</i> (antracnose) ou bactérias do gênero <i>Xanthomonas</i>.</li>
+                </ul>
+            </div>
+
+            <div class="bg-white shadow-lg rounded-lg border-l-4 border-blue-500 p-6 mb-6">
+                <h3 class="text-xl font-semibold text-blue-800 mb-3">📦 Tratamentos Profiláticos</h3>
+                <ul class="list-inside list-disc space-y-2 mt-3">
+                    <li><span class="bold-text">Armazenamento Controlado<span class="bold-text">:</span></span> Ambiente com <span class="highlight">umidade < 13%</span> e <span class="highlight">temperatura < 20 °C</span> para inibir fungos de armazenamento.</li>
+                    <li><span class="bold-text">Esterilização<span class="bold-text">:</span></span> Uso de <span class="highlight">substratos esterilizados</span> para a produção de mudas.</li>
+                    <li><span class="bold-text">Termoterapia<span class="bold-text">:</span></span> Imersão em água a <span class="highlight">52 °C por 30 minutos</span> (quando aplicável) como método de descontaminação eficiente.</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- ===== MÓDULO 4: Práticas Culturais e Preventivas ===== -->
+        <section id="page-m4" class="content-page hidden">
+            <h2 class="text-3xl font-bold text-emerald-800 mb-6">🚜 MÓDULO 4 – PRÁTICAS CULTURAIS E PROFILAXIA</h2>
+            <p class="text-lg text-gray-700 mb-8 bg-white p-6 rounded-lg shadow-sm border-l-4 border-gray-300">
+                A manipulação do ambiente de cultivo é vital para <span class="highlight">reduzir o inóculo</span> e inviabilizar o potencial de infecção do patógeno.
+            </p>
+
+            <div class="bg-white shadow-lg rounded-lg border-l-4 border-green-500 p-6 mb-6">
+                <h3 class="text-xl font-semibold text-green-800 mb-3">🔄 Interrupção do Ciclo e Saneamento</h3>
+                <ul class="list-inside list-disc space-y-2 mt-3">
+                    <li><span class="bold-text">Eliminação de Resíduos<span class="bold-text">:</span></span> Remoção de restos culturais e plantas voluntárias para <span class="highlight">interromper o ciclo</span> de patógenos necrotróficos (<i>Alternaria</i>, <i>Cercospora</i>).</li>
+                    <li><span class="bold-text">Rotação de Culturas<span class="bold-text">:</span></span> Estratégia chave para <span class="highlight">quebrar o ciclo</span> de patógenos específicos do solo (<i>Rhizoctonia solani</i>, <i>Meloidogyne spp.</i>).</li>
+                </ul>
+            </div>
+
+            <div class="bg-white shadow-lg rounded-lg border-l-4 border-amber-500 p-6 mb-6">
+                <h3 class="text-xl font-semibold text-amber-800 mb-3">💧 Microclima e Disseminação</h3>
+                <ul class="list-inside list-disc space-y-2 mt-3">
+                    <li><span class="bold-text">Espaçamento Otimizado<span class="bold-text">:</span></span> Reduz a <span class="highlight">umidade foliar</span> e a formação de microclimas favoráveis ao patógeno.</li>
+                    <li><span class="bold-text">Controle da Irrigação<span class="bold-text">:</span></span> Evitar encharcamento e a <span class="highlight">disseminação de patógenos hídricos</span> (<i>Pythium</i>, <i>Phytophthora</i>).</li>
+                    <li><span class="bold-text">Barreiras Vegetais<span class="bold-text">:</span></span> Quebra-ventos que <span class="highlight">reduzem a dispersão de esporos</span> e insetos vetores de vírus.</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- ===== MÓDULO 5: Melhoria da Qualidade do Solo e Adubação Agroecológica ===== -->
+        <section id="page-m5" class="content-page hidden">
+            <h2 class="text-3xl font-bold text-emerald-800 mb-6">🥕 MÓDULO 5 – QUALIDADE DO SOLO E ADUBAÇÃO ECOLÓGICA</h2>
+            <p class="text-lg text-gray-700 mb-8 bg-white p-6 rounded-lg shadow-sm border-l-4 border-gray-300">
+                <span class="highlight">Solos vivos e equilibrados</span> constituem a primeira e mais eficaz barreira natural contra a incidência de doenças, fortalecendo a <span class="highlight">resistência sistêmica</span> das plantas.
+            </p>
+
+            <div class="bg-white shadow-lg rounded-lg border-l-4 border-green-500 p-6 mb-6">
+                <h3 class="text-xl font-semibold text-green-800 mb-3">🌳 Estímulo à Biota Edáfica</h3>
+                <ul class="list-inside list-disc space-y-2 mt-3">
+                    <li><span class="bold-text">Adubação Orgânica<span class="bold-text">:</span></span> Incorporação de compostos húmicos que melhoram a CTC e <span class="highlight">estimulam a microflora benéfica</span> (antagonista).</li>
+                    <li><span class="bold-text">Compostagem<span class="bold-text">:</span></span> Produção de substrato <span class="highlight">microbiologicamente ativo</span> e livre de patógenos, essencial para a saúde radicular.</li>
+                </ul>
+            </div>
+
+            <div class="bg-white shadow-lg rounded-lg border-l-4 border-blue-500 p-6 mb-6">
+                <h3 class="text-xl font-semibold text-blue-800 mb-3">🌱 Bio-Supressão e Alelopatia</h3>
+                <ul class="list-inside list-disc space-y-2 mt-3">
+                    <li><span class="bold-text">Adubação Verde<span class="bold-text">:</span></span> Uso de leguminosas (ex: <i>Crotalaria juncea</i>, <i>Mucuna pruriens</i>) para aumentar a MO e liberar <span class="highlight">compostos alelopáticos</span> que inibem nematoides e fungos.</li>
+                    <li><span class="bold-text">Resíduos de Brássicas<span class="bold-text">:</span></span> Liberam <span class="highlight">isotiocianatos</span> durante a decomposição, com reconhecida <span class="highlight">ação fungicida natural</span> no solo.</li>
+                    <li><span class="bold-text">Biofertilizantes Líquidos<span class="bold-text">:</span></span> Fornecem micronutrientes e microrganismos que atuam como <span class="highlight">antagonistas de patógenos</span>.</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- ===== MÓDULO 6: Controle Biológico e Produtos Naturais ===== -->
+        <section id="page-m6" class="content-page hidden">
+            <h2 class="text-3xl font-bold text-emerald-800 mb-6">🧪 MÓDULO 6 – BIOCONTROLE E INSUMOS NATURAIS</h2>
+            <p class="text-lg text-gray-700 mb-8 bg-white p-6 rounded-lg shadow-sm border-l-4 border-gray-300">
+                O controle biológico aplicado e o uso de extratos vegetais representam a <span class="highlight">intervenção técnica e seletiva</span> de baixo impacto no combate aos patógenos.
+            </p>
+
+            <div class="bg-white shadow-lg rounded-lg border-l-4 border-amber-500 p-6 mb-6">
+                <h3 class="text-xl font-semibold text-amber-800 mb-3">🦠 Microrganismos Benéficos Aplicados</h3>
+                <p>Agentes específicos para supressão de doenças<span class="bold-text">:</span></p>
+                <ul class="list-inside list-disc space-y-2 mt-3">
+                    <li><span class="bold-text">Trichoderma harzianum<span class="bold-text">:</span></span> Fungo <span class="highlight">antagonista</span> (parasita) e <span class="highlight">indutor de resistência sistêmica</span>.</li>
+                    <li><span class="bold-text">Bacillus subtilis<span class="bold-text">:</span></span> Bactéria com efeito <span class="highlight">bactericida biológico</span> e competidor por nichos ecológicos.</li>
+                    <li><span class="bold-text">Pochonia chlamydosporia<span class="bold-text">:</span></span> Biocontrolador de <span class="highlight">nematoides</span>.</li>
+                </ul>
+            </div>
+
+            <div class="bg-white shadow-lg rounded-lg border-l-4 border-red-500 p-6 mb-6">
+                <h3 class="text-xl font-semibold text-red-800 mb-3">🌿 Extratos Vegetais e Caldas Minerais</h3>
+                <ul class="list-inside list-disc space-y-2 mt-3">
+                    <li><span class="bold-text">Alho<span class="bold-text">:</span></span> Possui <span class="highlight">ação fungicida e bactericida</span> devido aos compostos sulfurados. (<i>Allium sativum</i>)</li>
+                    <li><span class="bold-text">Nim<span class="bold-text">:</span></span> Efeito antialimentar e repelente. (<i>Azadirachta indica</i>)</li>
+                    <li><span class="bold-text">Óleos Essenciais<span class="bold-text">:</span></span> Canela e Capim-limão com <span class="highlight">ação antifúngica</span> (sobre <i>Botrytis cinerea</i>).</li>
+                    <li><span class="bold-text">Calda Bordalesa<span class="bold-text">:</span></span> Sulfato de cobre + cal. Fungicida de <span class="highlight">ação preventiva</span>.</li>
+                    <li><span class="bold-text">Calda Viçosa<span class="bold-text">:</span></span> Cobre + micronutrientes (Zn, Mg, B) que <span class="highlight">reforçam a integridade dos tecidos</span> foliares.</li>
+                    <li><span class="bold-text">Mamona e Abóbora<span class="bold-text">:</span></span> Controle de <i>Meloidogyne spp.</i> (<i>Ricinus communis</i>)</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- ===== MÓDULO 7: Controle Físico e Métodos Complementares ===== -->
+        <section id="page-m7" class="content-page hidden">
+            <h2 class="text-3xl font-bold text-emerald-800 mb-6">🔥 MÓDULO 7 – CONTROLE FÍSICO E TÉCNICAS COMPLEMENTARES</h2>
+            <p class="text-lg text-gray-700 mb-8 bg-white p-6 rounded-lg shadow-sm border-l-4 border-gray-300">
+                O manejo físico e térmico utiliza energia e barreiras para <span class="highlight">descontaminação e manejo</span> de inóculos, sendo essenciais para a profilaxia do solo e do material.
+            </p>
+
+            <div class="bg-white shadow-lg rounded-lg border-l-4 border-blue-500 p-6 mb-6">
+                <h3 class="text-xl font-semibold text-blue-800 mb-3">☀️ Controle Térmico</h3>
+                <ul class="list-inside list-disc space-y-2 mt-3">
+                    <li><span class="bold-text">Solarização do Solo<span class="bold-text">:</span></span> Cobertura com filme plástico por <span class="highlight">4 a 6 semanas</span>, elevando a temperatura (<span class="highlight">> 50 °C</span>) e eliminando inóculos superficiais.</li>
+                    <li><span class="bold-text">Termoterapia<span class="bold-text">:</span></span> Uso de <span class="highlight">água quente (52 °C por 30 min)</span> para descontaminação de sementes ou propágulos.</li>
+                </ul>
+            </div>
+
+            <div class="bg-white shadow-lg rounded-lg border-l-4 border-green-500 p-6 mb-6">
+                <h3 class="text-xl font-semibold text-green-800 mb-3">✂️ Saneamento Mecânico e Logística</h3>
+                <ul class="list-inside list-disc space-y-2 mt-3">
+                    <li><span class="bold-text">Remoção Mecânica<span class="bold-text">:</span></span> Eliminação manual de <span class="highlight">folhas e ramos infectados</span> para diminuir a pressão de inóculo (especialmente em estufas).</li>
+                    <li><span class="bold-text">Pós-Colheita<span class="bold-text">:</span></span> <span class="highlight">Refrigeração e ventilação adequadas</span> para reduzir o crescimento de fungos de armazenamento pós-colheita.</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- ===== MÓDULO 8: Monitoramento, Registro e Acompanhamento Técnico ===== -->
+        <section id="page-m8" class="content-page hidden">
+            <h2 class="text-3xl font-bold text-emerald-800 mb-6">📊 MÓDULO 8 – MONITORAMENTO E GESTÃO TÉCNICA</h2>
+            <p class="text-lg text-gray-700 mb-8 bg-white p-6 rounded-lg shadow-sm border-l-4 border-gray-300">
+                O monitoramento é essencial para a <span class="highlight">gestão contínua e científica</span> do manejo fitossanitário, garantindo a intervenção no momento oportuno.
+            </p>
+
+            <div class="bg-white shadow-lg rounded-lg border-l-4 border-red-500 p-6 mb-6">
+                <h3 class="text-xl font-semibold text-red-800 mb-3">🔍 Diagnóstico e Avaliação</h3>
+                <ul class="list-inside list-disc space-y-2 mt-3">
+                    <li><span class="bold-text">Monitoramento Fitossanitário<span class="bold-text">:</span></span> Inspeção <span class="highlight">semanal</span> e registro de sintomas para determinar <span class="highlight">incidência e severidade</span>.</li>
+                    <li><span class="bold-text">Diagnóstico Preciso<span class="bold-text">:</span></span> Identificação morfológica ou molecular do <span class="highlight">agente causal</span> antes de qualquer aplicação de controle.</li>
+                    <li><span class="bold-text">Avaliação de Eficiência<span class="bold-text">:</span></span> Acompanhamento dos resultados das práticas aplicadas e correção das falhas do manejo.</li>
+                </ul>
+            </div>
+
+            <div class="bg-white shadow-lg rounded-lg border-l-4 border-amber-500 p-6 mb-6">
+                <h3 class="text-xl font-semibold text-amber-800 mb-3">👨‍🌾 Acompanhamento e Segurança</h3>
+                <ul class="list-inside list-disc space-y-2 mt-3">
+                    <li><span class="bold-text">Acompanhamento Técnico<span class="bold-text">:</span></span> O agrônomo orienta o <span class="highlight">uso racional de insumos biológicos</span>, evitando interações indesejadas (ex: inativação de fungos antagonistas).</li>
+                    <li><span class="bold-text">Segurança do Operador<span class="bold-text">:</span></span> Uso de <span class="highlight">Equipamentos de Proteção (EPI)</span>, higienização de utensílios e descarte ambientalmente correto de resíduos.</li>
+                </ul>
+            </div>
+
+            <div class="bg-emerald-800 text-white rounded-lg p-8 mt-10 text-center shadow-xl">
+                <h3 class="text-2xl font-bold mb-4">ENCERRAMENTO</h3>
+                <p class="text-xl font-light">“O manejo agroecológico das doenças vegetais baseia-se em ciência, observação e equilíbrio.</p>
+                <p class="text-xl font-semibold">Plantas sadias são resultado de sistemas produtivos estáveis e solos biologicamente ativos.” 🌱</p>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="text-center p-6 mt-12 text-gray-500 text-sm">
+        Minicurso Interativo de Manejo Agroecológico de Doenças | 2025
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const navLinks = document.querySelectorAll('.nav-link');
+            const contentPages = document.querySelectorAll('.content-page');
+
+            function showPage(targetId) {
+                contentPages.forEach(page => {
+                    page.classList.add('hidden');
+                });
+
+                const targetPage = document.getElementById(targetId);
+                if (targetPage) {
+                    targetPage.classList.remove('hidden');
+                }
+
+                navLinks.forEach(link => {
+                    link.classList.remove('active-link');
+                    if (link.dataset.target === targetId) {
+                        link.classList.add('active-link');
+                    }
+                });
+                
+                window.scrollTo(0, 0);
+            }
+
+            navLinks.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    const targetId = e.currentTarget.dataset.target;
+                    showPage(targetId);
+                });
+            });
+
+            showPage('page-inicio');
+        });
+    </script>
+
+</body>
+</html>

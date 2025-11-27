@@ -1,0 +1,810 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guia Prático Agroecológico</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Chosen Palette: Warm Earth Tones (Earthy Green, Warm Amber, Light Gray/Beige) --><!-- Application Structure Plan: Navigation updated to granular M1-M7 links per user request, mapping directly to individual modules/content blocks. The main content area is now segmented into 3 top-level views (Controle, Saude, Gestao), but the top navigation buttons (M1-M7) use a JS helper function to switch to the correct main view AND activate the relevant sub-content (or scroll to the relevant section). The 'Controle' section still uses sub-tabs for M1, M2, M3. The focus remains on fast, task-oriented access to recipes. --><!-- Visualization & Content Choices: Content blocks are grouped under new module IDs for direct addressing. The 'Home' section was significantly enhanced with thematic cards and visual guidance (like the provided image layouts) to improve user comprehension of the application's structure. Confirmed NO SVG/Mermaid, using only Unicode emojis from the report. --><!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. --><style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .nav-button {
+            transition: all 0.3s ease;
+        }
+        .nav-button.active {
+            border-bottom-color: #f59e0b; /* amber-500 */
+            color: #166534; /* green-800 */
+            font-weight: 600;
+        }
+        .sub-tab-button {
+            transition: all 0.3s ease;
+        }
+        .sub-tab-button.active {
+            background-color: #166534; /* green-800 */
+            color: white;
+        }
+        .content-section, .sub-content-section {
+            display: none;
+        }
+        .content-section.active, .sub-content-section.active {
+            display: block;
+        }
+        .card-recipe {
+            scroll-margin-top: 100px; /* Adiciona margem para o scroll passar o menu fixo */
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+
+    <!-- CABEÇALHO --><header class="bg-green-800 text-white p-6 shadow-md">
+        <div class="max-w-5xl mx-auto text-center">
+            <h1 class="text-3xl font-bold">🌾 Guia Prático de Soluções Naturais</h1>
+            <p class="text-lg text-green-100 mt-1">Manejo Agroecológico de Pragas, Doenças e Plantas Daninhas</p>
+        </div>
+    </header>
+
+    <!-- NAVEGAÇÃO PRINCIPAL (MÓDULOS M1-M7) --><nav class="bg-white shadow-md sticky top-0 z-10">
+        <div class="max-w-5xl mx-auto flex flex-wrap justify-center space-x-1 md:space-x-4 p-2">
+            <button id="nav-btn-home" class="nav-button text-gray-600 py-3 px-2 md:px-4 border-b-4 border-transparent hover:border-gray-300 hover:text-gray-900" onclick="navigateToModule('home')">
+                Início
+            </button>
+            <button id="nav-btn-m1" class="nav-button text-gray-600 py-3 px-2 md:px-4 border-b-4 border-transparent hover:border-gray-300 hover:text-gray-900" onclick="navigateToModule('m1')">
+                M1
+            </button>
+            <button id="nav-btn-m2" class="nav-button text-gray-600 py-3 px-2 md:px-4 border-b-4 border-transparent hover:border-gray-300 hover:text-gray-900" onclick="navigateToModule('m2')">
+                M2
+            </button>
+            <button id="nav-btn-m3" class="nav-button text-gray-600 py-3 px-2 md:px-4 border-b-4 border-transparent hover:border-gray-300 hover:text-gray-900" onclick="navigateToModule('m3')">
+                M3
+            </button>
+            <button id="nav-btn-m4" class="nav-button text-gray-600 py-3 px-2 md:px-4 border-b-4 border-transparent hover:border-gray-300 hover:text-gray-900" onclick="navigateToModule('m4')">
+                M4
+            </button>
+            <button id="nav-btn-m5" class="nav-button text-gray-600 py-3 px-2 md:px-4 border-b-4 border-transparent hover:border-gray-300 hover:text-gray-900" onclick="navigateToModule('m5')">
+                M5
+            </button>
+            <button id="nav-btn-m6" class="nav-button text-gray-600 py-3 px-2 md:px-4 border-b-4 border-transparent hover:border-gray-300 hover:text-gray-900" onclick="navigateToModule('m6')">
+                M6
+            </button>
+            <button id="nav-btn-m7" class="nav-button text-gray-600 py-3 px-2 md:px-4 border-b-4 border-transparent hover:border-gray-300 hover:text-gray-900" onclick="navigateToModule('m7')">
+                M7
+            </button>
+        </div>
+    </nav>
+
+    <!-- CONTAINER PRINCIPAL DO CONTEÚDO --><main class="max-w-5xl mx-auto p-4 md:p-6">
+
+        <!-- SEÇÃO: Início (APRIMORADA) --><section id="content-home" class="content-section">
+            <div class="bg-white p-6 rounded-xl shadow-2xl border-t-8 border-green-600">
+                <h2 class="text-3xl font-extrabold text-green-800 mb-4 flex items-center">
+                    <span class="text-4xl mr-3">🎯</span> Introdução ao Guia Técnico
+                </h2>
+                <p class="text-lg text-gray-700 mb-6 border-b pb-4 border-gray-200">
+                    Este é o seu recurso prático para transformar sua lavoura em um sistema de autodefesa biológica. O Guia foi estruturado para produtores que buscam soluções <span class="font-semibold text-amber-600">seguras, econômicas e sustentáveis</span>.
+                </p>
+
+                <h3 class="text-xl font-bold text-gray-700 mb-4 flex items-center">
+                    <span class="text-2xl mr-2">🗺️</span> Estrutura e Foco Prático
+                </h3>
+                <div class="grid md:grid-cols-3 gap-4">
+                    
+                    <!-- Card 1: Controle/Receitas --><div class="bg-red-50 p-4 rounded-xl shadow-lg border-l-4 border-red-600 h-full flex flex-col justify-between">
+                        <div>
+                            <span class="text-4xl block mb-2">🧪</span>
+                            <h4 class="font-bold text-red-800 text-lg">M1, M2, M3: Receitas de Combate</h4>
+                            <p class="text-sm text-red-700 mt-1">
+                                Soluções rápidas e de baixo custo para problemas específicos (Pragas, Doenças e Daninhas).
+                            </p>
+                        </div>
+                        <p class="text-xs mt-3 text-gray-500">Acesso via M1, M2, M3.</p>
+                    </div>
+
+                    <!-- Card 2: Prevenção/Saúde do Solo --><div class="bg-green-50 p-4 rounded-xl shadow-lg border-l-4 border-green-600 h-full flex flex-col justify-between">
+                        <div>
+                            <span class="text-4xl block mb-2">💪</span>
+                            <h4 class="font-bold text-green-800 text-lg">M4, M6: Fortalecimento da Planta</h4>
+                            <p class="text-sm text-green-700 mt-1">
+                                Como construir um solo vivo e usar plantas aliadas para que a doença nem apareça.
+                            </p>
+                        </div>
+                        <p class="text-xs mt-3 text-gray-500">Acesso via M4, M6.</p>
+                    </div>
+
+                    <!-- Card 3: Gestão/Segurança --><div class="bg-amber-50 p-4 rounded-xl shadow-lg border-l-4 border-amber-600 h-full flex flex-col justify-between">
+                        <div>
+                            <span class="text-4xl block mb-2">📝</span>
+                            <h4 class="font-bold text-amber-800 text-lg">M5, M7: Monitoramento e Regras</h4>
+                            <p class="text-sm text-amber-700 mt-1">
+                                Boas práticas de segurança, gestão, registro e avaliação de eficiência dos tratamentos.
+                            </p>
+                        </div>
+                        <p class="text-xs mt-3 text-gray-500">Acesso via M5, M7.</p>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- SEÇÃO: Controle de Problemas (Módulos 1, 2, 3) --><section id="content-control" class="content-section">
+            <div class="bg-white p-4 md:p-6 rounded-lg shadow-md">
+                <h2 class="text-2xl font-bold text-green-800 mb-2">Controle Agroecológico de Problemas (Módulos 1, 2 e 3)</h2>
+                <p class="text-gray-700 mb-4">
+                    Encontre receitas e métodos práticos para combater os desafios mais comuns. Clique nas abas abaixo para filtrar por tipo de problema.
+                </p>
+
+                <!-- Navegação Secundária (Sub-Tabs) --><div class="flex flex-wrap border-b-2 border-gray-200 mb-6">
+                    <button id="sub-tab-btn-pragas" class="sub-tab-button flex-grow md:flex-none text-gray-600 py-3 px-5 font-semibold rounded-t-lg hover:bg-gray-200" onclick="showSubTab('pragas')">
+                        M1: 🪲 Pragas
+                    </button>
+                    <button id="sub-tab-btn-doencas" class="sub-tab-button flex-grow md:flex-none text-gray-600 py-3 px-5 font-semibold rounded-t-lg hover:bg-gray-200" onclick="showSubTab('doencas')">
+                        M2: 🌿 Doenças
+                    </button>
+                    <button id="sub-tab-btn-daninhas" class="sub-tab-button flex-grow md:flex-none text-gray-600 py-3 px-5 font-semibold rounded-t-lg hover:bg-gray-200" onclick="showSubTab('daninhas')">
+                        M3: 🌾 Plantas Daninhas
+                    </button>
+                </div>
+
+                <!-- Sub-Conteúdo: Pragas (M1) --><div id="sub-content-pragas" class="sub-content-section">
+                    <h3 class="text-xl font-bold text-red-700 mb-4 card-recipe" id="m1-start">M1: Controle Agroecológico de Pragas</h3>
+                    <div class="grid md:grid-cols-2 gap-4 md:gap-6">
+                        
+                        <!-- NOVO: Bioinseticida de Nim Fortificado --><div class="bg-white rounded-lg shadow-lg overflow-hidden border-l-4 border-red-500 card-recipe" id="m1-recipe-nim-fortificado">
+                            <div class="p-4 bg-red-50">
+                                <h4 class="font-bold text-xl text-red-800">🐛 Bioinseticida de Nim Fortificado</h4>
+                                <p class="text-sm text-red-700 font-medium mt-1">Alvo: Lagartas, percevejos, mosca-branca e tripes em grandes cultivos.</p>
+                            </div>
+                            <div class="p-4 space-y-3">
+                                <div>
+                                    <h5 class="font-semibold text-gray-700">Preparo e Aplicação (para 100 L)</h5>
+                                    <p class="text-gray-600 text-sm">Triturar 10 kg de folhas frescas ou 5 kg de sementes moídas de Nim, deixar de molho 48h em 50 L de água. Coar e adicionar 2 kg de sabão neutro ralado dissolvido em água quente. Completar para 100 L. Pulverizar a cada 7–10 dias, especialmente após chuvas.</p>
+                                </div>
+                                <div class="bg-gray-100 border-l-4 border-gray-500 text-gray-800 p-3 text-sm rounded">
+                                    <span class="font-bold">Efeito:</span> Inibe alimentação, acasalamento e muda de insetos. Ação sistêmica parcial.
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="bg-white rounded-lg shadow-lg overflow-hidden border-l-4 border-red-500 card-recipe" id="m1-recipe-alho">
+                            <div class="p-4 bg-red-50">
+                                <h4 class="font-bold text-xl text-red-800">🧄 Calda de Alho e Sabão Neutro</h4>
+                                <p class="text-sm text-red-700 font-medium mt-1">Alvo: Insetos sugadores (pulgões, cochonilhas) e lagartas em hortaliças, milho, citros.</p>
+                            </div>
+                            <div class="p-4 space-y-3">
+                                <div>
+                                    <h5 class="font-semibold text-gray-700">Preparo e Aplicação</h5>
+                                    <p class="text-gray-600 text-sm">Triturar 100 g de alho + 2 colheres (café) de óleo mineral + 10 g de sabão neutro em 0,5 L de água. Deixar repousar 24h e diluir em 10 L de água. Pulverizar semanalmente.</p>
+                                </div>
+                                <div class="bg-yellow-100 border-l-4 border-yellow-500 text-yellow-800 p-3 text-sm rounded">
+                                    <span class="font-bold">⚠️ Cuidado:</span> Evitar aplicação sob sol forte. Não aplicar em feijões (pode inibir o crescimento).
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="bg-white rounded-lg shadow-lg overflow-hidden border-l-4 border-red-500 card-recipe" id="m1-recipe-arruda">
+                            <div class="p-4 bg-red-50">
+                                <h4 class="font-bold text-xl text-red-800">🌿 Calda de Arruda</h4>
+                                <p class="text-sm text-red-700 font-medium mt-1">Alvo: Formigas e insetos sugadores em citros e flores.</p>
+                            </div>
+                            <div class="p-4 space-y-3">
+                                <div>
+                                    <h5 class="font-semibold text-gray-700">Preparo e Aplicação</h5>
+                                    <p class="text-gray-600 text-sm">Ferver 100 g de folhas secas de arruda em 1 L de água por 5 min. Deixar descansar 24h e diluir em 20 L de água.</p>
+                                </div>
+                                <div class="bg-yellow-100 border-l-4 border-yellow-500 text-yellow-800 p-3 text-sm rounded">
+                                    <span class="font-bold">⚠️ Cuidado:</span> Usar luvas (a planta causa irritação). Não ingerir.
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="bg-white rounded-lg shadow-lg overflow-hidden border-l-4 border-red-500 card-recipe" id="m1-recipe-nim">
+                            <div class="p-4 bg-red-50">
+                                <h4 class="font-bold text-xl text-red-800">🌳 Extrato de Nim (Padrão)</h4>
+                                <p class="text-sm text-red-700 font-medium mt-1">Alvo: Lagartas em couve, milho e feijão; brocas.</p>
+                            </div>
+                            <div class="p-4 space-y-3">
+                                <div>
+                                    <h5 class="font-semibold text-gray-700">Preparo e Aplicação</h5>
+                                    <p class="text-gray-600 text-sm">Misturar 200 g de folhas trituradas de nim em 5 L de água, deixar em repouso por 24h, coar e aplicar sobre as plantas.</p>
+                                </div>
+                                <div class="bg-gray-100 border-l-4 border-gray-500 text-gray-800 p-3 text-sm rounded">
+                                    <span class="font-bold">Observação:</span> Atua como repelente forte e inibidor de alimentação.
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="bg-white rounded-lg shadow-lg overflow-hidden border-l-4 border-red-500 card-recipe" id="m1-recipe-pimenta">
+                            <div class="p-4 bg-red-50">
+                                <h4 class="font-bold text-xl text-red-800">🌶️ Calda de Pimenta + Alho + Sabão</h4>
+                                <p class="text-sm text-red-700 font-medium mt-1">Alvo: Moscas, tripes, fungos e outros insetos.</p>
+                            </div>
+                            <div class="p-4 space-y-3">
+                                <div>
+                                    <h5 class="font-semibold text-gray-700">Preparo e Aplicação</h5>
+                                    <p class="text-gray-600 text-sm">Bater 50 g de pimenta-do-reino + 50 g de alho + 10 g de sabão neutro em 5 L de água. Repousar 12h e pulverizar.</p>
+                                </div>
+                                <div class="bg-gray-100 border-l-4 border-gray-500 text-gray-800 p-3 text-sm rounded">
+                                    <span class="font-bold">Observação:</span> Forte ação repelente. Aplicar em horários frescos.
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="bg-white rounded-lg shadow-lg overflow-hidden border-l-4 border-red-500 card-recipe" id="m1-recipe-cinzas">
+                            <div class="p-4 bg-red-50">
+                                <h4 class="font-bold text-xl text-red-800">🪵 Macerado de Cinzas</h4>
+                                <p class="text-sm text-red-700 font-medium mt-1">Alvo: Gafanhotos e grilos (insetos mastigadores).</p>
+                            </div>
+                            <div class="p-4 space-y-3">
+                                <div>
+                                    <h5 class="font-semibold text-gray-700">Preparo e Aplicação</h5>
+                                    <p class="text-gray-600 text-sm">Misturar 2 kg de cinzas de madeira + 10 L de água, repousar 24h, coar e pulverizar.</p>
+                                </div>
+                                <div class="bg-green-100 border-l-4 border-green-500 text-green-800 p-3 text-sm rounded">
+                                    <span class="font-bold">✅ Benefício:</span> Atua como repelente físico e fornece K, Ca e micronutrientes.
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                
+                <!-- Sub-Conteúdo: Doenças (M2) --><div id="sub-content-doencas" class="sub-content-section">
+                    <h3 class="text-xl font-bold text-blue-700 mb-4 card-recipe" id="m2-start">M2: Manejo Agroecológico de Doenças de Plantas</h3>
+                    <div class="grid md:grid-cols-2 gap-4 md:gap-6">
+
+                        <!-- Calda Viçosa --><div class="bg-white rounded-lg shadow-lg overflow-hidden border-l-4 border-blue-500 card-recipe" id="m2-recipe-vicosa">
+                            <div class="p-4 bg-blue-50">
+                                <h4 class="font-bold text-xl text-blue-800">🧪 Calda Viçosa (Fortificante)</h4>
+                                <p class="text-sm text-blue-700 font-medium mt-1">Indicação: Preventivo de ferrugem, antracnose, pinta-preta e deficiências nutricionais em frutíferas, hortaliças e café.</p>
+                            </div>
+                            <div class="p-4 space-y-3">
+                                <div>
+                                    <h5 class="font-semibold text-gray-700">Preparo e Aplicação (para 20 L)</h5>
+                                    <p class="text-gray-600 text-sm">Dissolver os sais (CuSO₄, ZnSO₄, MgSO₄, H₃BO₃) em 10 L de água. Dissolver 100 g de cal virgem em outros 10 L. Misturar lentamente as duas soluções. Aplicar quinzenalmente nas horas frescas.</p>
+                                </div>
+                                <div class="bg-green-100 border-l-4 border-green-500 text-green-800 p-3 text-sm rounded">
+                                    <span class="font-bold">Benefício:</span> Ação fungicida preventiva e fornece micronutrientes (Cu, Zn, Mg, B), reforçando a resistência da planta.
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Calda Sulfocálcica --><div class="bg-white rounded-lg shadow-lg overflow-hidden border-l-4 border-blue-500 card-recipe" id="m2-recipe-sulfocalcica">
+                            <div class="p-4 bg-blue-50">
+                                <h4 class="font-bold text-xl text-blue-800">🔥 Calda Sulfocálcica (Multiuso)</h4>
+                                <p class="text-sm text-blue-700 font-medium mt-1">Indicação: Alta eficiência contra ácaros, cochonilhas, ferrugens e fumagina em frutíferas e cafezais.</p>
+                            </div>
+                            <div class="p-4 space-y-3">
+                                <div>
+                                    <h5 class="font-semibold text-gray-700">Preparo Concentrado (para 10 L)</h5>
+                                    <p class="text-gray-600 text-sm">Aquecer 2 kg de enxofre em pó + 1 kg de cal virgem + 10 L de água por 1h a 1h30 (até cor avermelhada). Filtrar e armazenar. <span class="font-semibold">Diluição para uso: 1 L da calda em 20 L de água.</span></p>
+                                </div>
+                                <div class="bg-yellow-100 border-l-4 border-yellow-500 text-yellow-800 p-3 text-sm rounded">
+                                    <span class="font-bold">Atenção:</span> Uso em horários frescos. Efeito acaricida, fungicida e repelente com ação prolongada.
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Calda Super Magnesiana --><div class="bg-white rounded-lg shadow-lg overflow-hidden border-l-4 border-blue-500 card-recipe" id="m2-recipe-magnesiana">
+                            <div class="p-4 bg-blue-50">
+                                <h4 class="font-bold text-xl text-blue-800">🧂 Calda Super Magnesiana (pH Elevado)</h4>
+                                <p class="text-sm text-blue-700 font-medium mt-1">Indicação: Prevenção de míldio, antracnose e mancha folhar em ambientes com alta umidade.</p>
+                            </div>
+                            <div class="p-4 space-y-3">
+                                <div>
+                                    <h5 class="font-semibold text-gray-700">Preparo e Aplicação (para 20 L)</h5>
+                                    <p class="text-gray-600 text-sm">Dissolver 200 g de sulfato de magnésio + 50 g de bicarbonato de sódio + 50 g de sabão neutro em 20 L de água. Aplicar a cada 10 dias.</p>
+                                </div>
+                                <div class="bg-green-100 border-l-4 border-green-500 text-green-800 p-3 text-sm rounded">
+                                    <span class="font-bold">Benefício:</span> Eleva o pH foliar, inibindo a germinação de esporos. Fornece Magnésio (Mg).
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="bg-white rounded-lg shadow-lg overflow-hidden border-l-4 border-blue-500 card-recipe" id="m2-recipe-camomila">
+                            <div class="p-4 bg-blue-50">
+                                <h4 class="font-bold text-xl text-blue-800">🌼 Calda de Camomila</h4>
+                                <p class="text-sm text-blue-700 font-medium mt-1">Alvo: Oídio, míldio, ferrugem em hortaliças (prevenção).</p>
+                            </div>
+                            <div class="p-4 space-y-3">
+                                <div>
+                                    <h5 class="font-semibold text-gray-700">Preparo e Aplicação</h5>
+                                    <p class="text-gray-600 text-sm">Misturar 100 g de flores secas em 1 L de água, deixar repousar 12h, coar e diluir em 20 L de água. Pulverizar 1x por semana.</p>
+                                </div>
+                                <div class="bg-green-100 border-l-4 border-green-500 text-green-800 p-3 text-sm rounded">
+                                    <span class="font-bold">✅ Benefício:</span> Efeito fungistático natural. Favorece a resistência das folhas.
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="bg-white rounded-lg shadow-lg overflow-hidden border-l-4 border-blue-500 card-recipe" id="m2-recipe-primavera">
+                            <div class="p-4 bg-blue-50">
+                                <h4 class="font-bold text-xl text-blue-800">🌸 Extrato de Primavera</h4>
+                                <p class="text-sm text-blue-700 font-medium mt-1">Alvo: Vírus do vira-cabeça em tomateiro e outras viroses.</p>
+                            </div>
+                            <div class="p-4 space-y-3">
+                                <div>
+                                    <h5 class="font-semibold text-gray-700">Preparo e Aplicação</h5>
+                                    <p class="text-gray-600 text-sm">Triturar 200 g de folhas frescas (Bougainvillea sp.) em água até completar 20 L. Pulverizar a cada 7 dias, do estágio de 2 folhas até 60 dias pós-transplante.</p>
+                                </div>
+                                <div class="bg-green-100 border-l-4 border-green-500 text-green-800 p-3 text-sm rounded">
+                                    <span class="font-bold">✅ Benefício:</span> Reduz em até 90% a incidência viral, atuando na inibição.
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="bg-white rounded-lg shadow-lg overflow-hidden border-l-4 border-blue-500 card-recipe" id="m2-recipe-bordalesa">
+                            <div class="p-4 bg-blue-50">
+                                <h4 class="font-bold text-xl text-blue-800">🛡️ Calda Bordalesa</h4>
+                                <p class="text-sm text-blue-700 font-medium mt-1">Alvo: Controle geral de fungos, ferrugens e antracnose.</p>
+                            </div>
+                            <div class="p-4 space-y-3">
+                                <div>
+                                    <h5 class="font-semibold text-gray-700">Preparo e Aplicação</h5>
+                                    <p class="text-gray-600 text-sm">Misturar 100 g de sulfato de cobre + 100 g de cal virgem em 20 L de água, deixar reagir e aplicar preventivamente.</p>
+                                </div>
+                                <div class="bg-yellow-100 border-l-4 border-yellow-500 text-yellow-800 p-3 text-sm rounded">
+                                    <span class="font-bold">⚠️ Cuidado:</span> O pH final deve estar entre 6,5 e 7. Evitar aplicação sob sol forte.
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="bg-white rounded-lg shadow-lg overflow-hidden border-l-4 border-blue-500 card-recipe" id="m2-recipe-leite">
+                            <div class="p-4 bg-blue-50">
+                                <h4 class="font-bold text-xl text-blue-800">🥛 Leite Cru (10%)</h4>
+                                <p class="text-sm text-blue-700 font-medium mt-1">Alvo: Diversas doenças fúngicas (especialmente oídio).</p>
+                            </div>
+                            <div class="p-4 space-y-3">
+                                <div>
+                                    <h5 class="font-semibold text-gray-700">Preparo e Aplicação</h5>
+                                    <p class="text-gray-600 text-sm">Misturar 1 L de leite cru + 9 L de água. Pulverizar a cada 5 dias.</p>
+                                </div>
+                                <div class="bg-green-100 border-l-4 border-green-500 text-green-800 p-3 text-sm rounded">
+                                    <span class="font-bold">✅ Benefício:</span> Atua como indutor de resistência e fungicida leve.
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="bg-white rounded-lg shadow-lg overflow-hidden border-l-4 border-blue-500 card-recipe" id="m2-recipe-biofertilizante">
+                            <div class="p-4 bg-blue-50">
+                                <h4 class="font-bold text-xl text-blue-800">♻️ Biofertilizante Aeróbio</h4>
+                                <p class="text-sm text-blue-700 font-medium mt-1">Alvo: Fungos e nematoides do solo (infecção de raiz).</p>
+                            </div>
+                            <div class="p-4 space-y-3">
+                                <div>
+                                    <h5 class="font-semibold text-gray-700">Preparo e Aplicação</h5>
+                                    <p class="text-gray-600 text-sm">Fermentar por 15 dias: 10 L de esterco bovino fresco + 10 L de água + 1 L de melaço + 1 L de leite cru. Aplicar no solo diluído 1:5.</p>
+                                </div>
+                                <div class="bg-green-100 border-l-4 border-green-500 text-green-800 p-3 text-sm rounded">
+                                    <span class="font-bold">✅ Benefício:</span> Repovoa o solo com microrganismos benéficos.
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- Sub-Conteúdo: Plantas Daninhas (M3) --><div id="sub-content-daninhas" class="sub-content-section">
+                    <h3 class="text-xl font-bold text-gray-700 mb-4 card-recipe" id="m3-start">M3: Manejo Sustentável de Plantas Daninhas</h3>
+                    <div class="grid md:grid-cols-2 gap-4 md:gap-6">
+
+                        <div class="bg-white rounded-lg shadow-lg overflow-hidden border-l-4 border-gray-500 card-recipe" id="m3-recipe-mulching">
+                            <div class="p-4 bg-gray-100">
+                                <h4 class="font-bold text-xl text-gray-800">🧤 Cobertura Morta (Mulching)</h4>
+                                <p class="text-sm text-gray-700 font-medium mt-1">Material: Palhada de milheto, sorgo, crotalária, mucuna.</p>
+                            </div>
+                            <div class="p-4 space-y-3">
+                                <div>
+                                    <h5 class="font-semibold text-gray-700">Passo a Passo / Aplicação</h5>
+                                    <p class="text-gray-600 text-sm">Aplicar de 4 a 8 t/ha de palha seca sobre o solo antes da semeadura.</p>
+                                </div>
+                                <div class="bg-green-100 border-l-4 border-green-500 text-green-800 p-3 text-sm rounded">
+                                    <span class="font-bold">🏆 Vantagem:</span> Reduz a luz, dificultando a germinação de invasoras e melhora a umidade do solo.
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="bg-white rounded-lg shadow-lg overflow-hidden border-l-4 border-gray-500 card-recipe" id="m3-recipe-alelopatia">
+                            <div class="p-4 bg-gray-100">
+                                <h4 class="font-bold text-xl text-gray-800">🧪 Alelopatia (Inibição Natural)</h4>
+                                <p class="text-sm text-gray-700 font-medium mt-1">Material: Extrato de girassol, nim, sorgo, pequi.</p>
+                            </div>
+                            <div class="p-4 space-y-3">
+                                <div>
+                                    <h5 class="font-semibold text-gray-700">Passo a Passo / Aplicação</h5>
+                                    <p class="text-gray-600 text-sm">Triturar 500 g do material vegetal em 5 L de água, repousar 24h, coar e aplicar sobre o solo.</p>
+                                </div>
+                                <div class="bg-green-100 border-l-4 border-green-500 text-green-800 p-3 text-sm rounded">
+                                    <span class="font-bold">🏆 Vantagem:</span> Inibe germinação de invasoras como Bidens pilosa (picão-preto) e Amaranthus spp. (caruru).
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="bg-white rounded-lg shadow-lg overflow-hidden border-l-4 border-gray-500 card-recipe" id="m3-recipe-adubacao">
+                            <div class="p-4 bg-gray-100">
+                                <h4 class="font-bold text-xl text-gray-800">🟢 Adubação Verde Supressora</h4>
+                                <p class="text-sm text-gray-700 font-medium mt-1">Material: Crotalária, mucuna-preta, milheto.</p>
+                            </div>
+                            <div class="p-4 space-y-3">
+                                <div>
+                                    <h5 class="font-semibold text-gray-700">Passo a Passo / Aplicação</h5>
+                                    <p class="text-gray-600 text-sm">Semear entre ciclos agrícolas e rolar (rolo-faca) antes do florescimento.</p>
+                                </div>
+                                <div class="bg-green-100 border-l-4 border-green-500 text-green-800 p-3 text-sm rounded">
+                                    <span class="font-bold">✅ Benefício:</span> Liberam compostos que suprimem invasoras e melhoram a estrutura do solo.
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="bg-white rounded-lg shadow-lg overflow-hidden border-l-4 border-gray-500 card-recipe" id="m3-recipe-capina">
+                            <div class="p-4 bg-gray-100">
+                                <h4 class="font-bold text-xl text-gray-800">🔪 Capina Seletiva e Roçada</h4>
+                                <p class="text-sm text-gray-700 font-medium mt-1">Técnica: Capinadeira mecânica ou rolo-faca.</p>
+                            </div>
+                            <div class="p-4 space-y-3">
+                                <div>
+                                    <h5 class="font-semibold text-gray-700">Passo a Passo / Aplicação</h5>
+                                    <p class="text-gray-600 text-sm">Executar de 20 a 30 dias após a emergência da cultura principal.</p>
+                                </div>
+                                <div class="bg-green-100 border-l-4 border-green-500 text-green-800 p-3 text-sm rounded">
+                                    <span class="font-bold">🏆 Vantagem:</span> Mantém a cobertura do solo e reduz o rebrote, evitando que produzam sementes.
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="bg-white rounded-lg shadow-lg overflow-hidden border-l-4 border-gray-500 card-recipe" id="m3-recipe-termico">
+                            <div class="p-4 bg-gray-100">
+                                <h4 class="font-bold text-xl text-gray-800">☀️ Controle Térmico e Mecânico</h4>
+                                <p class="text-sm text-gray-700 font-medium mt-1">Técnica: Vaporização, fogo controlado, capinadores automatizados.</p>
+                            </div>
+                            <div class="p-4 space-y-3">
+                                <div>
+                                    <h5 class="font-semibold text-gray-700">Passo a Passo / Aplicação</h5>
+                                    <p class="text-gray-600 text-sm">Aplicar calor em pós-colheita ou áreas de pousio; usar cultivadores automatizados.</p>
+                                </div>
+                                <div class="bg-green-100 border-l-4 border-green-500 text-green-800 p-3 text-sm rounded">
+                                    <span class="font-bold">✅ Benefício:</span> Elimina sementes superficiais e reduz infestação de gramíneas resistentes.
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SEÇÃO: Saúde do Sistema (Módulos 4, 6) --><section id="content-health" class="content-section">
+            <div class="bg-white p-4 md:p-6 rounded-lg shadow-md">
+                <h2 class="text-2xl font-bold text-green-800 mb-2">Saúde do Sistema e Prevenção (Módulos 4 e 6)</h2>
+                <p class="text-gray-700 mb-6">
+                    A verdadeira força da agroecologia está na prevenção. Um solo saudável (Módulo 4) e o uso de plantas aliadas (Módulo 6) criam um sistema resiliente que se defende sozinho.
+                </p>
+
+                <h3 class="text-2xl font-bold text-orange-700 mb-4 card-recipe" id="m4-start">🌱 MÓDULO 4 – FORTALECIMENTO E BIOATIVAÇÃO DO SOLO</h3>
+                <div class="grid md:grid-cols-2 gap-4 md:gap-6 mb-8">
+                    
+                    <!-- Fermentado Microbiológico --><div class="bg-white rounded-lg shadow-lg overflow-hidden border-l-4 border-orange-500 card-recipe" id="m4-recipe-fermentado">
+                        <div class="p-4 bg-orange-50">
+                            <h4 class="font-bold text-xl text-orange-800">🦠 Fermentado Microbiológico (Protetor Sistêmico)</h4>
+                            <p class="text-sm text-orange-700 font-medium mt-1">Indicação: Culturas sob estresse ou alta incidência de pragas/doenças (soja, milho, feijão, hortaliças).</p>
+                        </div>
+                        <div class="p-4 space-y-3">
+                            <div>
+                                <h5 class="font-semibold text-gray-700">Preparo e Aplicação</h5>
+                                <p class="text-gray-600 text-sm">Misturar: 20 L de água, 5 L de esterco, 2 L de leite cru, 1 L de melaço, 1 kg de cinzas e 1 L de EM ou 500 g de levedura. Fermentar por 15 dias à sombra, mexendo diariamente. <span class="font-semibold">Diluição para uso: 1 L em 10 L de água.</span> Aplicação quinzenal via foliar e solo.</p>
+                            </div>
+                            <div class="bg-green-100 border-l-4 border-green-500 text-green-800 p-3 text-sm rounded">
+                                <span class="font-bold">Efeito:</span> Fortalece o metabolismo da planta e estimula microrganismos benéficos que competem com patógenos.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-white rounded-lg shadow-lg overflow-hidden border-l-4 border-orange-500 card-recipe" id="m4-recipe-composto">
+                        <div class="p-4 bg-orange-50">
+                            <h4 class="font-bold text-xl text-orange-800">🪱 Composto Orgânico Maturado</h4>
+                            <p class="text-sm text-orange-700 font-medium mt-1">Função: Fornece nutrientes e microrganismos benéficos.</p>
+                        </div>
+                        <div class="p-4 space-y-3">
+                            <div>
+                                <h5 class="font-semibold text-gray-700">Preparo / Aplicação</h5>
+                                <p class="text-gray-600 text-sm">Misturar resíduos vegetais, esterco e solo em camadas. Manter umidade e revolver semanalmente por 60–90 dias.</p>
+                            </div>
+                            <div class="bg-green-100 border-l-4 border-green-500 text-green-800 p-3 text-sm rounded">
+                                <span class="font-bold">🥇 Prioridade:</span> Aumenta fertilidade, reduz patógenos e melhora a estrutura do solo.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-white rounded-lg shadow-lg overflow-hidden border-l-4 border-orange-500 card-recipe" id="m4-recipe-bokashi">
+                        <div class="p-4 bg-orange-50">
+                            <h4 class="font-bold text-xl text-orange-800">🍚 Bokashi</h4>
+                            <p class="text-sm text-orange-700 font-medium mt-1">Função: Fertilizante biológico e supressor de doenças.</p>
+                            </div>
+                        <div class="p-4 space-y-3">
+                            <div>
+                                <h5 class="font-semibold text-gray-700">Preparo / Aplicação</h5>
+                                <p class="text-gray-600 text-sm">Misturar farelo de arroz, melaço, cinzas e EM (microrganismos eficientes). Fermentar 7 a 10 dias.</p>
+                            </div>
+                            <div class="bg-green-100 border-l-4 border-green-500 text-green-800 p-3 text-sm rounded">
+                                <span class="font-bold">✅ Resultado:</span> Melhora a microbiota do solo e inibe fungos.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-white rounded-lg shadow-lg overflow-hidden border-l-4 border-orange-500 card-recipe" id="m4-recipe-biofertilizante-liquido">
+                        <div class="p-4 bg-orange-50">
+                            <h4 class="font-bold text-xl text-orange-800">💧 Biofertilizante Líquido (Padrão)</h4>
+                            <p class="text-sm text-orange-700 font-medium mt-1">Função: Fonte de nutrientes e protetor foliar.</p>
+                        </div>
+                        <div class="p-4 space-y-3">
+                            <div>
+                                <h5 class="font-semibold text-gray-700">Preparo / Aplicação</h5>
+                                <p class="text-gray-600 text-sm">Misturar esterco bovino, leite, melaço e cinzas em água. Fermentar 15 dias e diluir 1:10.</p>
+                            </div>
+                            <div class="bg-green-100 border-l-4 border-green-500 text-green-800 p-3 text-sm rounded">
+                                <span class="font-bold">✅ Resultado:</span> Atua como bioestimulante e indutor de resistência.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-white rounded-lg shadow-lg overflow-hidden border-l-4 border-orange-500 card-recipe" id="m4-recipe-termofilica">
+                        <div class="p-4 bg-orange-50">
+                            <h4 class="font-bold text-xl text-orange-800">♨️ Compostagem Termofílica</h4>
+                            <p class="text-sm text-orange-700 font-medium mt-1">Função: Eliminação de patógenos no composto.</p>
+                        </div>
+                        <div class="p-4 space-y-3">
+                            <div>
+                                <h5 class="font-semibold text-gray-700">Preparo / Aplicação</h5>
+                                <p class="text-gray-600 text-sm">Manter pilha entre 50–60 °C por 30 dias. Revolver a cada 5 dias.</p>
+                            </div>
+                            <div class="bg-green-100 border-l-4 border-green-500 text-green-800 p-3 text-sm rounded">
+                                <span class="font-bold">✅ Resultado:</span> Elimina sementes e microrganismos patogênicos.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <h3 class="text-2xl font-bold text-green-700 mb-4 card-recipe" id="m6-start">🌿 MÓDULO 6 – PLANTAS REPELENTES E ALIADAS BIOLÓGICAS</h3>
+                <div class="grid md:grid-cols-2 gap-4 md:gap-6">
+                    
+                    <div class="bg-white rounded-lg shadow-lg overflow-hidden border-l-4 border-green-500 card-recipe" id="m6-recipe-tagetes">
+                        <div class="p-4 bg-green-50">
+                            <h4 class="font-bold text-xl text-green-800">🟡 Cravo-de-defunto (Tagetes)</h4>
+                            <p class="text-sm text-green-700 font-medium mt-1">Função: Repelente de nematoides e moscas-brancas.</p>
+                        </div>
+                        <div class="p-4">
+                            <h5 class="font-semibold text-gray-700">Uso e Disposição</h5>
+                            <p class="text-gray-600 text-sm">Plantar em bordadura ou consorciado com hortaliças.</p>
+                        </div>
+                    </div>
+
+                    <div class="bg-white rounded-lg shadow-lg overflow-hidden border-l-4 border-green-500 card-recipe" id="m6-recipe-manjericao">
+                        <div class="p-4 bg-green-50">
+                            <h4 class="font-bold text-xl text-green-800">🪴 Manjericão e Alecrim</h4>
+                            <p class="text-sm text-green-700 font-medium mt-1">Função: Atraem polinizadores e repelem pulgões.</p>
+                        </div>
+                        <div class="p-4">
+                            <h5 class="font-semibold text-gray-700">Uso e Disposição</h5>
+                            <p class="text-gray-600 text-sm">Cultivar intercalado entre linhas de tomate e pimentão.</p>
+                        </div>
+                    </div>
+
+                    <div class="bg-white rounded-lg shadow-lg overflow-hidden border-l-4 border-green-500 card-recipe" id="m6-recipe-girassol">
+                        <div class="p-4 bg-green-50">
+                            <h4 class="font-bold text-xl text-green-800">🌻 Girassol e Coentro</h4>
+                            <p class="text-sm text-green-700 font-medium mt-1">Função: Atraem predadores (joaninhas) e vespas parasitoides.</p>
+                        </div>
+                        <div class="p-4">
+                            <h5 class="font-semibold text-gray-700">Uso e Disposição</h5>
+                            <p class="text-gray-600 text-sm">Cultivar nas extremidades do talhão (bordas).</p>
+                        </div>
+                    </div>
+
+                    <div class="bg-white rounded-lg shadow-lg overflow-hidden border-l-4 border-green-500 card-recipe" id="m6-recipe-crotalaria">
+                        <div class="p-4 bg-green-50">
+                            <h4 class="font-bold text-xl text-green-800">🫘 Crotalária juncea</h4>
+                            <p class="text-sm text-green-700 font-medium mt-1">Função: Reduz nematoides e fornece biomassa (adubo verde).</p>
+                        </div>
+                        <div class="p-4">
+                            <h5 class="font-semibold text-gray-700">Uso e Disposição</h5>
+                            <p class="text-gray-600 text-sm">Usar como adubo verde entre cultivos anuais.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-white rounded-lg shadow-lg overflow-hidden border-l-4 border-green-500 card-recipe" id="m6-recipe-neem">
+                        <div class="p-4 bg-green-50">
+                            <h4 class="font-bold text-xl text-green-800">🌳 Neem (Azadirachta indica)</h4>
+                            <p class="text-sm text-green-700 font-medium mt-1">Função: Fornece extratos repelentes e compostos alelopáticos.</p>
+                        </div>
+                        <div class="p-4">
+                            <h5 class="font-semibold text-gray-700">Uso e Disposição</h5>
+                            <p class="text-gray-600 text-sm">Utilizar folhas e sementes trituradas em bioinsumos (ver M1).</p>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- SEÇÃO: Gestão e Segurança (Módulos 5, 7) --><section id="content-management" class="content-section">
+            <div class="bg-white p-4 md:p-6 rounded-lg shadow-md">
+                <h2 class="text-2xl font-bold text-green-800 mb-2">Gestão, Monitoramento e Segurança (Módulos 5 e 7)</h2>
+                <p class="text-gray-700 mb-6">
+                    O sucesso do manejo agroecológico depende da observação (Módulo 5) e da aplicação segura de todas as técnicas (Módulo 7).
+                </p>
+
+                <!-- Módulo 5 --><div class="bg-white p-5 rounded-lg shadow-md mb-6 border-l-4 border-teal-500 card-recipe" id="m5-start">
+                    <h3 class="text-2xl font-bold text-teal-700 mb-4">🌻 MÓDULO 5 – MONITORAMENTO E GESTÃO INTEGRADA</h3>
+                    <p class="text-gray-700 mb-4">Etapas essenciais para saber <span class="font-semibold">quando</span> e <span class="font-semibold">como</span> agir:</p>
+                    <ul class="list-none space-y-3">
+                        <li class="flex items-start">
+                            <span class="text-2xl mr-3">🔎</span>
+                            <div>
+                                <span class="font-semibold text-gray-800">1. Inspeção Semanal:</span>
+                                <p class="text-gray-600 text-sm">Visitar as culturas para identificar sintomas iniciais. Anote o que vê!</p>
+                            </div>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="text-2xl mr-3">📸</span>
+                            <div>
+                                <span class="font-semibold text-gray-800">2. Registro Visual:</span>
+                                <p class="text-gray-600 text-sm">Registrar incidência e severidade. Isso ajuda a avaliar a evolução do problema.</p>
+                            </div>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="text-2xl mr-3">💰</span>
+                            <div>
+                                <span class="font-semibold text-gray-800">3. Nível de Dano Econômico (NDE):</span>
+                                <p class="text-gray-600 text-sm">Ponto em que o custo de controle se justifica. Nem sempre 1% de praga é um problema real.</p>
+                            </div>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="text-2xl mr-3">🎯</span>
+                            <div>
+                                <span class="font-semibold text-gray-800">4. Ação Seletiva e Localizada:</span>
+                                <p class="text-gray-600 text-sm">Priorizar práticas biológicas. Trate apenas os focos e não a área inteira.</p>
+                            </div>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="text-2xl mr-3">🧑‍🔬</span>
+                            <div>
+                                <span class="font-semibold text-gray-800">5. Acompanhamento Técnico:</span>
+                                <p class="text-gray-600 text-sm">Apoio de engenheiro agrônomo para diagnóstico e calibração de doses.</p>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Módulo 7 --><div class="bg-white p-5 rounded-lg shadow-md border-l-4 border-orange-500 card-recipe" id="m7-start">
+                    <h3 class="text-2xl font-bold text-orange-700 mb-4">🌾 MÓDULO 7 – CUIDADOS, SEGURANÇA E AVALIAÇÃO</h3>
+                    <p class="text-gray-700 mb-4">Boas práticas para proteger você e garantir a eficácia dos produtos:</p>
+                    <ul class="list-none space-y-3">
+                        <li class="flex items-start">
+                            <span class="text-2xl mr-3">🧤</span>
+                            <div>
+                                <span class="font-bold text-orange-600">EPI é Essencial:</span>
+                                <p class="text-gray-600 text-sm">Utilizar equipamentos de proteção (luvas, máscara, óculos) ao preparar e aplicar caldas. Arruda e Pimenta podem causar irritação.</p>
+                            </div>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="text-2xl mr-3">☀️</span>
+                            <div>
+                                <span class="font-bold text-blue-600">Horário Certo:</span>
+                                <p class="text-gray-600 text-sm">Evitar pulverização sob sol intenso (risco de queima das folhas) ou chuva iminente. Priorize o final da tarde.</p>
+                            </div>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="text-2xl mr-3">🏷️</span>
+                            <div>
+                                <span class="font-bold text-gray-800">Rotulagem:</span>
+                                <p class="text-gray-600 text-sm">Rotular frascos com nome, data e tipo de insumo.</p>
+                            </div>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="text-2xl mr-3">🔒</span>
+                            <div>
+                                <span class="font-bold text-red-600">Armazenamento Seguro:</span>
+                                <p class="text-gray-600 text-sm">Armazenar caldas em recipientes opacos, ventilados e fora do alcance de crianças e animais.</p>
+                            </div>
+                        </li>
+                         <li class="flex items-start">
+                            <span class="text-2xl mr-3">📝</span>
+                            <div>
+                                <span class="font-bold text-gray-800">Avaliação de Eficiência:</span>
+                                <p class="text-gray-600 text-sm">Registrar datas e avaliar a eficiência após 48–72 horas.</p>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- ENCERRAMENTO (Rodapé APRIMORADO) --><footer class="mt-12 text-center p-4 bg-green-800 text-white rounded-lg shadow-inner">
+            <blockquote class="text-lg md:text-xl font-extrabold italic mt-2 text-green-100 max-w-4xl mx-auto leading-relaxed">
+                “A sustentabilidade nasce do respeito ao equilíbrio natural. Quando o agricultor entende que o controle não é destruição, mas convivência harmônica, a terra responde com saúde, produtividade e vida.”
+                <span class="text-lime-200 text-2xl ml-1 block sm:inline">🌱</span>
+            </blockquote>
+        </footer>
+    </main>
+
+    <script>
+        // Mapeamento dos módulos para as seções principais e o sub-tab ativo
+        const moduleMap = {
+            'm1': { tab: 'control', sub: 'pragas', targetId: 'm1-start' },
+            'm2': { tab: 'control', sub: 'doencas', targetId: 'm2-start' },
+            'm3': { tab: 'control', sub: 'daninhas', targetId: 'm3-start' },
+            'm4': { tab: 'health', targetId: 'm4-start' },
+            'm5': { tab: 'management', targetId: 'm5-start' },
+            'm6': { tab: 'health', targetId: 'm6-start' },
+            'm7': { tab: 'management', targetId: 'm7-start' },
+            'home': { tab: 'home' }
+        };
+
+        function showTab(tabId) {
+            // Esconde todas as seções principais
+            document.querySelectorAll('.content-section').forEach(section => {
+                section.classList.remove('active');
+            });
+            // Ativa a seção principal correta
+            document.getElementById('content-' + tabId).classList.add('active');
+
+            // Remove o estado ativo de todos os botões principais
+            document.querySelectorAll('.nav-button').forEach(button => {
+                button.classList.remove('active');
+            });
+            // O botão ativo será definido pela função navigateToModule
+        }
+
+        function showSubTab(subTabId) {
+            // Esconde todas as sub-seções
+            document.querySelectorAll('.sub-content-section').forEach(section => {
+                section.classList.remove('active');
+            });
+            // Ativa a sub-seção correta
+            document.getElementById('sub-content-' + subTabId).classList.add('active');
+
+            // Remove o estado ativo de todos os sub-botões
+            document.querySelectorAll('.sub-tab-button').forEach(button => {
+                button.classList.remove('active');
+            });
+            // Ativa o sub-botão correto
+            document.getElementById('sub-tab-btn-' + subTabId).classList.add('active');
+        }
+
+        function navigateToModule(moduleId) {
+            const map = moduleMap[moduleId];
+            
+            // 1. Ativa a seção principal correta
+            showTab(map.tab);
+            
+            // 2. Ativa o botão principal (M1-M7)
+            document.getElementById('nav-btn-' + moduleId).classList.add('active');
+
+            // 3. Se for a seção de Controle (M1, M2, M3), ativa o sub-tab correto
+            if (map.tab === 'control' && map.sub) {
+                showSubTab(map.sub);
+            }
+            
+            // 4. Rola para o elemento alvo, se existir (para módulos M1 a M7)
+            if (map.targetId) {
+                // Pequeno delay para garantir que as tabs foram ativadas antes do scroll
+                setTimeout(() => {
+                    const targetElement = document.getElementById(map.targetId);
+                    if (targetElement) {
+                        targetElement.scrollIntoView({ behavior: 'smooth' });
+                    }
+                }, 100);
+            } else {
+                // Se for a Home, volta para o topo
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        }
+        
+        document.addEventListener('DOMContentLoaded', () => {
+            // Inicializa a página mostrando o Início
+            navigateToModule('home');
+        });
+    </script>
+
+</body>
+</html>

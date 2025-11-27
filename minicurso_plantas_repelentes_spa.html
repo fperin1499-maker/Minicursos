@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minicurso: Plantas Repelentes</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Chosen Palette: Calm Earth Tones (Base: bg-gray-50, Header: bg-emerald-700, Accents: border-emerald-500, border-blue-500, border-amber-500, border-red-500) - Consistency with prior minicourses. -->
+    <!-- Application Structure Plan: A single-page application (SPA) using a sticky top navigation bar with links for 'Início' and 'M1' through 'M8'. JavaScript will manage showing/hiding the content <section> for each module, allowing users to navigate the course content freely and non-linearly, enhancing usability for learning. -->
+    <!-- Visualization & Content Choices: The source report is descriptive and tabular. Visuals include: M3 (Detailed Repellent Plant Table), M4 (Visual Flow for Extrato Preparation), and M7 (List of Integrated MIP Methods). No quantitative data was present, so no charts (Chart.js/Plotly) were implemented. Interaction: The primary interaction is the JavaScript-powered main navigation between modules. Library: Vanilla JavaScript for DOM manipulation (show/hide pages, active link state). -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        html {
+            scroll-behavior: smooth;
+        }
+        .nav-link.active-link {
+            font-weight: 600;
+            background-color: #065f46; 
+            border-bottom: 4px solid #ffffff;
+        }
+        .content-page {
+            animation: fadeIn 0.4s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        /* Estilo de realce agradável (fundo suave) */
+        .highlight {
+            background-color: #fcefd4; /* Cor suave de realce - Amarelo/âmbar claro */
+            color: #78350f; /* Texto marrom escuro */
+            padding: 2px 5px;
+            border-radius: 4px;
+            font-weight: 500;
+        }
+        /* Estilo de negrito simples, sem fundo */
+        .bold-text {
+            font-weight: 700;
+            color: #1f2937; /* Cinza escuro para contraste */
+        }
+        /* Estilo para esquemas e sequências */
+        .scheme-box {
+            background-color: #f0fdf4; /* Verde muito claro */
+            border: 1px dashed #34d399;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-top: 1rem;
+        }
+        .scheme-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 0.75rem;
+        }
+        .scheme-icon {
+            font-size: 1.5rem;
+            margin-right: 0.75rem;
+            color: #065f46;
+        }
+        .table-repelente th, .table-repelente td {
+            padding: 0.75rem;
+            border-bottom: 1px solid #e5e7eb;
+            text-align: left;
+        }
+        .table-repelente th {
+            background-color: #f3f4f6;
+            font-weight: 600;
+            color: #1f2937;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800 font-sans">
+
+    <header class="bg-emerald-700 text-white p-4 shadow-lg sticky top-0 z-50">
+        <div class="container mx-auto flex flex-col md:flex-row justify-between items-center max-w-7xl">
+            <!-- MUDANÇA 1: Título alterado -->
+            <h1 class="text-xl font-bold text-center md:text-left">
+                🌼 Plantas Repelentes
+            </h1>
+            <nav class="mt-4 md:mt-0 w-full md:w-auto">
+                <div class="flex flex-wrap justify-center gap-2">
+                    <button class="nav-link p-2 px-3 rounded-lg hover:bg-emerald-600 transition-colors" data-target="page-inicio">Início</button>
+                    <button class="nav-link p-2 px-3 rounded-lg hover:bg-emerald-600 transition-colors" data-target="M1">M1</button>
+                    <button class="nav-link p-2 px-3 rounded-lg hover:bg-emerald-600 transition-colors" data-target="M2">M2</button>
+                    <button class="nav-link p-2 px-3 rounded-lg hover:bg-emerald-600 transition-colors" data-target="M3">M3</button>
+                    <button class="nav-link p-2 px-3 rounded-lg hover:bg-emerald-600 transition-colors" data-target="M4">M4</button>
+                    <button class="nav-link p-2 px-3 rounded-lg hover:bg-emerald-600 transition-colors" data-target="M5">M5</button>
+                    <button class="nav-link p-2 px-3 rounded-lg hover:bg-emerald-600 transition-colors" data-target="M6">M6</button>
+                    <button class="nav-link p-2 px-3 rounded-lg hover:bg-emerald-600 transition-colors" data-target="M7">M7</button>
+                    <button class="nav-link p-2 px-3 rounded-lg hover:bg-emerald-600 transition-colors" data-target="M8">M8</button>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container mx-auto p-4 md:p-8 max-w-5xl">
+
+        <!-- ===== PÁGINA INICIAL ===== -->
+        <section id="page-inicio" class="content-page">
+            <div class="bg-white shadow-xl rounded-lg p-6 md:p-8 border-b-4 border-emerald-500">
+                <h2 class="text-3xl font-bold text-emerald-800 mb-4">🎯 Introdução ao Minicurso Técnico</h2>
+                
+                <!-- MUDANÇA 1: Redução de realces no primeiro parágrafo -->
+                <p class="text-lg text-gray-700 mb-6">
+                    As <span class="bold-text">plantas repelentes</span> são uma alternativa natural e de baixo custo para o <span class="bold-text">manejo ecológico de pragas</span>. Elas liberam <span class="bold-text">compostos voláteis</span> que <span class="highlight">afetam negativamente os insetos</span>, protegendo a cultura principal.
+                </p>
+                <!-- MUDANÇA 1: Redução de realces no segundo parágrafo -->
+                <p class="text-lg text-gray-700">
+                    O uso dessas espécies integra o <span class="bold-text">controle agroecológico</span>, promovendo a <span class="bold-text">biodiversidade</span> e a produção de <span class="highlight">alimentos saudáveis</span>, especialmente em hortas e cultivos urbanos.
+                </p>
+            </div>
+
+            <h3 class="text-2xl font-bold text-gray-800 mt-10 mb-6">Estrutura e Foco Técnico do Curso 🗺️</h3>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                
+                <div class="bg-white shadow-lg rounded-lg p-6 border-l-4 border-blue-500">
+                    <h4 class="text-xl font-semibold text-blue-800 mb-2">Conceituação e Exemplos 🧠</h4>
+                    <p class="text-gray-700">Entenda os <span class="bold-text">mecanismos de repulsão</span> e conheça a tabela completa de <span class="bold-text">plantas e pragas controladas</span>. (M1, M2, M3)</p>
+                </div>
+
+                <div class="bg-white shadow-lg rounded-lg p-6 border-l-4 border-amber-500">
+                    <h4 class="text-xl font-semibold text-amber-800 mb-2">Aplicação Prática e Cuidados 🛠️</h4>
+                    <p class="text-gray-700">Aprenda sobre <span class="bold-text">consórcios, bordaduras</span>, o preparo de <span class="bold-text">extratos repelentes</span> e as melhores práticas de cultivo. (M4, M5)</p>
+                </div>
+
+                <div class="bg-white shadow-lg rounded-lg p-6 border-l-4 border-green-500">
+                    <h4 class="text-xl font-semibold text-green-800 mb-2">Integração e Sustentabilidade ✅</h4>
+                    <p class="text-gray-700">Os <span class="bold-text">benefícios ecológicos</span> e a integração com o <span class="bold-text">Manejo Integrado de Pragas (MIP)</span>. (M6, M7, M8)</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== MÓDULO 1: Introdução ===== -->
+        <section id="page-m1" class="content-page hidden">
+            <h2 class="text-3xl font-bold text-emerald-800 mb-6">🎯 MÓDULO 1 – INTRODUÇÃO</h2>
+            <p class="text-lg text-gray-700 mb-8 bg-white p-6 rounded-lg shadow-sm border-l-4 border-gray-300">
+                O uso de plantas repelentes é uma <span class="highlight">alternativa natural e de baixo custo</span> essencial para o <span class="bold-text">manejo ecológico de pragas</span>. Elas agem liberando <span class="bold-text">compostos voláteis</span> que reduzem a pressão de insetos.
+            </p>
+
+            <div class="bg-white shadow-lg rounded-lg border-l-4 border-green-500 p-6 mb-6">
+                <h3 class="text-xl font-semibold text-green-800 mb-3 flex items-center">Benefícios Sistêmicos na Horta 🌿</h3>
+                <p>Além da proteção direta, as repelentes oferecem vantagens ecológicas:</p>
+                <div class="scheme-box p-4 bg-green-50">
+                    <div class="scheme-item"><span class="scheme-icon">🛡️</span> <p><span class="bold-text">Proteção<span class="bold-text">:</span></span> Reduzem ataques de insetos e a necessidade de <span class="highlight">inseticidas químicos</span>.</p></div>
+                    <div class="scheme-item"><span class="scheme-icon">🦋</span> <p><span class="bold-text">Biodiversidade<span class="bold-text">:</span></span> Favorecem a <span class="highlight">fauna auxiliar</span> (inimigos naturais) e atraem polinizadores.</p></div>
+                    <div class="scheme-item"><span class="scheme-icon">🍎</span> <p><span class="bold-text">Saúde<span class="bold-text">:</span></span> Promovem a produção de <span class="bold-text">alimentos saudáveis</span> e sustentáveis (ótimo para hortas urbanas).</p></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== MÓDULO 2: Conceito e Funcionamento ===== -->
+        <section id="page-m2" class="content-page hidden">
+            <h2 class="text-3xl font-bold text-emerald-800 mb-6">🧪 MÓDULO 2 – CONCEITO E FUNCIONAMENTO</h2>
+            <p class="text-lg text-gray-700 mb-8 bg-white p-6 rounded-lg shadow-sm border-l-4 border-gray-300">
+                Plantas repelentes são definidas pela sua capacidade de emitir <span class="highlight">odores desagradáveis</span> ou interferir no comportamento dos insetos devido à presença de <span class="bold-text">óleos essenciais, alcaloides e terpenos</span>.
+            </p>
+
+            <div class="bg-white shadow-lg rounded-lg border-l-4 border-blue-500 p-6 mb-6">
+                <h3 class="text-xl font-semibold text-blue-800 mb-3 flex items-center">Principais Mecanismos de Ação 🧠</h3>
+                <p>O efeito ocorre de três formas principais:</p>
+                <div class="scheme-box p-4 bg-blue-50">
+                    <div class="scheme-item"><span class="scheme-icon">🌫️</span> <p><span class="bold-text">Mascaramento de Odores<span class="bold-text">:</span></span> Os aromas fortes <span class="highlight">confundem as pragas</span>, impedindo que localizem as culturas atrativas.</p></div>
+                    <div class="scheme-item"><span class="scheme-icon">🛑</span> <p><span class="bold-text">Repulsão Direta<span class="bold-text">:</span></span> Odores fortes impedem fisicamente que os insetos se <span class="bold-text">aproximem</span> da área protegida.</p></div>
+                    <div class="scheme-item"><span class="scheme-icon">🚫</span> <p><span class="bold-text">Interferência Comportamental<span class="bold-text">:</span></span> Afetam a <span class="highlight">oviposição</span> (postura de ovos) e a <span class="bold-text">alimentação</span> das espécies-praga.</p></div>
+                </div>
+            </div>
+
+            <div class="bg-white shadow-lg rounded-lg border-l-4 border-green-500 p-6 mb-6">
+                <h3 class="text-xl font-semibold text-green-800 mb-3 flex items-center">Modos de Aplicação 🗺️</h3>
+                <p>O manejo pode ser integrado por:</p>
+                <ul class="list-inside list-disc space-y-2 mt-2">
+                    <li><span class="bold-text">Consórcios<span class="bold-text">:</span></span> Plantio conjunto de culturas.</li>
+                    <li><span class="bold-text">Bordaduras<span class="bold-text">:</span></span> Barreiras nas laterais dos canteiros.</li>
+                    <li><span class="bold-text">Extratos<span class="bold-text">:</span></span> Preparo e pulverização de soluções repelentes.</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- ===== MÓDULO 3: Exemplos de Plantas Repelentes e Suas Funções (Tabela) ===== -->
+        <section id="page-m3" class="content-page hidden">
+            <h2 class="text-3xl font-bold text-emerald-800 mb-6">🌼 MÓDULO 3 – ESPÉCIES REPELENTES E SUAS FUNÇÕES</h2>
+            <p class="text-lg text-gray-700 mb-8 bg-white p-6 rounded-lg shadow-sm border-l-4 border-gray-300">
+                Conhecer a função específica de cada espécie é fundamental para um <span class="highlight">planejamento eficiente de consórcios</span> e bordaduras, maximizando a proteção contra as pragas mais comuns.
+            </p>
+
+            <div class="bg-white shadow-lg rounded-lg border-l-4 border-amber-500 overflow-x-auto">
+                <table class="w-full table-repelente min-w-[700px]">
+                    <thead>
+                        <tr>
+                            <th>Planta Repelente</th>
+                            <th>Praga Controlada</th>
+                            <th>Uso/Associação</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><span class="bold-text">Cravo-de-defunto</span> (<i>Tagetes sp.</i>)</td>
+                            <td>Broca-pequena, broca-grande do tomate</td>
+                            <td>Consórcio com Tomateiro e Hortaliças</td>
+                        </tr>
+                        <tr>
+                            <td><span class="bold-text">Coentro</span> (<i>Coriandrum sativum</i>)</td>
+                            <td>Lagartas e Pulgões</td>
+                            <td>Entrelinhas de Couve, Alface, Cenoura</td>
+                        </tr>
+                        <tr>
+                            <td><span class="bold-text">Arruda</span> (<i>Ruta graveolens</i>)</td>
+                            <td>Insetos Desfolhadores e Formigas</td>
+                            <td>Bordaduras e Cercas Vivas (Barreira Olfativa)</td>
+                        </tr>
+                        <tr>
+                            <td><span class="bold-text">Alho</span> (<i>Allium sativum</i>)</td>
+                            <td>Insetos Sugadores e Fungos</td>
+                            <td>Tomate, Repolho, Frutíferas (Ação dupla: repelente e fungicida)</td>
+                        </tr>
+                        <tr>
+                            <td><span class="bold-text">Alecrim</span> (<i>Rosmarinus officinalis</i>)</td>
+                            <td>Borboleta da Couve</td>
+                            <td>Hortas de Couve e Brássicas</td>
+                        </tr>
+                        <tr>
+                            <td><span class="bold-text">Tomilho</span> (<i>Thymus vulgaris</i>)</td>
+                            <td>Mariposa do Repolho</td>
+                            <td>Consórcio com Repolho e Brócolis</td>
+                        </tr>
+                        <tr>
+                            <td><span class="bold-text">Manjericão</span> (<i>Ocimum basilicum</i>)</td>
+                            <td>Formigas, Mariposas</td>
+                            <td>Bordaduras de canteiros (Alta Repulsão)</td>
+                        </tr>
+                        <tr>
+                            <td><span class="bold-text">Mastruz</span> (<i>Chenopodium ambrosioides</i>)</td>
+                            <td>Pulgões e Tripes</td>
+                            <td>Cultivos em geral (Pode ser usado como extrato)</td>
+                        </tr>
+                        <tr>
+                            <td><span class="bold-text">Batata-doce</span> (<i>Ipomoea batatas</i>)</td>
+                            <td>Formigas Cortadeiras</td>
+                            <td>Plantio ao redor das hortas (Funciona como "isca/repelente" físico)</td>
+                        </tr>
+                        <tr>
+                            <td><span class="bold-text">Girassol</span> (<i>Helianthus annuus</i>)</td>
+                            <td>Diversos Insetos-praga</td>
+                            <td>Barreira Viva e Atração de Inimigos Naturais</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <p class="mt-4 text-sm text-gray-600">Essas espécies criam uma <span class="bold-text">barreira aromática</span> que desestimula a aproximação de pragas, auxiliando o <span class="bold-text">controle biológico natural</span>.</p>
+        </section>
+
+        <!-- ===== MÓDULO 4: Modos de Uso e Integração nas Hortas ===== -->
+        <section id="page-m4" class="content-page hidden">
+            <h2 class="text-3xl font-bold text-emerald-800 mb-6">🗺️ MÓDULO 4 – MODOS DE USO E INTEGRAÇÃO</h2>
+            <p class="text-lg text-gray-700 mb-8 bg-white p-6 rounded-lg shadow-sm border-l-4 border-gray-300">
+                A aplicação das repelentes deve ser <span class="highlight">estratégica e integrada</span>, utilizando as plantas vivas (consórcio) ou seus subprodutos (extratos).
+            </p>
+
+            <div class="bg-white shadow-lg rounded-lg border-l-4 border-blue-500 p-6 mb-6">
+                <h3 class="text-xl font-semibold text-blue-800 mb-3 flex items-center">A) Consórcio e Bordaduras (Uso Vivo) 🌿</h3>
+                <div class="scheme-box p-4 bg-blue-50">
+                    <div class="scheme-item"><span class="scheme-icon">🍅</span> <p><span class="bold-text">Consórcio<span class="bold-text">:</span></span> Plantio conjunto da cultura principal com a repelente. Ex: <span class="highlight">Tomate + Cravo-de-defunto</span>.</p></div>
+                    <div class="scheme-item"><span class="scheme-icon">🧱</span> <p><span class="bold-text">Bordaduras<span class="bold-text">:</span></span> Plantio de <span class="highlight">barreiras olfativas</span> nas extremidades. Ex: Arruda e Alfavaca contra <span class="bold-text">insetos voadores e formigas</span>.</p></div>
+                </div>
+                <p class="mt-2 text-sm text-gray-600">Essa técnica aumenta a <span class="bold-text">diversificação vegetal</span>, <span class="highlight">interrompe o ciclo das pragas</span> e eleva a resiliência do sistema.</p>
+            </div>
+
+            <div class="bg-white shadow-lg rounded-lg border-l-4 border-amber-500 p-6 mb-6">
+                <h3 class="text-xl font-semibold text-amber-800 mb-3 flex items-center">B) Extratos e Soluções Repelentes (Uso Indireto) 🧪</h3>
+                <p>O extrato permite uma <span class="highlight">cobertura total</span> da planta e <span class="bold-text">ação imediata</span>. Utilize um funil de processo para o preparo:</p>
+                <!-- Esquema visual aprimorado com contadores e setas -->
+                <div class="scheme-box p-4 bg-amber-50 text-center">
+                    <p class="bold-text text-base text-amber-900 mb-3">Fluxo de Preparo do Extrato Aromático:</p>
+                    <div class="flex justify-between items-stretch text-xs sm:text-sm text-gray-700">
+                        <div class="w-1/4 flex flex-col items-center bg-amber-100/50 p-2 rounded-md transition-shadow hover:shadow-lg">
+                            <span class="text-base sm:text-lg font-bold text-amber-700">1️⃣</span>
+                            Trituração de Folhas (1 kg)
+                        </div>
+                        <div class="flex items-center mx-1"><span class="text-xl text-amber-600">➡️</span></div>
+                        <div class="w-1/4 flex flex-col items-center bg-amber-100/50 p-2 rounded-md transition-shadow hover:shadow-lg">
+                            <span class="text-base sm:text-lg font-bold text-amber-700">2️⃣</span>
+                            Infusão em Água (10 dias)
+                        </div>
+                        <div class="flex items-center mx-1"><span class="text-xl text-amber-600">➡️</span></div>
+                        <div class="w-1/4 flex flex-col items-center bg-amber-100/50 p-2 rounded-md transition-shadow hover:shadow-lg">
+                            <span class="text-base sm:text-lg font-bold text-amber-700">3️⃣</span>
+                            Adição de Sabão/Cinza (Emulsificante)
+                        </div>
+                        <div class="flex items-center mx-1"><span class="text-xl text-amber-600">➡️</span></div>
+                        <div class="w-1/4 flex flex-col items-center bg-amber-100/50 p-2 rounded-md transition-shadow hover:shadow-lg">
+                            <span class="text-base sm:text-lg font-bold text-amber-700">4️⃣</span>
+                            Coagem e <span class="bold-text">Pulverização</span>
+                        </div>
+                    </div>
+                </div>
+                <p class="mt-2 text-sm text-gray-600">A aplicação deve ser feita preferencialmente no <span class="highlight">final da tarde</span> para evitar a queima das folhas pelo sol e <span class="bold-text">otimizar a ação dos voláteis</span>.</p>
+            </div>
+        </section>
+
+        <!-- ===== MÓDULO 5: Cuidados e Eficiência ===== -->
+        <section id="page-m5" class="content-page hidden">
+            <h2 class="text-3xl font-bold text-emerald-800 mb-6">✅ MÓDULO 5 – CUIDADOS E EFICIÊNCIA DO CULTIVO</h2>
+            <p class="text-lg text-gray-700 mb-8 bg-white p-6 rounded-lg shadow-sm border-l-4 border-gray-300">
+                A eficácia das plantas repelentes está diretamente ligada à sua <span class="highlight">vitalidade</span>, pois a produção de <span class="bold-text">óleos essenciais</span> depende de boas condições vegetativas.
+            </p>
+
+            <div class="bg-white shadow-lg rounded-lg border-l-4 border-green-500 p-6 mb-6">
+                <h3 class="text-xl font-semibold text-green-800 mb-3 flex items-center">Orientação Prática para Vitalidade 🌱</h3>
+                <ul class="list-inside list-disc space-y-3 mt-3">
+                    <li>💧 <span class="bold-text">Manejo Hídrico<span class="bold-text">:</span></span> Manter solo <span class="highlight">fértil e úmido</span>, pois o estresse hídrico reduz a produção de compostos aromáticos.</li>
+                    <li>🔄 <span class="bold-text">Replantio Periódico<span class="bold-text">:</span></span> As plantas envelhecem e perdem vigor. Replantar a cada ciclo garante a <span class="highlight">eficiência máxima</span> da repulsão.</li>
+                    <li>🚫 <span class="bold-text">Evitar Pulverizações Químicas<span class="bold-text">:</span></span> Inseticidas de amplo espectro podem <span class="highlight">prejudicar o aroma</span> e os óleos essenciais que são a base da repulsão.</li>
+                    <li>🧭 <span class="bold-text">Alternância de Espécies<span class="bold-text">:</span></span> Alternar as espécies repelentes de acordo com a época e a <span class="bold-text">praga predominante</span>.</li>
+                </ul>
+            </div>
+
+            <div class="bg-white shadow-lg rounded-lg border-l-4 border-blue-500 p-6 mb-6">
+                <h3 class="text-xl font-semibold text-blue-800 mb-3 flex items-center">Associação Agroecológica 🌐</h3>
+                <p>Recomenda-se a <span class="highlight">associação de repelentes</span> com práticas como <span class="bold-text">compostagem</span>, <span class="bold-text">adubação verde</span> e <span class="bold-text">controle biológico</span> para maximizar os efeitos protetivos e ecológicos.</p>
+            </div>
+        </section>
+
+        <!-- ===== MÓDULO 6: Vantagens do Uso de Plantas Repelentes ===== -->
+        <section id="page-m6" class="content-page hidden">
+            <h2 class="text-3xl font-bold text-emerald-800 mb-6">📈 MÓDULO 6 – VANTAGENS DO USO DE PLANTAS REPELENTES</h2>
+            <p class="text-lg text-gray-700 mb-8 bg-white p-6 rounded-lg shadow-sm border-l-4 border-gray-300">
+                A adoção de plantas repelentes gera <span class="highlight">benefícios múltiplos</span>, que vão além do controle de pragas, impactando a <span class="bold-text">economia</span>, a <span class="bold-text">ecologia</span> e a <span class="bold-text">saúde</span> do sistema.
+            </p>
+
+            <div class="bg-white shadow-lg rounded-lg border-l-4 border-green-500 p-6 mb-6">
+                <h3 class="text-xl font-semibold text-green-800 mb-3 flex items-center">Benefícios Diretos e Indiretos 🌟</h3>
+                <ul class="list-inside list-disc space-y-3 mt-3">
+                    <li>💸 <span class="bold-text">Redução de Custos<span class="bold-text">:</span></span> <span class="highlight">Diminuição do uso de agrotóxicos</span> e insumos químicos.</li>
+                    <li>🐞 <span class="bold-text">Equilíbrio Biológico<span class="bold-text">:</span></span> <span class="highlight">Atração e preservação de insetos benéficos</span> (predadores e parasitoides).</li>
+                    <li>✅ <span class="bold-text">Baixo Impacto<span class="bold-text">:</span></span> Baixo custo de implantação, <span class="highlight">fácil manejo</span> e alta compatibilidade com a agroecologia.</li>
+                    <li>💧 <span class="bold-text">Microclima<span class="bold-text">:</span></span> Promovem a <span class="bold-text">diversidade de espécies</span> e melhoram as condições microclimáticas da horta.</li>
+                    <li>🍎 <span class="bold-text">Saúde<span class="bold-text">:</span></span> Contribuem para a <span class="highlight">produção de alimentos saudáveis</span> e livres de resíduos.</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- ===== MÓDULO 7: Integração com Outras Estratégias de Controle ===== -->
+        <section id="page-m7" class="content-page hidden">
+            <h2 class="text-3xl font-bold text-emerald-800 mb-6">🔗 MÓDULO 7 – INTEGRAÇÃO COM O MANEJO INTEGRADO DE PRAGAS (MIP)</h2>
+            <p class="text-lg text-gray-700 mb-8 bg-white p-6 rounded-lg shadow-sm border-l-4 border-gray-300">
+                O uso de repelentes deve ser sempre parte de um <span class="highlight">Manejo Integrado de Pragas (MIP)</span>, combinando diversas táticas para <span class="bold-text">reduzir o risco de resistência</span> e manter o equilíbrio.
+            </p>
+
+            <div class="bg-white shadow-lg rounded-lg border-l-4 border-blue-500 p-6 mb-6">
+                <h3 class="text-xl font-semibold text-blue-800 mb-3 flex items-center">Táticas Complementares no MIP 🛠️</h3>
+                <p>As repelentes devem ser combinadas com:</p>
+                <div class="scheme-box p-4 bg-blue-50">
+                    <div class="scheme-item"><span class="scheme-icon">🖐️</span> <p><span class="bold-text">Catação Manual<span class="bold-text">:</span></span> Remoção direta de insetos em focos de infestação.</p></div>
+                    <div class="scheme-item"><span class="scheme-icon">🪰</span> <p><span class="bold-text">Armadilhas<span class="bold-text">:</span></span> Uso de <span class="highlight">armadilhas adesivas</span> ou com feromônios para monitoramento e controle massal.</p></div>
+                    <div class="scheme-item"><span class="scheme-icon">🐞</span> <p><span class="bold-text">Controle Biológico<span class="bold-text">:</span></span> Uso de <span class="highlight">inimigos naturais</span> (joaninhas, vespas, percevejos predadores).</p></div>
+                    <div class="scheme-item"><span class="scheme-icon">🔄</span> <p><span class="bold-text">Manejo Cultural<span class="bold-text">:</span></span> <span class="highlight">Rotação de culturas</span> e manutenção de áreas de refúgio ecológico.</p></div>
+                    <div class="scheme-item"><span class="scheme-icon">💧</span> <p><span class="bold-text">Bioinsumos<span class="bold-text">:</span></span> Aplicação de <span class="highlight">caldas naturais</span> (nim, alho, pimenta) de forma preventiva ou curativa.</p></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== MÓDULO 8: ENCERRAMENTO E SUSTENTABILIDADE (CONTEÚDO ADICIONADO) ===== -->
+        <section id="page-m8" class="content-page hidden">
+            <h2 class="text-3xl font-bold text-emerald-800 mb-6">🌟 MÓDULO 8 – ENCERRAMENTO E SUSTENTABILIDADE</h2>
+            <p class="text-lg text-gray-700 mb-8 bg-white p-6 rounded-lg shadow-sm border-l-4 border-gray-300">
+                As plantas repelentes são a prova de que a <span class="highlight">natureza oferece suas próprias defesas</span>. Ao integrá-las ao seu manejo, você constrói um sistema <span class="bold-text">mais autônomo, saudável e ecologicamente rico</span>.
+            </p>
+
+            <!-- NOVO CONTEÚDO ADICIONADO -->
+            <div class="bg-white shadow-lg rounded-lg border-l-4 border-green-500 p-6 mb-6">
+                <h3 class="text-xl font-semibold text-green-800 mb-3 flex items-center">Educação e Autonomia do Produtor 🧠</h3>
+                <p>O sucesso de qualquer estratégia agroecológica repousa sobre o <span class="bold-text">conhecimento contínuo</span> e a <span class="highlight">capacidade de observação</span> do agricultor. O uso de repelentes promove a:</p>
+                <ul class="list-inside list-disc space-y-2 mt-3">
+                    <li>📚 <span class="bold-text">Transferência de Tecnologia<span class="bold-text">:</span></span> O produtor deixa de ser um mero consumidor de insumos e se torna um <span class="highlight">gestor do ecossistema</span>.</li>
+                    <li>🔍 <span class="bold-text">Diagnóstico em Campo<span class="bold-text">:</span></span> O manejo com repelentes incentiva a <span class="highlight">inspeção detalhada</span> da lavoura, permitindo identificar focos de desequilíbrio antes que se tornem problemas graves.</li>
+                    <li>🔗 <span class="bold-text">Soberania Alimentar<span class="bold-text">:</span></span> Ao utilizar recursos próprios da propriedade (plantas, água, compostos), o produtor <span class="bold-text">reduz a dependência de grandes corporações</span>, fortalecendo a segurança alimentar da sua comunidade.</li>
+                </ul>
+            </div>
+            <!-- FIM DO NOVO CONTEÚDO -->
+
+            <div class="bg-emerald-800 text-white rounded-lg p-8 mt-10 text-center shadow-xl">
+                <h3 class="text-2xl font-bold mb-4">ENCERRAMENTO</h3>
+                <p class="text-xl font-light">“As plantas repelentes são aliadas naturais da agricultura sustentável.</p>
+                <p class="text-xl font-semibold">Cada aroma no canteiro é um escudo invisível de proteção, lembrando que a natureza, quando compreendida, oferece suas próprias defesas.” 🌿</p>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="text-center p-6 mt-12 text-gray-500 text-sm">
+        Minicurso Interativo de Plantas Repelentes | 2025
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const navLinks = document.querySelectorAll('.nav-link');
+            const contentPages = document.querySelectorAll('.content-page');
+
+            // Mapeamento dos botões M1 a M8 para as IDs de seção (page-m1 a page-m8)
+            const moduleMap = {
+                'M1': 'page-m1', 'M2': 'page-m2', 'M3': 'page-m3', 'M4': 'page-m4', 
+                'M5': 'page-m5', 'M6': 'page-m6', 'M7': 'page-m7', 'M8': 'page-m8',
+                'INÍCIO': 'page-inicio'
+            };
+
+            function showPage(targetId) {
+                // 1. Esconder todas as páginas de conteúdo
+                contentPages.forEach(page => {
+                    page.classList.add('hidden');
+                });
+
+                // 2. Determinar a ID da página a ser mostrada 
+                let pageIdToShow = moduleMap[targetId] || targetId;
+
+                const targetPage = document.getElementById(pageIdToShow);
+                if (targetPage) {
+                    targetPage.classList.remove('hidden');
+                }
+
+                // 3. Gerenciar o estado 'active-link'
+                navLinks.forEach(link => {
+                    link.classList.remove('active-link');
+                    const linkTarget = link.dataset.target;
+                    
+                    if (linkTarget === targetId) {
+                        link.classList.add('active-link');
+                    } else if (moduleMap[linkTarget] === pageIdToShow) {
+                        link.classList.add('active-link');
+                    }
+                });
+                
+                window.scrollTo(0, 0);
+            }
+
+            // Inicializa os data-targets M1-M8 e associa o evento de clique
+            navLinks.forEach(link => {
+                if (link.textContent.startsWith('M') && link.textContent.length === 2) {
+                    link.setAttribute('data-target', link.textContent); // Garante que o data-target seja M1, M2, etc.
+                } else if (link.textContent === 'Início') {
+                     link.setAttribute('data-target', 'page-inicio');
+                }
+                
+                link.addEventListener('click', (e) => {
+                    const targetId = e.currentTarget.dataset.target;
+                    showPage(targetId);
+                });
+            });
+
+            // Configuração inicial para mostrar a página de Início como ativa
+            showPage('page-inicio');
+        });
+    </script>
+
+</body>
+</html>

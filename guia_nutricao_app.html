@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guia Interativo: Deficiências Nutricionais</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.1/chart.min.js"></script>
+    
+    <!-- Chosen Palette: Verde Campo (Neutros: stone, Foco: green, Acento: amber) -->
+    <!-- Application Structure Plan: A SPA é estruturada como um painel de consulta, abandonando a estrutura linear de 8 módulos. A navegação é baseada em tarefas (Início, Conceitos, Guia por Cultura, Diagnóstico Rápido, Boas Práticas) usando um menu lateral (desktop) / superior (mobile). A seção 'Guia por Cultura' é a principal interação: ela usa sub-navegação (botões) para carregar dinamicamente os dados das culturas (Módulos 3-6) em um único contêiner de visualização. O Módulo 2 é visualizado com diagramas HTML e listas reformuladas, sem gráfico. Essa arquitetura de "consulta" é mais útil para um produtor (o público-alvo) que precisa de respostas rápidas, em vez de um curso linear. -->
+    <!-- Visualization & Content Choices: 
+        1. (M2) Nutrientes Essenciais: Objetivo: Informar/Organizar. Visualização: Duas caixas de lista estilizadas (HTML/CSS/Tailwind) para separar Macross e Micross. Interação: N/A. Justificativa: Separação visual clara dos dois grupos principais sem a necessidade de um gráfico.
+        2. (M2) Mobilidade de Nutrientes: Objetivo: Organizar. Visualização: Diagrama de 2 cartões estilizados (HTML/CSS/Tailwind) com ícones de direção. Interação: N/A. Justificativa: Mapeia claramente o conceito (Móvel vs. Imóvel) à localização do sintoma (Velha vs. Nova) com maior apelo visual e clareza.
+        3. (M3-M6) Guia por Cultura: Objetivo: Consulta. Visualização: Conteúdo de tabela/texto em um 'div' de exibição dinâmica. Interação: Sub-navegação (botões 'data-culture'). JS escuta cliques, busca os dados da cultura em um objeto JS e popula o 'innerHTML' do 'div'. Justificativa: É a interação central da SPA, permitindo consulta focada por cultura sem rolagem.
+        4. (M1, M7, M8) Texto e Tabelas: Objetivo: Informar. Visualização: Tabelas e listas estilizadas com Tailwind. Justificativa: Apresentação clara e legível do conteúdo de suporte.
+    -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f5f5f4; /* stone-100 */
+        }
+        .nav-link {
+            transition: all 0.2s ease-in-out;
+            border-right: 4px solid transparent;
+        }
+        .nav-link.active {
+            background-color: #f5f5f4; /* stone-100 */
+            color: #27272a; /* stone-800 */
+            border-right-color: #f59e0b; /* amber-500 */
+        }
+        .nav-link:not(.active):hover {
+            background-color: #27533b;
+        }
+        
+        .culture-btn {
+            transition: all 0.2s ease-in-out;
+            border-bottom: 3px solid transparent;
+        }
+        .culture-btn.active {
+            border-bottom-color: #166534; /* green-700 */
+            color: #166534; /* green-700 */
+        }
+        .culture-btn:not(.active):hover {
+            background-color: #f0fdf4; /* green-50 */
+        }
+        
+        .view-content {
+            display: none;
+        }
+        .view-content.active {
+            display: block;
+        }
+
+        /* Removido .chart-container e código Chart.js */
+
+        /* Estilização de Tabelas */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        th, td {
+            padding: 12px 16px;
+            text-align: left;
+            border-bottom: 1px solid #e7e5e4; /* stone-200 */
+        }
+        th {
+            background-color: #f0fdf4; /* green-50 */
+            color: #14532d; /* green-900 */
+            font-weight: 700;
+        }
+        tbody tr:last-child td {
+            border-bottom: 0;
+        }
+        tbody tr:nth-child(even) {
+            background-color: #fafaf9; /* stone-50 */
+        }
+    </style>
+</head>
+
+<body class="text-stone-800 bg-stone-100">
+
+    <div class="flex flex-col md:flex-row min-h-screen">
+        
+        <!-- Navegação Lateral -->
+        <aside class="w-full md:w-64 bg-green-800 text-white shadow-lg">
+            <div class="p-5 sticky top-0 md:h-screen">
+                <h1 class="text-2xl font-bold mb-6 flex items-center">
+                    <span class="text-3xl mr-2">🌱</span>
+                    Guia Nutricional
+                </h1>
+                
+                <nav class="flex flex-row md:flex-col overflow-x-auto md:overflow-x-visible -mx-2 md:mx-0">
+                    <a href="#" class="nav-link active block p-4 font-medium whitespace-nowrap md:whitespace-normal" data-section="inicio">
+                        Início
+                    </a>
+                    <a href="#" class="nav-link block p-4 font-medium whitespace-nowrap md:whitespace-normal" data-section="conceitos">
+                        Conceitos Fundamentais
+                    </a>
+                    <a href="#" class="nav-link block p-4 font-medium whitespace-nowrap md:whitespace-normal" data-section="guia_cultura">
+                        Guia por Cultura
+                    </a>
+                    <a href="#" class="nav-link block p-4 font-medium whitespace-nowrap md:whitespace-normal" data-section="diagnostico">
+                        Diagnóstico Rápido
+                    </a>
+                    <a href="#" class="nav-link block p-4 font-medium whitespace-nowrap md:whitespace-normal" data-section="praticas">
+                        Boas Práticas
+                    </a>
+                </nav>
+            </div>
+        </aside>
+
+        <!-- Conteúdo Principal -->
+        <main class="flex-1 p-6 sm:p-10 bg-stone-100 overflow-y-auto">
+
+            <!-- Seção 1: Início (Título ajustado) -->
+            <section id="view-inicio" class="view-content active">
+                <h2 class="text-3xl font-bold text-green-900 mb-4">Bem-vindo ao Guia Prático de Nutrição!</h2>
+                <p class="text-lg text-stone-700 mb-6">
+                    Esta ferramenta interativa foi criada para ajudar você, produtor de pequeno porte, a identificar e corrigir deficiências nutricionais em suas olerícolas. A nutrição mineral adequada é o pilar para um desenvolvimento equilibrado e uma colheita de alta qualidade.
+                </p>
+
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div class="bg-white p-6 rounded-lg shadow-md border-l-4 border-green-600">
+                        <h3 class="text-xl font-bold mb-2">❌ O Problema</h3>
+                        <p>A falta ou desequilíbrio de um nutriente provoca alterações visuais (sintomas) na cor, forma e tamanho das folhas e frutos, comprometendo diretamente sua produção.</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg shadow-md border-l-4 border-amber-500">
+                        <h3 class="text-xl font-bold mb-2">💡 A Nossa Missão</h3>
+                        <p>Aprenda a "ler" os sinais que a sua planta envia! O diagnóstico precoce e a correção equilibrada permitem restaurar a vitalidade da planta e evitar perdas financeiras.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Seção 2: Conceitos Fundamentais -->
+            <section id="view-conceitos" class="view-content">
+                <h2 class="text-3xl font-bold text-green-900 mb-4">🔬 Conceitos Fundamentais: O Básico que Funciona</h2>
+                <p class="text-lg text-stone-700 mb-6">
+                    Entender o básico da nutrição é crucial para saber onde e quando procurar os sintomas. Aqui estão os três pilares do diagnóstico: os nutrientes, a mobilidade e as causas.
+                </p>
+
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    
+                    <!-- 1. Os Nutrientes (Ícone adicionado) -->
+                    <div class="bg-white p-6 rounded-lg shadow-md">
+                        <h3 class="text-2xl font-bold text-green-900 mb-3 flex items-center">
+                            🌿 Os Nutrientes
+                        </h3>
+                        <p class="text-stone-600 mb-4">Os nutrientes são divididos em dois grupos principais com base na quantidade que a planta necessita para completar seu ciclo de vida.</p>
+                        
+                        <div class="space-y-4">
+                            <div class="bg-green-50 p-4 rounded-lg border-l-4 border-green-600">
+                                <h4 class="font-bold text-lg text-green-800 flex items-center mb-1">🌱 Macronutrientes (6)</h4>
+                                <p class="text-sm text-green-700 mb-2">São os pilares da planta, necessários em grandes quantidades.</p>
+                                <p class="font-bold text-green-900">N, P, K, Ca, Mg, S</p>
+                            </div>
+                            <div class="bg-amber-50 p-4 rounded-lg border-l-4 border-amber-600">
+                                <h4 class="font-bold text-lg text-amber-800 flex items-center mb-1">⚙️ Micronutrientes (7)</h4>
+                                <p class="text-sm text-amber-700 mb-2">São os ajustadores finos, necessários em pequenas quantidades.</p>
+                                <p class="font-bold text-amber-900">Fe, Mn, Zn, Cu, B, Mo, Cl</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 2. Mobilidade (Títulos simplificados) -->
+                    <div class="bg-white p-6 rounded-lg shadow-md">
+                        <h3 class="text-2xl font-bold text-green-900 mb-3 text-center">Mobilidade 🔍</h3>
+                        <p class="text-center text-stone-600 mb-6">A mobilidade define <span class="font-bold">onde</span> o sintoma aparece primeiro na planta.</p>
+                        
+                        <div class="space-y-6">
+                            <!-- Móveis Card -->
+                            <div class="bg-green-50 p-5 rounded-xl border-2 border-green-300 shadow-sm">
+                                <div class="flex items-center mb-3">
+                                    <span class="text-3xl mr-3 text-green-700">⬇️</span>
+                                    <h4 class="font-bold text-xl text-green-900">1. Nutrientes MÓVEIS</h4>
+                                </div>
+                                <p class="text-green-800 mb-3 text-sm">A planta retira o nutriente das áreas antigas para usar no crescimento novo.</p>
+                                <div class="border-t border-green-300 pt-3">
+                                    <p class="text-base mb-1">
+                                        <span class="font-medium text-green-700">Sintomas aparecem em:</span> <span class="font-bold text-lg">Folhas VELHAS</span> (Base)
+                                    </p>
+                                    <p class="mt-1 text-sm">
+                                        <span class="font-bold text-green-900">Exemplos:</span> N, P, K, Mg
+                                    </p>
+                                </div>
+                            </div>
+
+                            <!-- Imóveis Card -->
+                            <div class="bg-amber-50 p-5 rounded-xl border-2 border-amber-300 shadow-sm">
+                                <div class="flex items-center mb-3">
+                                    <span class="text-3xl mr-3 text-amber-700">⬆️</span>
+                                    <h4 class="font-bold text-xl text-amber-900">2. Nutrientes IMÓVEIS</h4>
+                                </div>
+                                <p class="text-amber-800 mb-3 text-sm">O nutriente fica "preso" e as folhas novas não conseguem se formar corretamente.</p>
+                                <div class="border-t border-amber-300 pt-3">
+                                    <p class="text-base mb-1">
+                                        <span class="font-medium text-amber-700">Sintomas aparecem em:</span> <span class="font-bold text-lg">Folhas JOVENS</span> (Ponteiro)
+                                    </p>
+                                    <p class="mt-1 text-sm">
+                                        <span class="font-bold text-amber-900">Exemplos:</span> Ca, Fe, B, Zn
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Fim B. Mobilidade -->
+
+                </div>
+
+                <!-- 3. Causas -->
+                <div class="bg-white p-6 rounded-lg shadow-md mt-6">
+                    <h3 class="text-2xl font-bold text-green-900 mb-3">Principais Causas das Deficiências 🚧</h3>
+                    <ul class="space-y-3">
+                        <li class="flex items-start">
+                            <span class="text-red-600 font-bold mr-2">1.</span>
+                            <div>
+                                <span class="font-bold">pH Inadequado (A principal causa):</span>
+                                <p class="text-stone-600">Desequilíbrio de pH do solo (muito ácido ou muito alcalino) "prende" os nutrientes, impedindo a absorção.</p>
+                            </div>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="text-yellow-600 font-bold mr-2">2.</span>
+                            <div>
+                                <span class="font-bold">Desequilíbrio Nutricional:</span>
+                                <p class="text-stone-600">Competição entre nutrientes (Ex.: excesso de K no solo reduz a absorção de Ca e Mg).</p>
+                            </div>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="text-blue-600 font-bold mr-2">3.</span>
+                            <div>
+                                <span class="font-bold">Lixiviação:</span>
+                                <p class="text-stone-600">Perda de nutrientes solúveis (N e K) em solos arenosos devido a chuvas ou irrigação intensa.</p>
+                            </div>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="text-gray-600 font-bold mr-2">4.</span>
+                            <div>
+                                <span class="font-bold">Falhas no Manejo:</span>
+                                <p class="text-stone-600">Erros na fertirrigação ou na adubação parcelada de cobertura.</p>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- Seção 3: Guia por Cultura -->
+            <section id="view-guia_cultura" class="view-content">
+                <h2 class="text-3xl font-bold text-green-900 mb-4">📖 Guia por Cultura</h2>
+                <p class="text-lg text-stone-700 mb-6">
+                    Selecione a cultura abaixo para ver um guia detalhado dos sintomas visuais de deficiência e as recomendações de correção mais comuns para ela.
+                </p>
+
+                <!-- Sub-navegação das Culturas -->
+                <div class="flex flex-wrap gap-2 border-b-2 border-stone-200 pb-2 mb-6">
+                    <button class="culture-btn active font-medium text-lg py-2 px-4 rounded-t-lg text-stone-600" data-culture="morango">
+                        🍓 Morango
+                    </button>
+                    <button class="culture-btn font-medium text-lg py-2 px-4 rounded-t-lg text-stone-600" data-culture="brassicas">
+                        🥦 Brássicas
+                    </button>
+                    <button class="culture-btn font-medium text-lg py-2 px-4 rounded-t-lg text-stone-600" data-culture="pimentao">
+                        🌶️ Pimentão
+                    </button>
+                    <button class="culture-btn font-medium text-lg py-2 px-4 rounded-t-lg text-stone-600" data-culture="tomate">
+                        🍅 Tomateiro
+                    </button>
+                </div>
+
+                <!-- Conteúdo Dinâmico da Cultura -->
+                <div id="culture-content" class="bg-white p-6 rounded-lg shadow-md">
+                    <!-- O conteúdo será injetado aqui pelo JavaScript -->
+                </div>
+            </section>
+
+            <!-- Seção 4: Diagnóstico Rápido -->
+            <section id="view-diagnostico" class="view-content">
+                <h2 class="text-3xl font-bold text-green-900 mb-4">🔎 Diagnóstico Visual e Correções Gerais</h2>
+                <p class="text-lg text-stone-700 mb-6">
+                    Este é o seu guia rápido de ação para qualquer cultura. Use esta tabela para um diagnóstico rápido no campo com base no que você vê e onde vê.
+                </p>
+                <div class="overflow-x-auto bg-white rounded-lg shadow-md">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Sintoma Geral</th>
+                                <th>Onde se Manifesta</th>
+                                <th>🚧 Provável Deficiência</th>
+                                <th>🎯 Ação Recomendada</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>🟨 Amarelamento <span class="font-bold">generalizado</span></td>
+                                <td>Folhas <span class="font-bold">VELHAS</span> (base)</td>
+                                <td><span class="font-bold">Nitrogênio (N)</span></td>
+                                <td>Adubação de cobertura urgente (ureia ou nitrato de amônio).</td>
+                            </tr>
+                            <tr>
+                                <td>🔥 <span class="font-bold">Bordas Queimadas/Secas</span></td>
+                                <td>Folhas <span class="font-bold">VELHAS</span> (base)</td>
+                                <td><span class="font-bold">Potássio (K)</span></td>
+                                <td>Aplicar K₂SO₄ ou KNO₃.</td>
+                            </tr>
+                            <tr>
+                                <td>💔 <span class="font-bold">Folhas Novas Deformadas</span></td>
+                                <td>Folhas <span class="font-bold">JOVENS</span> (ponteiro)</td>
+                                <td><span class="font-bold">Cálcio (Ca)</span></td>
+                                <td>Aplicação foliar de Ca(NO₃)₂ (Nitrato de Cálcio).</td>
+                            </tr>
+                            <tr>
+                                <td>🟢 Clorose internerval (nervuras verdes/áreas amarelas)</td>
+                                <td>Folhas <span class="font-bold">VELHAS</span></td>
+                                <td><span class="font-bold">Magnésio (Mg)</span> ou <span class="font-bold">Ferro (Fe)</span></td>
+                                <td>Aplicar MgSO₄ ou Fe-EDTA.</td>
+                            </tr>
+                            <tr>
+                                <td>🟢 Clorose internerval (nervuras verdes/áreas amarelas)</td>
+                                <td>Folhas <span class="font-bold">JOVENS</span> (ponteiro)</td>
+                                <td><span class="font-bold">Ferro (Fe)</span></td>
+                                <td>Aplicar quelato de Fe (Fe-EDTA).</td>
+                            </tr>
+                            <tr>
+                                <td>🟣 Coloração Arroxeada</td>
+                                <td>Planta toda / Folhas Velhas</td>
+                                <td><span class="font-bold">Fósforo (P)</span></td>
+                                <td>Aplicar MAP ou Superfosfato Triplo.</td>
+                            </tr>
+                            <tr>
+                                <td>⚫ Necrose (morte do tecido)</td>
+                                <td>Ponteiros / Gemas</td>
+                                <td><span class="font-bold">Boro (B)</span></td>
+                                <td>Aplicar bórax ou ácido bórico em baixa dosagem.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Seção 5: Boas Práticas -->
+            <section id="view-praticas" class="view-content">
+                <h2 class="text-3xl font-bold text-green-900 mb-4">✅ Boas Práticas de Manejo Nutricional</h2>
+                <p class="text-lg text-stone-700 mb-6">
+                    O segredo do sucesso está na prevenção! Correções preventivas são sempre mais eficazes e mais baratas do que adubações emergenciais.
+                </p>
+
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <div class="bg-white p-6 rounded-lg shadow-md border-t-4 border-green-600">
+                        <h3 class="text-xl font-bold mb-2">Análise é Investimento</h3>
+                        <p class="text-stone-600">Realize <span class="font-bold">análise de solo</span> e de <span class="font-bold">tecido foliar</span> a cada ciclo produtivo para não adubar no escuro.</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg shadow-md border-t-4 border-green-600">
+                        <h3 class="text-xl font-bold mb-2">O pH da Produtividade</h3>
+                        <p class="text-stone-600">Mantenha o <span class="font-bold">pH do solo entre 5,5 e 6,5</span> para garantir a máxima disponibilidade de todos os nutrientes.</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg shadow-md border-t-4 border-green-600">
+                        <h3 class="text-xl font-bold mb-2">Adubação Programada</h3>
+                        <p class="text-stone-600">Prefira adubação <span class="font-bold">parcelada</span> e balanceada conforme a fase da cultura (vegetativa, floração, frutificação).</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg shadow-md border-t-4 border-amber-500">
+                        <h3 class="text-xl font-bold mb-2">Controle na Irrigação</h3>
+                        <p class="text-stone-600">Em cultivos fertirrigados, ajuste e monitore a <span class="font-bold">Condutividade Elétrica (CE)</span> e o <span class="font-bold">pH</span> da solução nutritiva.</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg shadow-md border-t-4 border-amber-500">
+                        <h3 class="text-xl font-bold mb-2">Matéria Orgânica</h3>
+                        <p class="text-stone-600">Associar biofertilizantes e compostos orgânicos aumenta a capacidade do solo de <span class="font-bold">reter</span> nutrientes (CTC).</p>
+                    </div>
+                </div>
+
+                <div class="mt-10 bg-green-800 text-white p-8 rounded-lg shadow-xl text-center">
+                    <h3 class="text-2xl font-bold mb-4">🌾 "A nutrição equilibrada é a base da sanidade vegetal."</h3>
+                    <p class="text-lg">Solo fértil, planta nutrida e manejo consciente — este é o tripé que sustenta a produtividade e a vida no campo.</p>
+                    <p class="text-sm mt-4 opacity-80">*Para otimizar o manejo e dosagens na sua propriedade, consulte sempre um profissional Engenheiro Agrônomo.</p>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+
+            // --- Armazenamento de Dados das Culturas ---
+            const cultureData = {
+                'morango': `
+                    <h3 class="text-2xl font-bold text-green-900 mb-4">🍓 Foco no Morango (<span class="italic">Fragaria x ananassa</span>)</h3>
+                    <div class="overflow-x-auto">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Nutriente</th>
+                                    <th>Sintoma Visual (Onde Olhar!)</th>
+                                    <th>🛠️ Correção Recomendada (Prática)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><span class="font-bold">Nitrogênio (N)</span></td>
+                                    <td>🟨 <span class="font-bold">Folhas VELHAS:</span> Clorose (amarelamento) e coloração avermelhada intensa.</td>
+                                    <td>Parcelar adubação com <span class="font-bold">Nitrato de Potássio (KNO₃)</span> via fertirrigação.</td>
+                                </tr>
+                                <tr>
+                                    <td><span class="font-bold">Fósforo (P)</span></td>
+                                    <td>🟣 Folhas verde-escuras com bordas <span class="font-bold">arroxeadas</span>; crescimento muito lento.</td>
+                                    <td>Aplicar <span class="font-bold">Monoamônio Fosfato (MAP)</span> ou <span class="font-bold">Monopotássico Fosfato (MKP)</span>.</td>
+                                </tr>
+                                <tr>
+                                    <td><span class="font-bold">Potássio (K)</span></td>
+                                    <td>🔥 <span class="font-bold">Folhas VELHAS:</span> Queima (necrose) nas margens das folhas (as bordas ficam secas).</td>
+                                    <td>Usar <span class="font-bold">Nitrato de Potássio</span> ou <span class="font-bold">Sulfato de Potássio</span>.</td>
+                                </tr>
+                                <tr>
+                                    <td><span class="font-bold">Magnésio (Mg)</span></td>
+                                    <td>🟢 <span class="font-bold">Folhas VELHAS:</span> Clorose <span class="font-bold">internerval</span> (nervuras verdes e áreas amarelas).</td>
+                                    <td>Aplicar <span class="font-bold">Sulfato de Magnésio (MgSO₄)</span> via fertirrigação.</td>
+                                </tr>
+                                <tr>
+                                    <td><span class="font-bold">Cálcio (Ca)</span></td>
+                                    <td>💔 <span class="font-bold">Folhas NOVAS:</span> Distorção, enrugamento e necrose nos ponteiros.</td>
+                                    <td>Aplicar <span class="font-bold">Nitrato de Cálcio (Ca(NO₃)₂)</span> via foliar.</td>
+                                </tr>
+                                <tr>
+                                    <td><span class="font-bold">Ferro (Fe)</span></td>
+                                    <td>🟡 <span class="font-bold">Folhas JOVENS:</span> Clorose intensa, mantendo as <span class="font-bold">nervuras verdes</span> (sintoma muito claro).</td>
+                                    <td>Aplicar <span class="font-bold">quelato de Fe (Fe-EDTA ou Fe-DTPA)</span> na solução nutritiva.</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>`,
+                'brassicas': `
+                    <h3 class="text-2xl font-bold text-green-900 mb-4">🥦 Foco nas Brássicas (<span class="italic">Brassica oleracea</span>)</h3>
+                    <p class="mb-4 text-stone-700">Nas brássicas, a qualidade da cabeça está diretamente ligada ao Boro e Cálcio.</p>
+                    <div class="overflow-x-auto">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Nutriente</th>
+                                    <th>Sintoma Visual / Problema na Cabeça</th>
+                                    <th>🛠️ Correção e Manejo (Prático)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><span class="font-bold">Boro (B)</span></td>
+                                    <td>🥔 <span class="font-bold">"Podridão Parda"</span>: Pontos escuros na cabeça. <span class="font-bold">Medula oca</span> no caule.</td>
+                                    <td><span class="font-bold">Aplicar 3 a 4 kg/ha de bórax no solo</span> (preventivo) + pulverizações foliares corretivas.</td>
+                                </tr>
+                                <tr>
+                                    <td><span class="font-bold">Nitrogênio (N)</span></td>
+                                    <td>🟨 Clorose generalizada e <span class="font-bold">cabeças pequenas</span> e soltas.</td>
+                                    <td>Parcelar adubação de cobertura: <span class="font-bold">¼ no plantio e ¾ em três coberturas</span>.</td>
+                                </tr>
+                                <tr>
+                                    <td><span class="font-bold">Potássio (K)</span></td>
+                                    <td>🔥 Margens das folhas mais velhas amareladas e necrosadas.</td>
+                                    <td>Aplicar <span class="font-bold">Sulfato</span> ou <span class="font-bold">Nitrato de Potássio</span>.</td>
+                                </tr>
+                                <tr>
+                                    <td><span class="font-bold">Cálcio (Ca)</span></td>
+                                    <td>💧 <span class="font-bold">"Podridão mole"</span> e tecidos aquosos dentro da cabeça.</td>
+                                    <td><span class="font-bold">EQUILIBRAR N e Ca!</span> Aplicar <span class="font-bold">Nitrato de Cálcio</span> via foliar para tecidos novos.</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="mt-4 p-4 bg-red-50 border-l-4 border-red-500 rounded-r-lg">
+                        <p class="font-bold text-red-800">ATENÇÃO!</p>
+                        <p class="text-red-700">O <span class="font-bold">desequilíbrio</span> entre o excesso de N e a deficiência de Ca e B aumenta drasticamente a incidência de podridões e deformações nas cabeças.</p>
+                    </div>`,
+                'pimentao': `
+                    <h3 class="text-2xl font-bold text-green-900 mb-4">🌶️ Foco no Pimentão (<span class="italic">Capsicum annuum</span>)</h3>
+                    <p class="mb-4 text-stone-700">O pimentão é muito sensível ao Cálcio e à Água, que causam a famosa Podridão Apical.</p>
+                    <div class="overflow-x-auto">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Nutriente / Fator</th>
+                                    <th>Sintoma / Problema no Fruto</th>
+                                    <th>🛠️ Ação Estratégica e Observações</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><span class="font-bold">Cálcio (Ca)</span></td>
+                                    <td>⚫ <span class="font-bold">"Podridão Apical"</span>: Necrose (mancha preta) no ápice do fruto.</td>
+                                    <td>Aplicar <span class="font-bold">Cloreto de Cálcio a 0,6% (6 g/L de água)</span> via foliar e <span class="font-bold">manter irrigação muito regular</span>.</td>
+                                </tr>
+                                <tr>
+                                    <td><span class="font-bold">Água (H₂O)</span></td>
+                                    <td>🥀 <span class="font-bold">Queda de flores</span> e abortamento de frutos.</td>
+                                    <td>O Cálcio só se move na planta com ÁGUA. Mantenha a <span class="font-bold">uniformidade de irrigação</span>, evite estresse hídrico.</td>
+                                </tr>
+                                <tr>
+                                    <td><span class="font-bold">Nitrogênio (N) / Boro (B)</span></td>
+                                    <td>💔 Desequilíbrio provoca podridões e deformações.</td>
+                                    <td><span class="font-bold">Adubação balanceada</span>, evitando excesso de N (que compete com Ca) e falta de B.</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>`,
+                'tomate': `
+                    <h3 class="text-2xl font-bold text-green-900 mb-4">🍅 Foco no Tomateiro (<span class="italic">Solanum lycopersicum</span>)</h3>
+                    <p class="mb-4 text-stone-700">O tomateiro, por ser de ciclo longo e alta exigência, manifesta muitos distúrbios fisiológicos.</p>
+                    <div class="overflow-x-auto">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Nutriente</th>
+                                    <th>Sintoma Visual / Anomalia Fisiológica</th>
+                                    <th>🛠️ Correção Prática</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><span class="font-bold">Cálcio (Ca)</span></td>
+                                    <td>⚫ <span class="font-bold">"Fundo Preto"</span> (Podridão apical): necrose no ápice dos frutos.</td>
+                                    <td>Aplicar <span class="font-bold">Cloreto de Cálcio a 0,6% (6 g/L)</span> via foliar.</td>
+                                </tr>
+                                <tr>
+                                    <td><span class="font-bold">Boro (B)</span></td>
+                                    <td>🔪 Má formação dos frutos (lóculo aberto, vazio) e necrose nos ponteiros.</td>
+                                    <td>Aplicar <span class="font-bold">Bórax (2g/planta)</span> no sulco de plantio (preventivo).</td>
+                                </tr>
+                                <tr>
+                                    <td><span class="font-bold">N / K</span></td>
+                                    <td>☁️ Frutos <span class="font-bold">ocos</span> e <span class="font-bold">aguados</span> (baixa qualidade).</td>
+                                    <td><span class="font-bold">Ajustar a relação N:K</span> na adubação NPK (geralmente aumentando K na frutificação).</td>
+                                </tr>
+                                <tr>
+                                    <td><span class="font-bold">Magnésio (Mg)</span></td>
+                                    <td>🟨 <span class="font-bold">"Amarelo Baixeiro"</span>: clorose internerval nas folhas inferiores.</td>
+                                    <td>Pulverizar <span class="font-bold">Sulfato de Mg 1,5–2%</span>.</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="mt-4 p-4 bg-yellow-50 border-l-4 border-yellow-500 rounded-r-lg">
+                        <p class="font-bold text-yellow-800">Fator Crítico!</p>
+                        <p class="text-yellow-700">O <span class="font-bold">desequilíbrio</span> entre N, Ca e K é o fator mais comum de distúrbios fisiológicos em tomateiros.</p>
+                    </div>`
+            };
+            
+            // --- Lógica de Navegação Principal ---
+            const navLinks = document.querySelectorAll('.nav-link');
+            const views = document.querySelectorAll('.view-content');
+
+            function showView(sectionId) {
+                views.forEach(view => {
+                    view.classList.remove('active');
+                });
+                navLinks.forEach(link => {
+                    link.classList.remove('active');
+                    if (link.dataset.section === sectionId) {
+                        link.classList.add('active');
+                    }
+                });
+                
+                const viewToShow = document.getElementById(`view-${sectionId}`);
+                if (viewToShow) {
+                    viewToShow.classList.add('active');
+                }
+            }
+
+            navLinks.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const sectionId = e.target.dataset.section;
+                    showView(sectionId);
+                });
+            });
+
+            // --- Lógica do Gráfico (Chart.js) - REMOVIDA ---
+            // O gráfico de nutrientes foi removido do HTML e do JS.
+
+            // --- Lógica do Guia por Cultura ---
+            const cultureButtons = document.querySelectorAll('.culture-btn');
+            const cultureContentDiv = document.getElementById('culture-content');
+
+            function showCulture(cultureName) {
+                cultureButtons.forEach(btn => {
+                    btn.classList.remove('active');
+                    if (btn.dataset.culture === cultureName) {
+                        btn.classList.add('active');
+                    }
+                });
+                
+                if (cultureContentDiv && cultureData[cultureName]) {
+                    cultureContentDiv.innerHTML = cultureData[cultureName];
+                }
+            }
+
+            cultureButtons.forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    const cultureName = e.target.dataset.culture;
+                    showCulture(cultureName);
+                });
+            });
+
+            // --- Inicialização ---
+            showView('inicio'); // Mostrar a view 'inicio' ao carregar
+            showCulture('morango'); // Pré-carregar o conteúdo do morango na view 'guia_cultura'
+        });
+    </script>
+</body>
+</html>

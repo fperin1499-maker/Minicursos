@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minicurso: Manejo Sustentável de Plantas Daninhas</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        html {
+            scroll-behavior: smooth;
+        }
+        .nav-link.active-link {
+            font-weight: 600;
+            background-color: #065f46; 
+            border-bottom: 4px solid #ffffff;
+        }
+        .content-page {
+            animation: fadeIn 0.4s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        /* Estilo de realce agradável (fundo suave) */
+        .highlight {
+            background-color: #fcefd4; /* Cor suave de realce - Amarelo/âmbar claro */
+            color: #78350f; /* Texto marrom escuro */
+            padding: 2px 5px;
+            border-radius: 4px;
+            font-weight: 500;
+        }
+        /* Estilo de negrito simples, sem fundo */
+        .bold-text {
+            font-weight: 700;
+            color: #1f2937; /* Cinza escuro para contraste */
+        }
+        /* Estilo para esquemas e sequências */
+        .scheme-box {
+            background-color: #f0fdf4; /* Verde muito claro */
+            border: 1px dashed #34d399;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-top: 1rem;
+        }
+        .scheme-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 0.75rem;
+        }
+        .scheme-icon {
+            font-size: 1.5rem;
+            margin-right: 0.75rem;
+            color: #065f46;
+        }
+        .scheme-arrow {
+            text-align: center;
+            font-size: 1.5rem;
+            color: #34d399;
+            margin: 0.5rem 0;
+        }
+        .indicator-table th, .indicator-table td {
+            padding: 0.5rem;
+            border: 1px solid #e2e8f0;
+            text-align: left;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800 font-sans">
+
+    <header class="bg-emerald-700 text-white p-4 shadow-lg sticky top-0 z-50">
+        <div class="container mx-auto flex flex-col md:flex-row justify-between items-center max-w-7xl">
+            <h1 class="text-xl font-bold text-center md:text-left">
+                🌿 Manejo Sustentável de Plantas Daninhas
+            </h1>
+            <nav class="mt-4 md:mt-0 w-full md:w-auto">
+                <div class="flex flex-wrap justify-center gap-2">
+                    <button class="nav-link p-2 px-3 rounded-lg hover:bg-emerald-600 transition-colors" data-target="page-inicio">Início</button>
+                    <button class="nav-link p-2 px-3 rounded-lg hover:bg-emerald-600 transition-colors" data-target="M1">M1</button>
+                    <button class="nav-link p-2 px-3 rounded-lg hover:bg-emerald-600 transition-colors" data-target="M2">M2</button>
+                    <button class="nav-link p-2 px-3 rounded-lg hover:bg-emerald-600 transition-colors" data-target="M3">M3</button>
+                    <button class="nav-link p-2 px-3 rounded-lg hover:bg-emerald-600 transition-colors" data-target="M4">M4</button>
+                    <button class="nav-link p-2 px-3 rounded-lg hover:bg-emerald-600 transition-colors" data-target="M5">M5</button>
+                    <button class="nav-link p-2 px-3 rounded-lg hover:bg-emerald-600 transition-colors" data-target="M6">M6</button>
+                    <button class="nav-link p-2 px-3 rounded-lg hover:bg-emerald-600 transition-colors" data-target="M7">M7</button>
+                    <button class="nav-link p-2 px-3 rounded-lg hover:bg-emerald-600 transition-colors" data-target="M8">M8</button>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container mx-auto p-4 md:p-8 max-w-5xl">
+
+        <section id="page-inicio" class="content-page">
+            <div class="bg-white shadow-xl rounded-lg p-6 md:p-8 border-b-4 border-emerald-500">
+                <h2 class="text-3xl font-bold text-emerald-800 mb-4">🎯 Introdução ao Minicurso Técnico</h2>
+                <p class="text-lg text-gray-700 mb-6">
+                    Este guia interativo apresenta o <span class="highlight">Manejo Sustentável de Plantas Daninhas (MSPD)</span>, uma disciplina que integra <span class="highlight">estratégias ecológicas e preventivas</span> para a gestão fitossanitária. O objetivo é buscar o <span class="bold-text">equilíbrio funcional</span> do agroecossistema.
+                </p>
+                <p class="text-lg text-gray-700">
+                    O MSPD propõe manter a população de espécies indesejáveis abaixo do <span class="highlight">Nível de Dano Econômico (NDE)</span>, minimizando a necessidade de <span class="bold-text">insumos externos</span> e fortalecendo a <span class="bold-text">resiliência</span> da lavoura.
+                </p>
+            </div>
+
+            <h3 class="text-2xl font-bold text-gray-800 mt-10 mb-6">Estrutura e Foco Técnico do Curso 🗺️</h3>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                
+                <div class="bg-white shadow-lg rounded-lg p-6 border-l-4 border-blue-500">
+                    <h4 class="text-xl font-semibold text-blue-800 mb-2">Conceituação e Prevenção 🧠</h4>
+                    <p class="text-gray-700">Compreensão da <span class="bold-text">interdependência ecológica</span> e dos <span class="bold-text">princípios de supressão</span> por métodos culturais. (M1, M2, M3)</p>
+                </div>
+
+                <div class="bg-white shadow-lg rounded-lg p-6 border-l-4 border-amber-500">
+                    <h4 class="text-xl font-semibold text-amber-800 mb-2">Estratégias de Campo e Ação 🛠️</h4>
+                    <p class="text-gray-700">Uso de <span class="bold-text">controle biológico</span>, <span class="bold-text">físico/mecânico</span> e <span class="bold-text">bioinsumos</span> para intervenção seletiva. (M4, M5, M6)</p>
+                </div>
+
+                <div class="bg-white shadow-lg rounded-lg p-6 border-l-4 border-green-500">
+                    <h4 class="text-xl font-semibold text-green-800 mb-2">Monitoramento e Sustentabilidade ✅</h4>
+                    <p class="text-gray-700">Técnicas de <span class="bold-text">prospecção</span>, <span class="bold-text">tomada de decisão</span> (NDE) e a análise dos <span class="bold-text">benefícios sistêmicos</span>. (M7, M8)</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="page-m1" class="content-page hidden">
+            <h2 class="text-3xl font-bold text-emerald-800 mb-6">🎯 MÓDULO 1 – INTRODUÇÃO À GESTÃO SUSTENTÁVEL</h2>
+            <p class="text-lg text-gray-700 mb-8 bg-white p-6 rounded-lg shadow-sm border-l-4 border-gray-300">
+                O manejo sustentável de plantas daninhas busca <span class="highlight">reduzir sua interferência</span> nas culturas sem causar <span class="bold-text">impactos ambientais</span>, mantendo o <span class="bold-text">equilíbrio ecológico</span> e a <span class="bold-text">produtividade agrícola</span>.
+            </p>
+
+            <div class="bg-white shadow-lg rounded-lg border-l-4 border-green-500 p-6 mb-6">
+                <h3 class="text-xl font-semibold text-green-800 mb-3 flex items-center">Lógica da Integração e Objetivo Primário 🌿</h3>
+                
+                <div class="scheme-box p-4 bg-green-50">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="scheme-item"><span class="scheme-icon">🚫</span> <p><span class="bold-text">Substituição Química<span class="bold-text">:</span></span> Integração de métodos <span class="highlight">culturais, mecânicos, biológicos e físicos</span>.</p></div>
+                        <div class="scheme-item"><span class="scheme-icon">🎯</span> <p><span class="bold-text">Foco<span class="bold-text">:</span></span> <span class="highlight">Conviver com as daninhas de forma controlada</span>, em vez de eliminá-las (erradicação total).</p></div>
+                    </div>
+                </div>
+                
+                <p class="mt-4 text-sm text-gray-600">O resultado é um <span class="bold-text">sistema agrícola mais resiliente</span> e menos dependente de <span class="highlight">insumos externos</span> (herbicidas).</p>
+            </div>
+        </section>
+
+        <section id="page-m2" class="content-page hidden">
+            <h2 class="text-3xl font-bold text-emerald-800 mb-6">💡 MÓDULO 2 – CONCEITO E IMPORTÂNCIA DAS PLANTAS DANINHAS</h2>
+            <p class="text-lg text-gray-700 mb-8 bg-white p-6 rounded-lg shadow-sm border-l-4 border-gray-300">
+                Plantas daninhas são espécies que crescem em locais onde não são desejadas, sendo definidas pela <span class="highlight">competição por luz, água e nutrientes</span>, que gera prejuízo econômico.
+            </p>
+
+            <div class="bg-white shadow-lg rounded-lg border-l-4 border-blue-500 p-6 mb-6">
+                <h3 class="text-xl font-semibold text-blue-800 mb-3 flex items-center">Daninhas como Bioindicadoras do Solo 🔍</h3>
+                <p class="mb-4">Apesar dos prejuízos, essas espécies fornecem informações cruciais, atuando como <span class="highlight">indicadoras</span> da saúde edáfica, <span class="bold-text">fertilidade e compactação</span> do solo.</p>
+                
+                <div class="scheme-box p-4 bg-blue-50">
+                    <h4 class="font-semibold text-lg mb-3">Padrões de Indicadores 📍</h4>
+                    <table class="w-full indicator-table border-collapse">
+                        <thead>
+                            <tr class="bg-blue-100">
+                                <th class="w-1/3">Espécie (Nome Científico)</th>
+                                <th class="w-2/3">Indicação Ambiental</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><span class="bold-text">Guanxuma</span> (<i>Sida spp.</i>)</td>
+                                <td>Solos <span class="highlight">compactados</span> e adensados.</td>
+                            </tr>
+                            <tr>
+                                <td><span class="bold-text">Samambaia</span> (<i>Pteridium arachnoideum</i>)</td>
+                                <td><span class="highlight">Solos ácidos</span> e presença de alumínio tóxico.</td>
+                            </tr>
+                            <tr>
+                                <td><span class="bold-text">Picão-preto</span> (<i>Bidens pilosa</i>)</td>
+                                <td>Solos <span class="highlight">férteis</span>, bem corrigidos e com alta matéria orgânica.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <p class="mt-4 text-sm text-gray-600">O reconhecimento destes padrões permite a <span class="bold-text">tomada de decisão agronômica</span> direcionada à <span class="highlight">correção da condição do solo</span>, atacando a causa da infestação.</p>
+            </div>
+        </section>
+
+        <section id="page-m3" class="content-page hidden">
+            <h2 class="text-3xl font-bold text-emerald-800 mb-6">⚔️ MÓDULO 3 – COMPETIÇÃO E DINÂMICA POPULACIONAL</h2>
+            <p class="text-lg text-gray-700 mb-8 bg-white p-6 rounded-lg shadow-sm border-l-4 border-gray-300">
+                A <span class="bold-text">pressão competitiva</span> das plantas daninhas é elevada devido às suas <span class="highlight">estratégias evolutivas adaptativas</span>, que garantem a sobrevivência e o domínio no <span class="bold-text">nicho ecológico</span>.
+            </p>
+
+            <div class="bg-white shadow-lg rounded-lg border-l-4 border-amber-500 p-6 mb-6">
+                <h3 class="text-xl font-semibold text-amber-800 mb-3 flex items-center">Estratégias de Sucesso das Daninhas 🏆</h3>
+                <div class="scheme-box p-4 bg-amber-50">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="p-2 border-b border-amber-200"><span class="scheme-icon">🧬</span> <span class="bold-text">Capacidade de Rebrote<span class="bold-text">:</span></span> Mecanismo que dificulta a <span class="highlight">remoção mecânica</span>.</div>
+                        <div class="p-2 border-b border-amber-200"><span class="scheme-icon">⏳</span> <span class="bold-text">Dormência de Sementes<span class="bold-text">:</span></span> Garante o <span class="highlight">banco de sementes</span> ativo por longos períodos.</div>
+                        <div class="p-2 border-b border-amber-200"><span class="scheme-icon">💨</span> <span class="bold-text">Dispersão Eficiente<span class="bold-text">:</span></span> Facilita a <span class="highlight">colonização de novas áreas</span> (vento, animais).</div>
+                        <div class="p-2 border-b border-amber-200"><span class="scheme-icon">🌱</span> <span class="bold-text">Vigor Inicial<span class="bold-text">:</span></span> <span class="highlight">Crescimento rápido</span>, sombreando a cultura principal.</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white shadow-lg rounded-lg border-l-4 border-red-500 p-6 mb-6">
+                <h3 class="text-xl font-semibold text-red-800 mb-3 flex items-center">Dinâmica no Plantio Direto 🌾</h3>
+                <p>Em sistemas conservacionistas (Plantio Direto), a <span class="bold-text">ausência de revolvimento</span> do solo favorece espécies <span class="highlight">perenes e rizomatosas</span>. O <span class="bold-text">conhecimento da biologia</span> e dos <span class="highlight">fluxos de emergência</span> (fenologia) é crucial para definir o <span class="bold-text">momento de intervenção</span>, maximizando a eficácia do controle.</p>
+            </div>
+        </section>
+
+        <section id="page-m4" class="content-page hidden">
+            <h2 class="text-3xl font-bold text-emerald-800 mb-6">🛡️ MÓDULO 4 – PRINCÍPIOS ESTRATÉGICOS DO MANEJO SUSTENTÁVEL</h2>
+            <p class="text-lg text-gray-700 mb-8 bg-white p-6 rounded-lg shadow-sm border-l-4 border-gray-300">
+                O manejo sustentável visa <span class="highlight">reduzir a pressão competitiva</span> das plantas daninhas por meio de uma <span class="bold-text">abordagem preventiva e integrada</span>, focada na estabilidade ecológica do sistema.
+            </p>
+
+            <div class="bg-white shadow-lg rounded-lg border-l-4 border-green-500 p-6 mb-6">
+                <h3 class="text-xl font-semibold text-green-800 mb-3 flex items-center">Princípios Chave para a Supressão 🔑</h3>
+                 <ul class="list-inside list-disc space-y-3 mt-3">
+                    <li>🍂 <span class="bold-text">Cobertura Permanente do Solo<span class="bold-text">:</span></span> Uso de <span class="highlight">palhada ou adubos verdes</span> para supressão (abafamento) da emergência.</li>
+                    <li>🔄 <span class="bold-text">Rotação e Sucessão de Culturas<span class="bold-text">:</span></span> Mecanismo para <span class="highlight">quebrar a especificidade</span> das daninhas e diversificar os métodos de controle.</li>
+                    <li>🌿 <span class="bold-text">Uso de Cultivares Competitivas<span class="bold-text">:</span></span> Seleção de cultivares de <span class="bold-text">crescimento rápido</span> que garantam o <span class="highlight">fechamento do dossel</span> (sombreamento) precoce.</li>
+                    <li>🚫 <span class="bold-text">Minimização do Revolvimento<span class="bold-text">:</span></span> Evitar a mobilização do solo para <span class="highlight">prevenir o estímulo à germinação</span> de sementes dormentes (banco de sementes).</li>
+                    <li>🎯 <span class="bold-text">Controle Localizado e Seletivo<span class="bold-text">:</span></span> Intervenção <span class="highlight">pontual e racionalizada</span>, focada em focos de infestação e não em aplicações de área total.</li>
+                </ul>
+                <p class="mt-4">Essas práticas <span class="bold-text">modificam a dinâmica ambiental</span>, tornando o ecossistema mais <span class="highlight">estável e menos favorável</span> às daninhas.</p>
+            </div>
+        </section>
+
+        <section id="page-m5" class="content-page hidden">
+            <h2 class="text-3xl font-bold text-emerald-800 mb-6">🌱 MÓDULO 5 – MÉTODOS CULTURAIS: O USO DA COBERTURA</h2>
+            <p class="text-lg text-gray-700 mb-8 bg-white p-6 rounded-lg shadow-sm border-l-4 border-gray-300">
+                O uso estratégico de <span class="bold-text">plantas de cobertura</span> (adubação verde) é a ferramenta <span class="highlight">ecológica central</span> para a supressão de plantas daninhas, atuando via <span class="bold-text">competição e alelopatia</span>.
+            </p>
+
+            <div class="bg-white shadow-lg rounded-lg border-l-4 border-green-500 p-6 mb-6">
+                <h3 class="text-xl font-semibold text-green-800 mb-3 flex items-center">Seleção e Mecanismos da Cobertura 🌿</h3>
+                <div class="scheme-box p-4 bg-green-50">
+                    <h4 class="font-semibold text-lg mb-3">Espécies de Alto Potencial Supressor:</h4>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="p-2 border-b border-green-300"><span class="bold-text">Leguminosas<span class="bold-text">:</span></span> (Mucuna-preta, Crotalária) - Alta produção de biomassa e N.</div>
+                        <div class="p-2 border-b border-green-300"><span class="bold-text">Gramíneas<span class="bold-text">:</span></span> (Milheto, Braquiária) - <span class="highlight">Rápida formação de palhada</span> e supressão por sombreamento.</div>
+                    </div>
+                    <p class="mt-4 font-semibold">Ação da Cobertura<span class="bold-text">:</span></p>
+                    <div class="flex justify-around mt-2 text-center text-sm">
+                        <div><span class="scheme-icon">☀️</span> <p>Sombreamento</p></div>
+                        <div><span class="scheme-icon">⚔️</span> <p>Competição</p></div>
+                        <div><span class="scheme-icon">🧪</span> <p>Alelopatia</p></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white shadow-lg rounded-lg border-l-4 border-amber-500 p-6 mb-6">
+                <h3 class="text-xl font-semibold text-amber-800 mb-3 flex items-center">Função da Palhada no Plantio Direto 🍂</h3>
+                <p>A <span class="bold-text">palhada</span> atua como <span class="highlight">barreira física</span> e <span class="bold-text">amortecedora térmica</span> sobre o solo, limitando a <span class="highlight">emergência de espécies fotoblásticas</span> (que precisam de luz para germinar), como o picão-preto e o capim-colchão.</p>
+                <p class="mt-2">O manejo adequado da cobertura, em associação com o <span class="bold-text">Plantio Direto</span>, reduz a <span class="bold-text">dinâmica de emergência</span> de daninhas e melhora as condições <span class="bold-text">físicas e biológicas do solo</span>.</p>
+            </div>
+        </section>
+
+        <section id="page-m6" class="content-page hidden">
+            <h2 class="text-3xl font-bold text-emerald-800 mb-6">🚜 MÓDULO 6 – MÉTODOS MECÂNICOS E FÍSICOS</h2>
+            <p class="text-lg text-gray-700 mb-8 bg-white p-6 rounded-lg shadow-sm border-l-4 border-gray-300">
+                O controle mecânico e físico oferece <span class="highlight">alternativas não-químicas</span> de <span class="bold-text">ação imediata</span>, sendo cruciais em áreas sensíveis ou com restrições a herbicidas.
+            </p>
+
+            <div class="bg-white shadow-lg rounded-lg border-l-4 border-amber-500 p-6 mb-6">
+                <h3 class="text-xl font-semibold text-amber-800 mb-3 flex items-center">Controle Mecânico e a Tecnologia ⚙️</h3>
+                <div class="scheme-box p-4 bg-amber-50">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="p-2"><span class="scheme-icon">✂️</span> <span class="bold-text">Capinas/Roçadas<span class="bold-text">:</span></span> Eficientes para <span class="highlight">remover a parte aérea</span> e evitar a maturação de sementes (principalmente em pequenas áreas).</div>
+                        <div class="p-2"><span class="scheme-icon">🚜</span> <span class="bold-text">Gradeações/Cultivadores<span class="bold-text">:</span></span> Usados para o <span class="highlight">controle nas entrelinhas</span>. Devem ser <span class="bold-text">minimizados</span> para proteger o solo.</div>
+                        <div class="p-2 md:col-span-2"><span class="scheme-icon">🛰️</span> <span class="bold-text">Automação (Tecnologia)<span class="bold-text">:</span></span> Equipamentos guiados por <span class="bold-text">sensores e GPS</span>, que realizam a <span class="highlight">remoção precisa e seletiva</span> das daninhas, reduzindo o <span class="bold-text">consumo energético</span>.</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white shadow-lg rounded-lg border-l-4 border-red-500 p-6 mb-6">
+                <h3 class="text-xl font-semibold text-red-800 mb-3 flex items-center">Métodos Físicos e Desinfestação 🔥</h3>
+                <p>Uso de agentes físicos para <span class="highlight">eliminar propágulos</span>:</p>
+                <div class="scheme-box p-4 bg-red-50">
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-center">
+                        <div><span class="scheme-icon">🔥</span> <p class="text-sm"><span class="bold-text">Fogo/Vapor<span class="bold-text">:</span></span> Controle <span class="highlight">térmico</span> de sementes superficiais (desinfestação).</p></div>
+                        <div><span class="scheme-icon">⚡</span> <p class="text-sm"><span class="bold-text">Eletricidade<span class="bold-text">:</span></span> Aplicação <span class="highlight">pontual</span> de descargas (substitui herbicidas em áreas específicas).</p></div>
+                        <div><span class="scheme-icon">🚧</span> <p class="text-sm"><span class="bold-text">Barreiras/Telas<span class="bold-text">:</span></span> Usadas para <span class="highlight">impedir a colonização</span> de vetores em estufas.</p></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="page-m7" class="content-page hidden">
+            <h2 class="text-3xl font-bold text-emerald-800 mb-6">🔬 MÓDULO 7 – BIOCONTROLE E ALELOPATIA APLICADA</h2>
+            <p class="text-lg text-gray-700 mb-8 bg-white p-6 rounded-lg shadow-sm border-l-4 border-gray-300">
+                O manejo biológico explora o <span class="highlight">antagonismo natural</span>. Utiliza organismos e compostos para reduzir a <span class="bold-text">competitividade e a densidade</span> das daninhas, sendo seguro e compatível com a agroecologia.
+            </p>
+
+            <div class="bg-white shadow-lg rounded-lg border-l-4 border-blue-500 p-6 mb-6">
+                <h3 class="text-xl font-semibold text-blue-800 mb-3 flex items-center">Bioherbicidas e Microrganismos 🍄</h3>
+                <div class="scheme-box p-4 bg-blue-50">
+                    <p class="mb-3"><span class="bold-text">Bioherbicidas<span class="bold-text">:</span></span> Formulações derivadas de <span class="highlight">fungos ou bactérias</span> com capacidade de induzir doença (micopraguicidas) seletivamente na planta daninha.</p>
+                    <p class="bold-text">Vantagens<span class="bold-text">:</span> <span class="highlight">Alta seletividade</span> e ausência de impacto na fauna auxiliar. São a vanguarda do controle biológico de daninhas.</p>
+                </div>
+            </div>
+
+            <div class="bg-white shadow-lg rounded-lg border-l-4 border-green-500 p-6 mb-6">
+                <h3 class="text-xl font-semibold text-green-800 mb-3 flex items-center">Alelopatia e Extratos Inibitórios 🧪</h3>
+                <div class="scheme-box p-4 bg-green-50">
+                    <h4 class="font-semibold text-lg mb-3">Origens e Efeitos dos Compostos:</h4>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="p-2 border-b border-green-300"><span class="scheme-icon">🧪</span> <span class="bold-text">Alelopatia Natural<span class="bold-text">:</span></span> Decomposição da cobertura (ex: sorgo) libera <span class="highlight">toxinas no solo</span> que <span class="bold-text">impedem a germinação</span> das sementes de daninhas.</div>
+                        <div class="p-2 border-b border-green-300"><span class="scheme-icon">🌼</span> <span class="bold-text">Extratos Inibitórios<span class="bold-text">:</span></span> Uso de extratos de <span class="bold-text">girassol</span>, <span class="bold-text">nim</span> ou outras plantas com <span class="highlight">efeito inibitório direto</span> quando pulverizados.</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="page-m8" class="content-page hidden">
+            <h2 class="text-3xl font-bold text-emerald-800 mb-6">🌟 MÓDULO 8 – INTEGRAÇÃO DE MÉTODOS E SUSTENTABILIDADE</h2>
+            <p class="text-lg text-gray-700 mb-8 bg-white p-6 rounded-lg shadow-sm border-l-4 border-gray-300">
+                O sucesso do MSPD depende da <span class="highlight">sinergia metodológica</span>, ou seja, da <span class="bold-text">combinação adaptada</span> de práticas culturais, mecânicas e biológicas em função da realidade de cada propriedade.
+            </p>
+
+            <div class="bg-white shadow-lg rounded-lg border-l-4 border-green-500 p-6 mb-6">
+                <h3 class="text-xl font-semibold text-green-800 mb-3 flex items-center">Benefícios Sistêmicos da Integração 📈</h3>
+                <p>A combinação eficaz dos métodos resulta em:</p>
+                 <ul class="list-inside list-disc space-y-2 mt-3">
+                    <li>✅ <span class="bold-text">Custo e Dependência<span class="bold-text">:</span></span> <span class="highlight">Redução do uso de agroquímicos</span> e diminuição dos custos operacionais.</li>
+                    <li>✅ <span class="bold-text">Ecologia<span class="bold-text">:</span></span> <span class="highlight">Aumento da biodiversidade</span> e do equilíbrio ecológico.</li>
+                    <li>✅ <span class="bold-text">Qualidade<span class="bold-text">:</span></span> Melhoria na <span class="bold-text">qualidade do solo</span> e da água.</li>
+                    <li>✅ <span class="bold-text">Autonomia<span class="bold-text">:</span></span> Fortalecimento da <span class="highlight">capacidade técnica do agricultor</span> em gerar suas próprias soluções.</li>
+                </ul>
+            </div>
+
+            <div class="bg-white shadow-lg rounded-lg border-l-4 border-blue-500 p-6 mb-6">
+                <h3 class="text-xl font-semibold text-blue-800 mb-3 flex items-center">Filosofia Contínua ⏳</h3>
+                <p>O MSPD deve ser entendido como um <span class="highlight">processo contínuo</span> de <span class="bold-text">observação</span> (M7), <span class="bold-text">adaptação</span> e <span class="bold-text">inovação</span>, garantindo que o manejo esteja sempre alinhado aos princípios da <span class="bold-text">sustentabilidade</span>.</p>
+            </div>
+
+            <div class="bg-emerald-800 text-white rounded-lg p-8 mt-10 text-center shadow-xl">
+                <h3 class="text-2xl font-bold mb-4">ENCERRAMENTO</h3>
+                <p class="text-xl font-light">“O manejo sustentável das plantas daninhas não busca eliminar a natureza, mas compreendê-la.</p>
+                <p class="text-xl font-semibold">Solo vivo, cobertura constante e diversidade são os verdadeiros herbicidas da agricultura do futuro.” 🌾</p>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="text-center p-6 mt-12 text-gray-500 text-sm">
+        Minicurso Interativo de Manejo Sustentável de Plantas Daninhas | 2025
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const navLinks = document.querySelectorAll('.nav-link');
+            const contentPages = document.querySelectorAll('.content-page');
+
+            // Mapeamento dos botões M1 a M8 para as IDs de seção
+            const moduleMap = {
+                'M1': 'page-m1', 'M2': 'page-m2', 'M3': 'page-m3', 'M4': 'page-m4', 
+                'M5': 'page-m5', 'M6': 'page-m6', 'M7': 'page-m7', 'M8': 'page-m8'
+            };
+
+            function showPage(targetId) {
+                // 1. Esconder todas as páginas de conteúdo
+                contentPages.forEach(page => {
+                    page.classList.add('hidden');
+                });
+
+                // 2. Determinar a ID da página a ser mostrada (tratando 'M1' a 'M8')
+                let pageIdToShow = targetId;
+                if (moduleMap[targetId]) {
+                    pageIdToShow = moduleMap[targetId];
+                }
+
+                const targetPage = document.getElementById(pageIdToShow);
+                if (targetPage) {
+                    targetPage.classList.remove('hidden');
+                }
+
+                // 3. Gerenciar o estado 'active-link'
+                navLinks.forEach(link => {
+                    link.classList.remove('active-link');
+                    const linkTarget = link.dataset.target;
+                    
+                    if (linkTarget === targetId || moduleMap[linkTarget] === pageIdToShow) {
+                        link.classList.add('active-link');
+                    }
+                });
+                
+                window.scrollTo(0, 0);
+            }
+
+            // Inicializa os data-targets M1-M8 e associa o evento de clique
+            navLinks.forEach(link => {
+                if (link.textContent.startsWith('M') && link.textContent.length === 2) {
+                    link.setAttribute('data-target', link.textContent); // Garante que o data-target seja M1, M2, etc.
+                }
+                link.addEventListener('click', (e) => {
+                    const targetId = e.currentTarget.dataset.target;
+                    showPage(targetId);
+                });
+            });
+
+            // Configuração inicial para mostrar a página de Início como ativa
+            showPage('page-inicio');
+        });
+    </script>
+
+</body>
+</html>

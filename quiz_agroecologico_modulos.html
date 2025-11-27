@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Interativo Agroecológico</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Chosen Palette: Calm Earth Tones (Base: bg-gray-50, Header: bg-emerald-700, Accents: border-emerald-500, border-blue-500, border-amber-500, border-red-500) -->
+    <!-- Application Structure Plan: Single-page application (SPA) using a sticky top navigation bar (M1-M6) to switch between different quiz modules. JavaScript manages the quiz state (current question, score) within each visible section. A visual hub with cards is added to the intro page for better navigation. The core logic is modified to allow users to jump between modules freely, while score completion is still tracked per module. -->
+    <!-- Visualization & Content Choices: Content (Questions/Answers/Rationale) -> Goal: Assess Knowledge -> Presentation: HTML Cards/Buttons -> Interaction: Button clicks to progress/show feedback (JS state machine) and Card clicks for module jump -> Justification: Ensures all data (30 questions) is consumable in a logical, segmented, and interactive flow with enhanced freedom of exploration. -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap');
+        html {
+            scroll-behavior: smooth;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .nav-link.active-link {
+            font-weight: 600;
+            background-color: #065f46; 
+            border-bottom: 4px solid #ffffff;
+        }
+        .content-page {
+            display: none;
+            animation: fadeIn 0.4s ease-in-out;
+        }
+        .content-page.active {
+            display: block;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .answer-option {
+            transition: all 0.2s ease-in-out;
+        }
+        .answer-option:not(.disabled):hover {
+            background-color: #f0fdf4; 
+            border-color: #34d399;
+        }
+        .correct {
+            background-color: #d1fae5; 
+            border-color: #10b981;
+            font-weight: 600;
+        }
+        .incorrect {
+            background-color: #fee2e2;
+            border-color: #f87171;
+            font-weight: 600;
+        }
+        .disabled {
+            cursor: not-allowed;
+            opacity: 0.8;
+        }
+        .module-card {
+            transition: transform 0.2s ease-out, box-shadow 0.2s ease-out;
+            cursor: pointer;
+        }
+        .module-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800 font-sans">
+
+    <header class="bg-emerald-700 text-white p-4 shadow-lg sticky top-0 z-50">
+        <div class="container mx-auto flex flex-col md:flex-row justify-between items-center max-w-7xl">
+            <h1 class="text-xl font-bold text-center md:text-left">
+                ✅ Quiz Final
+            </h1>
+            <nav class="mt-4 md:mt-0 w-full md:w-auto">
+                <div class="flex flex-wrap justify-center gap-2">
+                    <button class="nav-link p-2 px-3 rounded-lg hover:bg-emerald-600 transition-colors" data-target="page-intro" onclick="showPage('page-intro')">Início</button>
+                    <button class="nav-link p-2 px-3 rounded-lg hover:bg-emerald-600 transition-colors" data-target="M1" onclick="showPage('M1')">M1: Pragas</button>
+                    <button class="nav-link p-2 px-3 rounded-lg hover:bg-emerald-600 transition-colors" data-target="M2" onclick="showPage('M2')">M2: Doenças</button>
+                    <button class="nav-link p-2 px-3 rounded-lg hover:bg-emerald-600 transition-colors" data-target="M3" onclick="showPage('M3')">M3: Daninhas</button>
+                    <button class="nav-link p-2 px-3 rounded-lg hover:bg-emerald-600 transition-colors" data-target="M4" onclick="showPage('M4')">M4: Repelentes</button>
+                    <button class="nav-link p-2 px-3 rounded-lg hover:bg-emerald-600 transition-colors" data-target="M5" onclick="showPage('M5')">M5: Nutricional</button>
+                    <button class="nav-link p-2 px-3 rounded-lg hover:bg-emerald-600 transition-colors" data-target="M6" onclick="showPage('M6')">M6: Receitas</button>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container mx-auto p-4 md:p-8 max-w-5xl">
+
+        <!-- ===== PÁGINA INICIAL (HUB VISUAL) ===== -->
+        <section id="page-intro" class="content-page">
+            <div class="bg-white shadow-xl rounded-lg p-6 md:p-8 border-b-4 border-emerald-500">
+                <h2 class="text-3xl font-bold text-emerald-800 mb-4">Bem-vindo ao Quiz Interativo!</h2>
+                <p class="text-lg text-gray-700 mb-6">
+                    Este teste de 30 questões está dividido em 6 módulos. Você pode pular para qualquer módulo ou começar pela ordem sequencial.
+                </p>
+                <div id="hub-cards-container" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                    
+                    <!-- Cartões dos Módulos (Conteúdo gerado via JS) -->
+                    
+                </div>
+                <button class="mt-8 bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3 px-6 rounded-lg transition-colors" onclick="showPage('M1')">
+                    Começar o Quiz (Módulo 1)
+                </button>
+            </div>
+        </section>
+
+        <!-- ===== MÓDULOS DO QUIZ (M1 a M6) ===== -->
+        <!-- O conteúdo será gerado dinamicamente via JS na div #quiz-content -->
+        <div id="quiz-content">
+            <!-- As seções de quiz (content-page) serão inseridas aqui pelo JS -->
+        </div>
+
+        <!-- ===== PÁGINA FINAL DE RESUMO GERAL ===== -->
+        <section id="page-final" class="content-page">
+            <div class="bg-white shadow-xl rounded-lg p-6 md:p-8 border-b-4 border-emerald-500">
+                <h2 class="text-3xl font-bold text-emerald-800 mb-4">🏆 Fim do Quiz - Resumo Geral</h2>
+                <p class="text-lg text-gray-700 mb-6">Parabéns! Você completou todos os módulos do quiz. Veja seu desempenho final:</p>
+                <div class="bg-gray-100 p-6 rounded-lg">
+                    <h3 class="text-xl font-bold text-gray-900 mb-3">Performance por Módulo</h3>
+                    <ul id="final-summary-list" class="list-none space-y-2">
+                        <!-- Resultados serão injetados aqui -->
+                    </ul>
+                    <div class="mt-6 pt-4 border-t border-gray-300">
+                        <p class="text-2xl font-extrabold text-emerald-600">Pontuação Total: <span id="final-total-score">0 / 30</span></p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="text-center p-6 mt-12 text-gray-500 text-sm">
+        Quiz Interativo Agroecológico | 2025
+    </footer>
+
+    <script>
+        const QUIZ_DATA = {
+            "M1": {
+                "title": "Manejo de Pragas (MAP)",
+                "icon": "🐛",
+                "color": "border-red-500",
+                "questions": [
+                    { "q": "No Manejo Agroecológico de Pragas (MAP), qual conceito determina o momento ideal para a intervenção, pois o custo do dano excederia o custo do controle?", "a": ["Nível de Saneamento Fitossanitário (NSF)", "Nível de Dano Econômico (NDE)", "Ponto de Equilíbrio Populacional (PEP)", "Índice de Resiliência Ecológica (IRE)"], "c": 1, "r": "O NDE representa o ponto em que o custo da intervenção se justifica economicamente devido ao nível de perda potencial de produção." },
+                    { "q": "Qual das seguintes ações humanas é identificada como uma das causas primárias do desequilíbrio ecológico que leva ao aumento de surtos de pragas (M2 do MAP)?", "a": ["Utilização excessiva de compostagem orgânica e bokashi", "O uso de rotação de culturas em ciclos curtos e intensivos", "Monocultivos extensivos, oferecendo fonte alimentar homogênea e ilimitada", "Plantio de bordaduras de espécies repelentes ao redor dos talhões"], "c": 2, "r": "A simplificação do ambiente agrícola (monocultura) e a eliminação da diversidade criam condições ideais para o crescimento exponencial de pragas." },
+                    { "q": "De acordo com o Minicurso MAP (M5), qual é o nome do agente biocontrolador bacteriano recomendado para o controle seletivo de larvas e lagartas?", "a": ["Beauveria bassiana", "Pochonia chlamydosporia", "<i>Bacillus thuringiensis</i> (Bt)", "<i>Trichogramma pretiosum</i>"], "c": 2, "r": "O Bt é uma bactéria que produz uma toxina que é seletiva e letal para o sistema digestivo de larvas e lagartas, sendo um bioinseticida bacteriano de referência." },
+                    { "q": "Segundo o Minicurso MAP (M4), qual nutriente, quando em excesso, tende a atrair pragas sugadoras?", "a": ["Fósforo (P)", "Potássio (K)", "Nitrogênio (N)", "Cálcio (Ca)"], "c": 2, "r": "O excesso de Nitrogênio promove um tecido vegetal mais tenro e suculento, tornando-o mais atrativo e nutritivo para pragas sugadoras como pulgões." },
+                    { "q": "A Calda de Pimenta, Alho e Sabão (M1 do Guia Prático) é utilizada principalmente por qual mecanismo de ação contra moscas e tripes?", "a": ["Ação sistêmica via raiz, inibindo a alimentação.", "Efeito fungicida e bactericida (dupla ação), eliminando doenças.", "Forte ação repelente e inseticida de contato (ruptura da cutícula pelo sabão).", "Inibição da metamorfose e da oviposição dos insetos."], "c": 2, "r": "A combinação do forte odor da Pimenta/Alho (repelência) com o sabão (que rompe a cutícula dos insetos) garante a eficácia da calda." }
+                ]
+            },
+            "M2": {
+                "title": "Manejo de Doenças (MAD)",
+                "icon": "🦠",
+                "color": "border-blue-500",
+                "questions": [
+                    { "q": "De acordo com o Minicurso MAD, qual fator do Triângulo da Doença é manipulado ao aplicar a estratégia de 'Evasão'?", "a": ["Hospedeiro Suscetível", "Agente Causal (Patógeno)", "Ambiente Favorável", "Vetor de Disseminação"], "c": 2, "r": "A Evasão consiste em usar épocas ou locais que são menos propícios (ou seja, menos favoráveis) para o desenvolvimento do patógeno." },
+                    { "q": "Segundo o Minicurso MAD (M7), qual técnica de controle físico utiliza filme plástico por 4 a 6 semanas para elevar a temperatura do solo e eliminar inóculos superficiais?", "a": ["Termoterapia", "Solarização do Solo", "Compostagem Termofílica", "Saneamento Mecânico"], "c": 1, "r": "A solarização usa a radiação solar capturada por filme plástico para aquecer e desinfestar a camada superficial do solo." },
+                    { "q": "Qual dos seguintes é um agente biocontrolador de nematoides, frequentemente usado em estratégias de Bio-Supressão (M6 do MAD)?", "a": ["<i>Bacillus thuringiensis</i> (Bt)", "<i>Metarhizium anisopliae</i>", "<i>Pochonia chlamydosporia</i>", "<i>Trichogramma pretiosum</i>"], "c": 2, "r": "Este é um fungo nematófago reconhecido por sua capacidade de parasitar ovos de nematoides, sendo um biocontrolador específico para esse alvo." },
+                    { "q": "Segundo o Minicurso MAD (M5), a incorporação de resíduos de brássicas no solo tem qual ação primária contra patógenos?", "a": ["Ação larvicida via produção de proteínas Bt", "Liberação de isotiocianatos, com ação fungicida natural no solo", "Elevação do pH do solo para inibir a acidez", "Estímulo à fixação biológica de Nitrogênio na rizosfera"], "c": 1, "r": "A decomposição das brássicas libera isotiocianatos, que possuem reconhecida ação fungicida e nematicida natural no solo." },
+                    { "q": "O Extrato de Primavera (<i>Bougainvillea sp.</i>), listado no Guia Prático (M2), é utilizado para reduzir a incidência de qual tipo de agente etiológico em culturas como o tomateiro?", "a": ["Nematoides do solo (<i>Meloidogyne spp.</i>).", "Vírus (como o Vira-cabeça do tomateiro).", "Ácaros e tripes (pragas sugadoras).", "Fungos de solo (<i>Rhizoctonia solani</i>)."], "c": 1, "r": "O Extrato de Primavera é um dos poucos bioinsumos citados por ter uma ação inibitória e redutora na incidência de viroses." }
+                ]
+            },
+            "M3": {
+                "title": "Manejo de Daninhas (MSPD)",
+                "icon": "🌿",
+                "color": "border-green-500",
+                "questions": [
+                    { "q": "Qual é a principal indicação ambiental do solo associada à presença da planta daninha Samambaia (<i>Pteridium arachnoideum</i>), conforme detalhado no Minicurso MSPD (M2)?", "a": ["Compactação e alta densidade", "Solos ácidos e presença de alumínio tóxico", "Solos férteis e bem corrigidos", "Déficit hídrico e baixa matéria orgânica"], "c": 1, "r": "A Samambaia é uma bioindicadora clássica de solos que necessitam de correção de acidez (calagem) para serem férteis para outras culturas." },
+                    { "q": "Segundo o Minicurso MSPD (M5), como a palhada (mulch) no Plantio Direto atua como principal mecanismo de supressão de plantas daninhas fotoblásticas?", "a": ["Aumentando a compactação superficial, impedindo o desenvolvimento radicular", "Elevando a temperatura do solo a níveis letais (solarização)", "Liberando compostos alelopáticos que inibem a divisão celular", "Atuando como barreira física que impede a passagem de luz (sombreamento)"], "c": 3, "r": "As espécies fotoblásticas necessitam de luz para germinar. A palhada atua como um 'abafamento' físico que interrompe esse estímulo." },
+                    { "q": "Qual é o principal risco associado ao revolvimento frequente do solo (aração/gradagem) para o manejo de plantas daninhas, conforme o Minicurso MSPD (M4)?", "a": ["Redução do nível de nitrogênio disponível no solo", "Estímulo à germinação de sementes dormentes (banco de sementes)", "Aumento da população de predadores naturais", "Aceleração da decomposição da palhada"], "c": 1, "r": "O revolvimento expõe sementes dormentes à luz e a condições de umidade favoráveis, mobilizando o banco de sementes e piorando a infestação." },
+                    { "q": "No MSPD (M6), qual método físico utiliza energia para a eliminação pontual de plantas daninhas, sendo uma alternativa ao uso de herbicidas em áreas específicas?", "a": ["Solarização do solo", "Aplicação de fogo/vapor (controle térmico)", "Aplicacão de descargas elétricas (Eletricidade)", "Uso de telas e barreiras"], "c": 2, "r": "A aplicação de descargas elétricas é um método físico de ação imediata e pontual, utilizado para eliminação de plantas daninhas em áreas específicas." },
+                    { "q": "A Crotalária (<i>Crotalaria juncea</i>) é uma planta de cobertura de alto potencial supressor. O principal mecanismo que ela utiliza para suprimir as daninhas é:", "a": ["A inibição da ovulação de insetos voadores na área de cultivo", "A rápida formação de palhada e biomassa, promovendo alelopatia e sombreamento", "A acidificação do solo, eliminando daninhas sensíveis ao pH", "A atração de microrganismos entomopatogênicos no dossel"], "c": 1, "r": "A alta produção de biomassa e a liberação de compostos alelopáticos na decomposição são as principais estratégias supressoras da <i>Crotalária</i>." }
+                ]
+            },
+            "M4": {
+                "title": "Plantas Repelentes",
+                "icon": "🌼",
+                "color": "border-amber-500",
+                "questions": [
+                    { "q": "Qual é um dos mecanismos primários pelo qual as Plantas Repelentes, como a Arruda e o Cravo-de-defunto, protegem as culturas, conforme descrito no módulo M2?", "a": ["Inoculação de microrganismos entomopatogênicos no solo", "Síntese de azadiractina para inibir a metamorfose dos insetos", "Mascaramento de Odores, confundindo as pragas na localização da cultura", "Aumento do Nível de Dano Econômico (NDE) da área de cultivo"], "c": 2, "r": "Os voláteis emitidos pelas repelentes interferem na comunicação química da praga, impedindo-a de encontrar o alvo (mascaramento olfativo)." },
+                    { "q": "Segundo o Minicurso Plantas Repelentes (M3), qual espécie é especificamente recomendada para consórcio com o tomateiro para controlar brocas (broca-pequena e broca-grande)?", "a": ["Alecrim (<i>Rosmarinus officinalis</i>)", "Manjericão (<i>Ocimum basilicum</i>)", "Cravo-de-defunto (<i>Tagetes sp.</i>)", "Batata-doce (<i>Ipomoea batatas</i>)"], "c": 2, "r": "O Cravo-de-defunto é a planta de consórcio mais conhecida para o tomate, atuando na repulsão e controle de nematoides no solo, além de brocas." },
+                    { "q": "Qual fator de manejo prático, quando negligenciado, reduz a produção de óleos essenciais e o poder de repulsão da planta?", "a": ["O plantio em solo argiloso e pobre em potássio.", "A realização de poda excessiva.", "O estresse hídrico (solo seco) e a falta de nutrientes essenciais.", "A alternância de espécies repelentes no mesmo talhão."], "c": 2, "r": "A produção de óleos essenciais e compostos aromáticos é um processo metabólico que exige vitalidade, sendo reduzido pelo estresse hídrico e nutricional." },
+                    { "q": "De acordo com o Minicurso Plantas Repelentes (M4), em qual horário do dia é recomendado realizar a pulverização de extratos aromáticos repelentes?", "a": ["Meio-dia, quando o sol está mais forte para potencializar a volatilidade.", "Final da tarde, para otimizar a ação dos voláteis e reduzir a fitotoxidez.", "Manhã cedo, antes do orvalho secar.", "Qualquer horário, desde que o vento esteja fraco."], "c": 1, "r": "O final da tarde garante menor radiação solar (evitando a queima) e condições mais estáveis para que os compostos voláteis ajam antes de evaporarem rapidamente." },
+                    { "q": "A Batata-doce (<i>Ipomoea batatas</i>) é listada no Minicurso Plantas Repelentes (M3) com uma função específica na horta. Qual é ela?", "a": ["Atração de predadores de pulgões.", "Fonte de fósforo de liberação lenta para o solo.", "Plantio ao redor das hortas como isca e repelente físico de Formigas Cortadeiras.", "Produção de óleos essenciais com efeito nematicida."], "c": 2, "r": "A Batata-doce, com suas folhas atrativas, é usada como barreira e isca alimentar para desviar o foco das formigas cortadeiras da cultura principal." }
+                ]
+            },
+            "M5": {
+                "title": "Guia Nutricional",
+                "icon": "🥕",
+                "color": "border-orange-500",
+                "questions": [
+                    { "q": "O amarelamento generalizado e intenso nas FOLHAS VELHAS e inferiores da planta é o sintoma clássico de deficiência de qual nutriente?", "a": ["Boro (B)", "Potássio (K)", "Ferro (Fe)", "Nitrogênio (N)"], "c": 3, "r": "O Nitrogênio é altamente móvel, sendo translocado para o crescimento novo, o que causa o amarelecimento das folhas mais velhas." },
+                    { "q": "Onde os sintomas de deficiência de um nutriente IMÓVEL (como Cálcio ou Boro) tendem a se manifestar primeiro?", "a": ["Em frutos e raízes", "Nas folhas VELHAS (na base da planta)", "Nas folhas JOVENS (nos ponteiros da planta)", "Nos caules e pecíolos mais grossos"], "c": 2, "r": "Nutrientes imóveis não podem ser translocados, resultando em sintomas no tecido que se forma por último, ou seja, nas folhas jovens." },
+                    { "q": "Qual é a principal causa de deficiência de nutrientes no solo (como o 'aprisionamento' de Ferro, Fósforo ou Zinco)?", "a": ["Excesso de irrigação (lixiviação)", "Desequilíbrio de pH inadequado (muito ácido ou muito alcalino)", "Baixa temperatura do solo", "Falta de micronutrientes no adubo orgânico"], "c": 1, "r": "O pH inadequado do solo impede que os nutrientes sejam liberados ou absorvidos pela planta, sendo a principal causa de deficiências." },
+                    { "q": "A 'Podridão Apical' (ou 'Fundo Preto') em Pimentão e Tomateiro é o sintoma clássico de deficiência de qual nutriente?", "a": ["Potássio (K)", "Nitrogênio (N)", "Cálcio (Ca)", "Magnésio (Mg)"], "c": 2, "r": "A Podridão Apical é causada pela deficiência de Cálcio no fruto, muitas vezes agravada por estresse hídrico, que impede sua translocação." },
+                    { "q": "Qual das seguintes Boas Práticas de Manejo Nutricional deve ser realizada para garantir a máxima disponibilidade de todos os nutrientes?", "a": ["Aplicar Bórax preventivamente em todas as culturas.", "Manter o pH do solo entre 5,5 e 6,5.", "Realizar adubação de cobertura uma única vez no ciclo.", "Aumentar a condutividade elétrica (CE) da solução nutritiva."], "c": 1, "r": "Este intervalo de pH é o ideal para otimizar a solubilidade e absorção da maioria dos macro e micronutrientes essenciais pela planta." }
+                ]
+            },
+            "M6": {
+                "title": "Guia Prático (Receitas)",
+                "icon": "🧪",
+                "color": "border-purple-500",
+                "questions": [
+                    { "q": "Qual é um dos principais benefícios da Calda Viçosa, além de sua ação fungicida preventiva, conforme o Guia Prático Agroecológico?", "a": ["Elevar o pH do solo para inibir a germinação de esporos", "Fornecer micronutrientes como Cobre, Zinco, Magnésio e Boro", "Atuar como larvicida seletivo contra lagartas em fase inicial", "Estimular microrganismos benéficos no solo (Bioativação)"], "c": 1, "r": "A Calda Viçosa é formulada com sais (CuSO₄, ZnSO₄, MgSO₄, H₃BO₃) que agem como fungicidas e fortificantes foliares." },
+                    { "q": "A Fermentação de um Biofertilizante Aeróbio por 15 dias tem qual função primária no Manejo Agroecológico?", "a": ["Esterilização do material para eliminação de patógenos (função térmica).", "Síntese de azadiractina para efeito inseticida.", "Repovoamento do solo com microrganismos benéficos (Bioativação) e indução de resistência.", "Descompactação química do solo via aumento do pH."], "c": 2, "r": "A fermentação visa multiplicar microrganismos benéficos que atuarão no solo como antagonistas de patógenos e como bioestimulantes de crescimento." },
+                    { "q": "A Calda Sulfocálcica é um produto multiuso de alta eficiência. Qual é o principal grupo de pragas/doenças que ela ajuda a combater em frutíferas e cafezais?", "a": ["Nematoides do solo e fungos radiculares.", "Ácaros, cochonilhas, ferrugens e fumagina.", "Lagartas desfolhadoras e brocas.", "Viroses (como o vírus do vira-cabeça)."], "c": 1, "r": "A Calda Sulfocálcica é conhecida por sua alta eficácia como acaricida, inseticida (cochonilhas) e fungicida (ferrugens e fumagina)." },
+                    { "q": "Qual é a principal função da Cobertura Morta (Mulching) no manejo de plantas daninhas (M3 do Guia Prático)?", "a": ["Acelerar a lixiviação de nutrientes.", "Reduzir a luz, dificultando a germinação de invasoras e melhorando a umidade do solo.", "Fornecer grandes quantidades de nitrogênio (N) imediatamente após a aplicação.", "Atuar como armadilha adesiva para insetos voadores."], "c": 1, "r": "A palhada atua como barreira física à luz e térmica, inibindo a germinação e mantendo a umidade do solo, sendo seu principal benefício." },
+                    { "q": "A Calda Sulfocálcica deve ser aplicada em horários frescos e diluída. Qual é o principal componente que confere a ela as propriedades acaricidas e fungicidas?", "a": ["O Cobre (Cu) do sulfato (como na Calda Bordalesa).", "Os compostos sulfurados (Enxofre) e o pH elevado (Cal).", "A glicose do melaço para alimentar microrganismos.", "O Bicarbonato de Sódio, que eleva o pH foliar."], "c": 1, "r": "A Calda Sulfocálcica é o resultado da reação do Enxofre em pó com a Cal virgem, formando polissulfetos que têm ação acaricida/fungicida." }
+                ]
+            }
+        };
+
+        let quizState = {};
+
+        function initializeState() {
+            Object.keys(QUIZ_DATA).forEach(moduleId => {
+                quizState[moduleId] = {
+                    currentQ: 0,
+                    score: 0,
+                    answered: Array(QUIZ_DATA[moduleId].questions.length).fill(false),
+                    completed: false
+                };
+            });
+            renderHubCards();
+            // Adicionado para inicializar a navegação principal
+            const navLinks = document.querySelectorAll('.nav-link');
+            navLinks.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    const targetId = e.currentTarget.dataset.target;
+                    showPage(targetId);
+                });
+            });
+        }
+
+        function renderHubCards() {
+            const container = document.getElementById('hub-cards-container');
+            container.innerHTML = '';
+            
+            Object.keys(QUIZ_DATA).forEach(moduleId => {
+                const moduleData = QUIZ_DATA[moduleId];
+                const state = quizState[moduleId];
+                const card = document.createElement('div');
+                const progressColor = state.score === 5 ? 'bg-green-100 border-green-600' : 'bg-white border-gray-300';
+                
+                card.className = `module-card p-4 rounded-lg shadow-md border-l-4 ${progressColor} flex flex-col justify-between`;
+                card.onclick = () => showPage(moduleId);
+                
+                card.innerHTML = `
+                    <div class="flex items-center mb-3">
+                        <span class="text-3xl mr-3">${moduleData.icon}</span>
+                        <h4 class="text-xl font-bold text-gray-900">${moduleData.title}</h4>
+                    </div>
+                    <div>
+                        <p class="text-sm text-gray-600 mb-2">5 Questões</p>
+                        <p class="text-lg font-extrabold text-emerald-600">
+                            Pontuação: ${state.score} / 5
+                            <span class="text-xs font-normal ${state.score > 0 ? 'text-emerald-500' : 'text-gray-500'}">
+                                ${state.score === 5 ? ' (Concluído!)' : ''}
+                            </span>
+                        </p>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        function createQuizSections() {
+            const quizContentDiv = document.getElementById('quiz-content');
+            quizContentDiv.innerHTML = '';
+
+            Object.keys(QUIZ_DATA).forEach(moduleId => {
+                const moduleData = QUIZ_DATA[moduleId];
+                const section = document.createElement('section');
+                section.id = `page-${moduleId}`;
+                section.className = 'content-page';
+                section.innerHTML = `
+                    <div class="bg-white shadow-xl rounded-lg p-6 md:p-8 border-l-4 ${moduleData.color}">
+                        <h2 class="text-2xl font-bold text-gray-900 mb-4">${moduleData.icon} ${moduleData.title}</h2>
+                        <div id="q-container-${moduleId}">
+                            <!-- Questão será injetada aqui -->
+                        </div>
+                        <div class="mt-6 pt-4 border-t border-gray-200 flex justify-between items-center">
+                            <p class="text-sm text-gray-600">Pontuação no Módulo: <span id="score-${moduleId}">${quizState[moduleId].score}</span> / 5</p>
+                            <button id="next-btn-${moduleId}" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-2 px-4 rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
+                                Próxima Questão
+                            </button>
+                        </div>
+                    </div>
+                `;
+                quizContentDiv.appendChild(section);
+                renderQuestion(moduleId);
+            });
+        }
+
+        function renderQuestion(moduleId) {
+            const state = quizState[moduleId];
+            const moduleData = QUIZ_DATA[moduleId];
+            const container = document.getElementById(`q-container-${moduleId}`);
+            const nextBtn = document.getElementById(`next-btn-${moduleId}`);
+            nextBtn.disabled = true;
+            nextBtn.onclick = () => {
+                state.currentQ++;
+                renderQuestion(moduleId);
+            };
+
+            if (state.currentQ >= moduleData.questions.length) {
+                // Marks the module as completed upon reaching the end
+                state.completed = true;
+                
+                container.innerHTML = `<h3 class="text-xl font-bold text-emerald-600">Módulo Concluído!</h3>
+                                       <p class="text-gray-700 mt-2">Sua pontuação final neste módulo foi de ${state.score} / 5.</p>
+                                       <button class="mt-4 bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-2 px-4 rounded-lg transition-colors" onclick="showNextModule('${moduleId}')">
+                                           Ir para o Próximo Módulo
+                                       </button>`;
+                nextBtn.style.display = 'none';
+                
+                updateModuleScoreDisplay(moduleId);
+                renderHubCards();
+                return;
+            }
+
+            nextBtn.style.display = 'inline-block';
+            const qIndex = state.currentQ;
+            const question = moduleData.questions[qIndex];
+            const alreadyAnswered = state.answered[qIndex];
+
+            container.innerHTML = `
+                <p class="text-lg font-semibold mb-4"><span class="font-bold">Questão ${qIndex + 1}</span>: ${question.q}</p>
+                <div class="space-y-3" id="options-container-${moduleId}">
+                    ${question.a.map((option, index) => {
+                        const isCorrect = (index === question.c);
+                        let classes = 'answer-option w-full text-left p-3 border-2 border-gray-200 rounded-lg bg-white';
+                        let disabled = '';
+                        let onclick = `checkAnswer('${moduleId}', ${index})`;
+
+                        if (alreadyAnswered !== false) {
+                            disabled = 'disabled';
+                            onclick = '';
+                            classes += ' disabled';
+                            if (index === question.c) {
+                                classes += ' correct';
+                            } else if (index === alreadyAnswered) {
+                                classes += ' incorrect';
+                            }
+                        }
+
+                        return `<button class="${classes}" data-option="${index}" onclick="${onclick}" ${disabled}>
+                            ${String.fromCharCode(65 + index)}. ${option}
+                        </button>`;
+                    }).join('')}
+                </div>
+                <div id="feedback-${moduleId}" class="mt-4 p-4 rounded-lg ${alreadyAnswered !== false ? '' : 'hidden'}">
+                    ${alreadyAnswered !== false ? 
+                        (alreadyAnswered === question.c) ? 
+                        `<span class="font-bold text-green-700">Correto!</span> ${question.r}` : 
+                        `<span class="font-bold text-red-700">Incorreto.</span> Resposta correta: ${String.fromCharCode(65 + question.c)}. ${question.a[question.c]}. <br> <span class="font-semibold">Justificativa:</span> ${question.r}`
+                    : ''}
+                </div>
+            `;
+            // Forçar o botão Próximo a ficar habilitado se já respondida
+            if (alreadyAnswered !== false) {
+                nextBtn.disabled = false;
+            }
+
+            updateModuleScoreDisplay(moduleId);
+        }
+
+        function checkAnswer(moduleId, selectedIndex) {
+            const state = quizState[moduleId];
+            const moduleData = QUIZ_DATA[moduleId];
+            const qIndex = state.currentQ;
+            const question = moduleData.questions[qIndex];
+            const correctIndex = question.c;
+            const optionsContainer = document.getElementById(`options-container-${moduleId}`);
+            const feedbackDiv = document.getElementById(`feedback-${moduleId}`);
+            const nextBtn = document.getElementById(`next-btn-${moduleId}`);
+
+            if (state.answered[qIndex] !== false) {
+                return; // Já respondida, não faz nada
+            }
+
+            let isCorrect = (selectedIndex === correctIndex);
+
+            // Desabilitar todas as opções e aplicar classes de cor
+            Array.from(optionsContainer.children).forEach((btn, index) => {
+                btn.classList.add('disabled');
+                btn.disabled = true;
+                if (index === correctIndex) {
+                    btn.classList.add('correct');
+                } else if (index === selectedIndex) {
+                    btn.classList.add('incorrect');
+                }
+            });
+
+            // Salvar resposta e recalcular score (para garantir que só pontua uma vez)
+            let currentScore = 0;
+            const answeredCopy = [...state.answered];
+            answeredCopy[qIndex] = selectedIndex;
+
+            answeredCopy.forEach((answerIndex, index) => {
+                if (answerIndex !== false && answerIndex === moduleData.questions[index].c) {
+                    currentScore++;
+                }
+            });
+
+            state.score = currentScore;
+            state.answered = answeredCopy; 
+
+            // Atualizar score e feedback
+            if (isCorrect) {
+                feedbackDiv.classList.remove('hidden', 'incorrect');
+                feedbackDiv.classList.add('correct');
+                feedbackDiv.innerHTML = `<span class="font-bold">Correto!</span> ${question.r}`;
+            } else {
+                feedbackDiv.classList.remove('hidden', 'correct');
+                feedbackDiv.classList.add('incorrect');
+                feedbackDiv.innerHTML = `<span class="font-bold">Incorreto.</span> Resposta correta: ${String.fromCharCode(65 + correctIndex)}. ${question.a[correctIndex]}. <br> <span class="font-semibold">Justificativa:</span> ${question.r}`;
+            }
+
+            nextBtn.disabled = false;
+            updateModuleScoreDisplay(moduleId);
+            renderHubCards();
+        }
+
+        function updateModuleScoreDisplay(moduleId) {
+            const scoreSpan = document.getElementById(`score-${moduleId}`);
+            if (scoreSpan) {
+                scoreSpan.textContent = quizState[moduleId].score;
+            }
+        }
+        
+        // NOVO: Função para ativar a exibição de uma página (sem recursão)
+        function activatePage(pageId, targetId) {
+            const navLinks = document.querySelectorAll('.nav-link');
+            const contentPages = document.querySelectorAll('.content-page');
+
+            contentPages.forEach(page => {
+                page.classList.remove('active');
+            });
+
+            const targetPage = document.getElementById(pageId);
+            if (targetPage) {
+                targetPage.classList.add('active');
+            }
+
+            navLinks.forEach(link => {
+                link.classList.remove('active-link');
+                if (link.dataset.target === targetId) {
+                    link.classList.add('active-link');
+                }
+            });
+            window.scrollTo(0, 0);
+        }
+
+        function showPage(targetId) {
+            // Check if the target is the final summary page and if it's accessible
+            if (targetId === 'page-final') {
+                showFinalSummary(); // This function handles the security check and calls activatePage if successful
+                return;
+            }
+            
+            const pageId = targetId.startsWith('M') ? `page-${targetId}` : targetId;
+            
+            // Activate the page using the helper
+            activatePage(pageId, targetId);
+
+            // Se for um módulo de quiz, re-renderizar para garantir o estado atualizado da questão
+            if (targetId.startsWith('M')) {
+                renderQuestion(targetId);
+            }
+        }
+
+        function showNextModule(currentModuleId) {
+            const moduleKeys = Object.keys(QUIZ_DATA);
+            
+            // 1. Find the first *uncompleted* module in sequential order
+            let nextUncompletedId = null;
+
+            for (const moduleId of moduleKeys) {
+                if (!quizState[moduleId].completed) {
+                    nextUncompletedId = moduleId;
+                    break;
+                }
+            }
+
+            if (nextUncompletedId) {
+                // Redirect to the first uncompleted module found
+                showPage(nextUncompletedId);
+            } else {
+                // If all are completed, show the final summary
+                showFinalSummary(); 
+            }
+        }
+
+        function getScoreClassification(score) {
+            if (score === 5) {
+                return '<span class="text-green-700 font-extrabold">Excelente</span>';
+            } else if (score === 4) {
+                return '<span class="text-blue-700 font-extrabold">Ótimo</span>';
+            } else {
+                // Remove negative phrasing, return empty string for neutral/low scores
+                return ''; 
+            }
+        }
+
+        function showFinalSummary() {
+            // 1. Check if all modules are completed
+            const moduleKeys = Object.keys(QUIZ_DATA);
+            const allCompleted = moduleKeys.every(id => quizState[id].completed);
+
+            if (!allCompleted) {
+                // If not all modules are completed, redirect to the first uncompleted one.
+                for (const moduleId of moduleKeys) {
+                    if (!quizState[moduleId].completed) {
+                        showPage(moduleId); // Correct redirection to the missing module
+                        return; 
+                    }
+                }
+                showPage('page-intro');
+                return;
+            }
+
+            // 2. If all completed, generate and show summary
+            let totalScore = 0;
+            const summaryList = document.getElementById('final-summary-list');
+            summaryList.innerHTML = '';
+
+            Object.keys(QUIZ_DATA).forEach(moduleId => {
+                const state = quizState[moduleId];
+                const moduleTitle = QUIZ_DATA[moduleId].title;
+                totalScore += state.score;
+                const classification = getScoreClassification(state.score);
+
+                const listItem = document.createElement('li');
+                
+                // Determine base color (neutral grey unless high score)
+                let scoreColor = 'text-gray-700';
+                if (state.score === 5) scoreColor = 'text-green-700';
+                else if (state.score === 4) scoreColor = 'text-blue-700';
+
+                // The classification text is already bolded/colored via getScoreClassification
+                listItem.className = `${scoreColor} font-semibold`;
+                listItem.innerHTML = `
+                    <span class="text-gray-800 font-semibold">${moduleTitle}:</span> 
+                    ${state.score} / 5 
+                    <span class="text-sm font-normal">${classification ? `(${classification})` : ''}</span>
+                `;
+                summaryList.appendChild(listItem);
+            });
+
+            document.getElementById('final-total-score').textContent = `${totalScore} / 30`;
+            
+            // ATENÇÃO: Chamada corrigida para ativar a página final sem recursão
+            activatePage('page-final', 'page-final'); 
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            // Inicialização movida para o DOMContentLoaded
+            initializeState();
+            createQuizSections();
+            showPage('page-intro'); 
+            document.querySelector('.nav-link[data-target="page-intro"]').classList.add('active-link');
+        });
+    </script>
+
+</body>
+</html>
